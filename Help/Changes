@@ -1,0 +1,190 @@
+			TrayLib
+			Library for tray-like applets
+			by Dennis Tomas
+
+
+0.4
+~~~
+- Added methods get_icon_names(), get_icon_path() and get_icon_pixbuf() to Icon.
+- Added properties icon_names, icon_path and has_themed_icons to Icon.
+- Removed should_use_icon_for_winmenu() from WinIcon.
+- Added method icon_theme_changed() to Icon. (Called when theme has changed)
+- When the "hidden" option has changed, MenuIcon now updates the tooltip.
+- Replaced Tray.add_custom_menu_items() with Tray.get_custom_menu_items().
+- Added dir_monitor module.
+
+0.3.2
+~~~~~
+- Make WinIcon work without wnck. (reported by Jonatan Liljedahl)
+- Fixed bug in blinking code.
+- Added property "tray" to TrayContainer and Main.
+- Added properties "icon_config", "tray_config" and "is_vertical" to TrayContainer.
+- Added property "attributes" to Config.
+
+0.3.1
+~~~~~
+- Call update_drop_target() after adding menu icon.
+- Don't zoom icons when effects option turned off.
+
+0.3
+~~~
+- Replaced menu box with menu icon.
+- When the menu icon is clicked or scrolled, all other icons are hidden/shown.
+- Added Main class, reducing code redundancy in applets.
+- Replaced most getters/setters with properties.
+
+0.2.6
+~~~~~
+- Added local interface file. 
+config.py:
+	Config:
+		- use getattr instead of eval
+icon.py:
+	Icon:
+		__update_canvas():
+			- if emblem is still visible, don't shrink canvas
+icon_config.py:
+	- moved IconConfig and IconConfigurable from icon.py to a separate file
+winicon_config.py:
+	- moved WinIconConfig and WinIconConfigurable from winicon.py to a separate file
+tray_config.py:
+	- moved TrayConfig and TrayConfigurable from tray.py to a separate file
+
+0.2.5
+~~~~~
+icon.py:
+	Icon:
+		__init__():
+			- support for dragging
+		__drag_begin():
+			- indicate that a drag has been started.
+			- set the dnd icon.
+		__drag_end():
+			- indicate that a drag has ended.
+		__button_press_event():
+			- exit if a drag is being performed.
+		__button_release_event():
+			- exit if a drag is being performed.
+winicon.py:
+	WinIcon:
+		__window_workspace_changed():
+			- update tooltip.
+winmenu.py:
+	WindowMenuItem:
+		__init__():
+			- support for dragging
+		__drag_begin():
+			- set the dnd icon.
+		__drag_data_get():
+			- put the window's xid in the SelectionData.
+
+0.2.4
+~~~~~
+icon.py:
+	Icon:
+		show():
+			- don't return when "visible" property is set.
+				(caused icons to disappear)
+tray.py:
+	MenuBox:
+		__button_press_event():
+			- only show menu when button 3 pressed.
+
+0.2.3.1
+~~~~~~~
+icon.py:
+	Icon:
+		__refresh():
+		__update_canvas():
+			- Fixed problem with emblem.
+
+0.2.3
+~~~~~
+icon.py:
+	Icon:
+		__refresh():
+			- Always use a canvas in order to avoid "jumping" icons.
+		__update_canvas():
+			- If no arrow or emblem is to be shown, make the canvas use the size
+			  of the current pixbuf.
+
+0.2.2
+~~~~~
+winicon.py:
+	WinIcon:
+		should_use_icon_for_winmenu():
+			- Added method to determine whether to use a WinIcon's icon for menu
+				entries in WindowMenu.
+		get_menu_right():
+			- Only pass icon to WindowMenu when should_use_icon_for_winmenu() 
+				is True.
+		get_menu_left():
+			- Only pass icon to WindowMenu when should_use_icon_for_winmenu() 
+				is True.
+winmenu.py:
+	WindowMenuItem:
+		__init__():
+			- If icon argument is not None, use it as icon.
+	_load_icons():
+		- Set dir_icon and home_icon to None before trying to load them.
+	WindowMenu:
+		__scroll():
+			- Don't shade/unshade.
+	WindowActionMenu:
+		__init__():
+			- Make menu items of actions not supported by the window 
+				insensitive.
+
+0.2.1
+~~~~~
+tray.py:
+	TrayConfig:
+		__init__():
+			- Set update method for 'has_main_menu_arrow' attribute to 
+				'update_has_main_menu_arrow'. (Reported by Samuel Dionne-Riel)
+
+0.2
+~~~
+icon.py:
+	Icon:
+		__update_mouse_over():
+			- Use geometry of gtk.gdk.Window instead of self.__max_size
+		_refresh():
+			- Call self.__refresh() immediately and only use timeout_add if 
+				refreshing isn't finished after that.
+		__refresh():
+			- Fixed deprecation warning.
+		get_size():
+			- Added get_size() method.
+		__update_size_request():
+			- Added __update_size_request() method.
+			- Don't update the size request if the Icon is being shown, hidden 
+				or destroyed.
+		update_effects():
+			- Don't cancel zoom event.
+		make_zoom_factor():
+			- Return at least 1.0 when mouse is over the icon.
+tray.py:
+	Tray:
+		- No need to subclass IconConfigurable.
+		__init__():
+			- Removed container argument.
+			- Don't add self to IconConfig, because update_size() was removed.
+		set_container():
+			- Added set_container() method, setting the Tray's gtk.Container.
+		update_size():
+			- Removed, not necessary.
+tray_window.py:
+	- Added TrayWindow class.
+tray_applet.py:
+	- Added TrayApplet class.
+tray_container.py:
+	- Added TrayContainer class.
+winicon.py:
+	WinIcon:
+		__window_state_changed():
+			- Update the tooltip, visibility and zoom factor in any case.
+
+0.1
+~~~
+Initial release.

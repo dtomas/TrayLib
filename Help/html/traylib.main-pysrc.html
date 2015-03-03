@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>traylib.main</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="traylib-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="traylib-module.html">Package&nbsp;traylib</a> ::
+        Module&nbsp;main
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="traylib.main-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="traylib.main-module.html">Module traylib.main</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">rox</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">rox</tt><tt class="py-op">.</tt><tt class="py-name">options</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Option</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Package traylib=traylib-module.html"><a title="traylib" class="py-name" href="#" onclick="return doclink('link-0', 'traylib', 'link-0');">traylib</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name"><a title="traylib" class="py-name" href="#" onclick="return doclink('link-1', 'traylib', 'link-0');">traylib</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module traylib.tray_window=traylib.tray_window-module.html"><a title="traylib.tray_window" class="py-name" href="#" onclick="return doclink('link-2', 'tray_window', 'link-2');">tray_window</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Class traylib.tray_window.TrayWindow=traylib.tray_window.TrayWindow-class.html"><a title="traylib.tray_window.TrayWindow" class="py-name" href="#" onclick="return doclink('link-3', 'TrayWindow', 'link-3');">TrayWindow</a></tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name"><a title="traylib" class="py-name" href="#" onclick="return doclink('link-4', 'traylib', 'link-0');">traylib</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module traylib.tray_applet=traylib.tray_applet-module.html"><a title="traylib.tray_applet" class="py-name" href="#" onclick="return doclink('link-5', 'tray_applet', 'link-5');">tray_applet</a></tt> <tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Class traylib.tray_applet.TrayApplet=traylib.tray_applet.TrayApplet-class.html"><a title="traylib.tray_applet.TrayApplet" class="py-name" href="#" onclick="return doclink('link-6', 'TrayApplet', 'link-6');">TrayApplet</a></tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-7" class="py-name"><a title="traylib" class="py-name" href="#" onclick="return doclink('link-7', 'traylib', 'link-0');">traylib</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Variable traylib.icon_manager.IconManager.tray=traylib.icon_manager.IconManager-class.html#tray,Variable traylib.main.Main.tray=traylib.main.Main-class.html#tray,Variable traylib.menu_icon.MenuIcon.tray=traylib.menu_icon.MenuIcon-class.html#tray,Module traylib.tray=traylib.tray-module.html,Variable traylib.tray_container.TrayContainer.tray=traylib.tray_container.TrayContainer-class.html#tray"><a title="traylib.icon_manager.IconManager.tray
+traylib.main.Main.tray
+traylib.menu_icon.MenuIcon.tray
+traylib.tray
+traylib.tray_container.TrayContainer.tray" class="py-name" href="#" onclick="return doclink('link-8', 'tray', 'link-8');">tray</a></tt> <tt class="py-keyword">import</tt> <tt id="link-9" class="py-name" targets="Class traylib.tray.Tray=traylib.tray.Tray-class.html"><a title="traylib.tray.Tray" class="py-name" href="#" onclick="return doclink('link-9', 'Tray', 'link-9');">Tray</a></tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-10" class="py-name"><a title="traylib" class="py-name" href="#" onclick="return doclink('link-10', 'traylib', 'link-0');">traylib</a></tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Variable traylib.icon.Icon.icon_config=traylib.icon.Icon-class.html#icon_config,Module traylib.icon_config=traylib.icon_config-module.html,Variable traylib.main.Main.icon_config=traylib.main.Main-class.html#icon_config,Variable traylib.tray.Tray.icon_config=traylib.tray.Tray-class.html#icon_config,Variable traylib.tray_container.TrayContainer.icon_config=traylib.tray_container.TrayContainer-class.html#icon_config"><a title="traylib.icon.Icon.icon_config
+traylib.icon_config
+traylib.main.Main.icon_config
+traylib.tray.Tray.icon_config
+traylib.tray_container.TrayContainer.icon_config" class="py-name" href="#" onclick="return doclink('link-11', 'icon_config', 'link-11');">icon_config</a></tt> <tt class="py-keyword">import</tt> <tt id="link-12" class="py-name" targets="Class traylib.icon_config.IconConfig=traylib.icon_config.IconConfig-class.html"><a title="traylib.icon_config.IconConfig" class="py-name" href="#" onclick="return doclink('link-12', 'IconConfig', 'link-12');">IconConfig</a></tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-13" class="py-name"><a title="traylib" class="py-name" href="#" onclick="return doclink('link-13', 'traylib', 'link-0');">traylib</a></tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Variable traylib.main.Main.tray_config=traylib.main.Main-class.html#tray_config,Variable traylib.menu_icon.MenuIcon.tray_config=traylib.menu_icon.MenuIcon-class.html#tray_config,Variable traylib.tray.Tray.tray_config=traylib.tray.Tray-class.html#tray_config,Module traylib.tray_config=traylib.tray_config-module.html,Variable traylib.tray_container.TrayContainer.tray_config=traylib.tray_container.TrayContainer-class.html#tray_config"><a title="traylib.main.Main.tray_config
+traylib.menu_icon.MenuIcon.tray_config
+traylib.tray.Tray.tray_config
+traylib.tray_config
+traylib.tray_container.TrayContainer.tray_config" class="py-name" href="#" onclick="return doclink('link-14', 'tray_config', 'link-14');">tray_config</a></tt> <tt class="py-keyword">import</tt> <tt id="link-15" class="py-name" targets="Class traylib.tray_config.TrayConfig=traylib.tray_config.TrayConfig-class.html"><a title="traylib.tray_config.TrayConfig" class="py-name" href="#" onclick="return doclink('link-15', 'TrayConfig', 'link-15');">TrayConfig</a></tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"> </tt>
+<a name="Main"></a><div id="Main-def"><a name="L12"></a><tt class="py-lineno"> 12</tt> <a class="py-toggle" href="#" id="Main-toggle" onclick="return toggle('Main');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="traylib.main.Main-class.html">Main</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Main-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Main-expanded"><a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line">     </tt>
+<a name="Main.__init__"></a><div id="Main.__init__-def"><a name="L14"></a><tt class="py-lineno"> 14</tt> <a class="py-toggle" href="#" id="Main.__init__-toggle" onclick="return toggle('Main.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="traylib.main.Main-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">name</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Main.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Main.__init__-expanded"><a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-docstring">        Creates a new C{Main} object.</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line">        <tt class="py-name">object</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Method traylib.config.Config.__init__()=traylib.config.Config-class.html#__init__,Method traylib.handler.Handler.__init__()=traylib.handler.Handler-class.html#__init__,Method traylib.handlers.Handlers.__init__()=traylib.handlers.Handlers-class.html#__init__,Method traylib.icon.Icon.__init__()=traylib.icon.Icon-class.html#__init__,Method traylib.icon_config.IconConfig.__init__()=traylib.icon_config.IconConfig-class.html#__init__,Method traylib.icon_manager.IconManager.__init__()=traylib.icon_manager.IconManager-class.html#__init__,Method traylib.item.Item.__init__()=traylib.item.Item-class.html#__init__,Method traylib.item_icon.ItemIcon.__init__()=traylib.item_icon.ItemIcon-class.html#__init__,Method traylib.item_state.ItemState.__init__()=traylib.item_state.ItemState-class.html#__init__,Method traylib.main.Main.__init__()=traylib.main.Main-class.html#__init__,Method traylib.menu_icon.MenuIcon.__init__()=traylib.menu_icon.MenuIcon-class.html#__init__,Method traylib.tray.Tray.__init__()=traylib.tray.Tray-class.html#__init__,Method traylib.tray_applet.TrayApplet.__init__()=traylib.tray_applet.TrayApplet-class.html#__init__,Method traylib.tray_config.TrayConfig.__init__()=traylib.tray_config.TrayConfig-class.html#__init__,Method traylib.tray_container.TrayContainer.__init__()=traylib.tray_container.TrayContainer-class.html#__init__,Method traylib.tray_window.TrayWindow.__init__()=traylib.tray_window.TrayWindow-class.html#__init__,Method traylib.winicon.WinIcon.__init__()=traylib.winicon.WinIcon-class.html#__init__,Method traylib.winicon_config.WinIconConfig.__init__()=traylib.winicon_config.WinIconConfig-class.html#__init__,Method traylib.winicon_manager.WinIconManager.__init__()=traylib.winicon_manager.WinIconManager-class.html#__init__,Method traylib.winmenu.WindowActionMenu.__init__()=traylib.winmenu.WindowActionMenu-class.html#__init__,Method traylib.winmenu.WindowMenu.__init__()=traylib.winmenu.WindowMenu-class.html#__init__,Method traylib.winmenu.WindowMenuItem.__init__()=traylib.winmenu.WindowMenuItem-class.html#__init__"><a title="traylib.config.Config.__init__
+traylib.handler.Handler.__init__
+traylib.handlers.Handlers.__init__
+traylib.icon.Icon.__init__
+traylib.icon_config.IconConfig.__init__
+traylib.icon_manager.IconManager.__init__
+traylib.item.Item.__init__
+traylib.item_icon.ItemIcon.__init__
+traylib.item_state.ItemState.__init__
+traylib.main.Main.__init__
+traylib.menu_icon.MenuIcon.__init__
+traylib.tray.Tray.__init__
+traylib.tray_applet.TrayApplet.__init__
+traylib.tray_config.TrayConfig.__init__
+traylib.tray_container.TrayContainer.__init__
+traylib.tray_window.TrayWindow.__init__
+traylib.winicon.WinIcon.__init__
+traylib.winicon_config.WinIconConfig.__init__
+traylib.winicon_manager.WinIconManager.__init__
+traylib.winmenu.WindowActionMenu.__init__
+traylib.winmenu.WindowMenu.__init__
+traylib.winmenu.WindowMenuItem.__init__" class="py-name" href="#" onclick="return doclink('link-16', '__init__', 'link-16');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line">         </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Variable traylib.handler.Handler.name=traylib.handler.Handler-class.html#name,Variable traylib.tray_config.TrayConfig.name=traylib.tray_config.TrayConfig-class.html#name,Variable traylib.winicon.WinIcon.name=traylib.winicon.WinIcon-class.html#name"><a title="traylib.handler.Handler.name
+traylib.tray_config.TrayConfig.name
+traylib.winicon.WinIcon.name" class="py-name" href="#" onclick="return doclink('link-17', 'name', 'link-17');">name</a></tt> <tt class="py-op">=</tt> <tt id="link-18" class="py-name"><a title="traylib.handler.Handler.name
+traylib.tray_config.TrayConfig.name
+traylib.winicon.WinIcon.name" class="py-name" href="#" onclick="return doclink('link-18', 'name', 'link-17');">name</a></tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Method traylib.main.Main.init_options()=traylib.main.Main-class.html#init_options"><a title="traylib.main.Main.init_options" class="py-name" href="#" onclick="return doclink('link-19', 'init_options', 'link-19');">init_options</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line">        <tt class="py-name">rox</tt><tt class="py-op">.</tt><tt class="py-name">app_options</tt><tt class="py-op">.</tt><tt class="py-name">notify</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">         </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-20" class="py-name" targets="Method traylib.main.Main.init_config()=traylib.main.Main-class.html#init_config"><a title="traylib.main.Main.init_config" class="py-name" href="#" onclick="return doclink('link-20', 'init_config', 'link-20');">init_config</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"> </tt>
+<a name="Main.init_options"></a><div id="Main.init_options-def"><a name="L28"></a><tt class="py-lineno"> 28</tt> <a class="py-toggle" href="#" id="Main.init_options-toggle" onclick="return toggle('Main.init_options');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="traylib.main.Main-class.html#init_options">init_options</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Main.init_options-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Main.init_options-expanded"><a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_min</tt> <tt class="py-op">=</tt> <tt class="py-name">Option</tt><tt class="py-op">(</tt><tt class="py-string">"icon_size_min"</tt><tt class="py-op">,</tt> <tt class="py-number">16</tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_max</tt> <tt class="py-op">=</tt> <tt class="py-name">Option</tt><tt class="py-op">(</tt><tt class="py-string">"icon_size_max"</tt><tt class="py-op">,</tt> <tt class="py-number">32</tt><tt class="py-op">)</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_effects</tt> <tt class="py-op">=</tt> <tt class="py-name">Option</tt><tt class="py-op">(</tt><tt class="py-string">"effects"</tt><tt class="py-op">,</tt> <tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_separator_left</tt> <tt class="py-op">=</tt> <tt class="py-name">Option</tt><tt class="py-op">(</tt><tt class="py-string">"separator_left"</tt><tt class="py-op">,</tt> <tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_separator_right</tt> <tt class="py-op">=</tt> <tt class="py-name">Option</tt><tt class="py-op">(</tt><tt class="py-string">"separator_right"</tt><tt class="py-op">,</tt> <tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_menus</tt> <tt class="py-op">=</tt> <tt class="py-name">Option</tt><tt class="py-op">(</tt><tt class="py-string">"menus"</tt><tt class="py-op">,</tt> <tt id="link-21" class="py-name" targets="Variable traylib.RIGHT=traylib-module.html#RIGHT"><a title="traylib.RIGHT" class="py-name" href="#" onclick="return doclink('link-21', 'RIGHT', 'link-21');">RIGHT</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_hidden</tt> <tt class="py-op">=</tt> <tt class="py-name">Option</tt><tt class="py-op">(</tt><tt class="py-string">"hidden"</tt><tt class="py-op">,</tt> <tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">         </tt>
+<a name="Main.init_config"></a><div id="Main.init_config-def"><a name="L37"></a><tt class="py-lineno"> 37</tt> <a class="py-toggle" href="#" id="Main.init_config-toggle" onclick="return toggle('Main.init_config');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="traylib.main.Main-class.html#init_config">init_config</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Main.init_config-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Main.init_config-expanded"><a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">        <tt id="link-22" class="py-name" targets="Variable traylib.tray_config.TrayConfig.separators=traylib.tray_config.TrayConfig-class.html#separators"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-22', 'separators', 'link-22');">separators</a></tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_separator_left</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">            <tt id="link-23" class="py-name"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-23', 'separators', 'link-22');">separators</a></tt> <tt class="py-op">|=</tt> <tt id="link-24" class="py-name" targets="Variable traylib.LEFT=traylib-module.html#LEFT"><a title="traylib.LEFT" class="py-name" href="#" onclick="return doclink('link-24', 'LEFT', 'link-24');">LEFT</a></tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_separator_right</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">:</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">            <tt id="link-25" class="py-name"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-25', 'separators', 'link-22');">separators</a></tt> <tt class="py-op">|=</tt> <tt id="link-26" class="py-name"><a title="traylib.RIGHT" class="py-name" href="#" onclick="return doclink('link-26', 'RIGHT', 'link-21');">RIGHT</a></tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__icon_config</tt> <tt class="py-op">=</tt> <tt id="link-27" class="py-name"><a title="traylib.icon_config.IconConfig" class="py-name" href="#" onclick="return doclink('link-27', 'IconConfig', 'link-12');">IconConfig</a></tt><tt class="py-op">(</tt><tt class="py-number">16</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">,</tt>  </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">                                        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_effects</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">,</tt>  </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">                                        <tt class="py-name">None</tt><tt class="py-op">,</tt>  </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">                                        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_hidden</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__tray_config</tt> <tt class="py-op">=</tt> <tt id="link-28" class="py-name"><a title="traylib.tray_config.TrayConfig" class="py-name" href="#" onclick="return doclink('link-28', 'TrayConfig', 'link-15');">TrayConfig</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-29" class="py-name"><a title="traylib.handler.Handler.name
+traylib.tray_config.TrayConfig.name
+traylib.winicon.WinIcon.name" class="py-name" href="#" onclick="return doclink('link-29', 'name', 'link-17');">name</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_menus</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">,</tt> <tt id="link-30" class="py-name"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-30', 'separators', 'link-22');">separators</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"> </tt>
+<a name="Main.mainloop"></a><div id="Main.mainloop-def"><a name="L49"></a><tt class="py-lineno"> 49</tt> <a class="py-toggle" href="#" id="Main.mainloop-toggle" onclick="return toggle('Main.mainloop');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="traylib.main.Main-class.html#mainloop">mainloop</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">app_args</tt><tt class="py-op">,</tt> <tt class="py-param">tray_class</tt><tt class="py-op">,</tt> <tt class="py-op">*</tt><tt class="py-param">tray_args</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Main.mainloop-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Main.mainloop-expanded"><a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"><tt class="py-docstring">        Starts the main loop and returns when the tray app is quit.</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"><tt class="py-docstring">        </tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"><tt class="py-docstring">        @param app_args: The arguments passed to the app.</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"><tt class="py-docstring">        @param tray_class: The type of tray. Must be a subclass of L{Tray}.</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line"><tt class="py-docstring">        @param *tray_args: Additional args for the L{Tray} subclass.</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">        <tt class="py-keyword">assert</tt> <tt class="py-name">issubclass</tt><tt class="py-op">(</tt><tt class="py-name">tray_class</tt><tt class="py-op">,</tt> <tt id="link-31" class="py-name"><a title="traylib.tray.Tray" class="py-name" href="#" onclick="return doclink('link-31', 'Tray', 'link-9');">Tray</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-name">rox</tt><tt class="py-op">.</tt><tt class="py-name">app_options</tt><tt class="py-op">.</tt><tt class="py-name">add_notify</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-32" class="py-name" targets="Method traylib.handler.Handler.options_changed()=traylib.handler.Handler-class.html#options_changed,Method traylib.handlers.Handlers.options_changed()=traylib.handlers.Handlers-class.html#options_changed,Method traylib.item_icon.ItemIcon.options_changed()=traylib.item_icon.ItemIcon-class.html#options_changed,Method traylib.main.Main.options_changed()=traylib.main.Main-class.html#options_changed"><a title="traylib.handler.Handler.options_changed
+traylib.handlers.Handlers.options_changed
+traylib.item_icon.ItemIcon.options_changed
+traylib.main.Main.options_changed" class="py-name" href="#" onclick="return doclink('link-32', 'options_changed', 'link-32');">options_changed</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">app_args</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;=</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__main_window</tt> <tt class="py-op">=</tt> <tt id="link-33" class="py-name"><a title="traylib.tray_applet.TrayApplet" class="py-name" href="#" onclick="return doclink('link-33', 'TrayApplet', 'link-6');">TrayApplet</a></tt><tt class="py-op">(</tt><tt class="py-name">app_args</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">                                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_min</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">,</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">                                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_max</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">,</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">                                    <tt class="py-name">tray_class</tt><tt class="py-op">,</tt>  </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">                                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__icon_config</tt><tt class="py-op">,</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">                                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__tray_config</tt><tt class="py-op">,</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">                                    <tt class="py-op">*</tt><tt class="py-name">tray_args</tt><tt class="py-op">)</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__main_window</tt> <tt class="py-op">=</tt> <tt id="link-34" class="py-name"><a title="traylib.tray_window.TrayWindow" class="py-name" href="#" onclick="return doclink('link-34', 'TrayWindow', 'link-3');">TrayWindow</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_min</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">,</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">                                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_max</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">,</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">                                    <tt class="py-name">tray_class</tt><tt class="py-op">,</tt>  </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">                                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__icon_config</tt><tt class="py-op">,</tt>  </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">                                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__tray_config</tt><tt class="py-op">,</tt>  </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">                                    <tt class="py-op">*</tt><tt class="py-name">tray_args</tt><tt class="py-op">)</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__main_window</tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Method traylib.icon.Icon.show()=traylib.icon.Icon-class.html#show"><a title="traylib.icon.Icon.show" class="py-name" href="#" onclick="return doclink('link-35', 'show', 'link-35');">show</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">        <tt class="py-name">rox</tt><tt class="py-op">.</tt><tt id="link-36" class="py-name" targets="Method traylib.main.Main.mainloop()=traylib.main.Main-class.html#mainloop"><a title="traylib.main.Main.mainloop" class="py-name" href="#" onclick="return doclink('link-36', 'mainloop', 'link-36');">mainloop</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"> </tt>
+<a name="Main.options_changed"></a><div id="Main.options_changed-def"><a name="L77"></a><tt class="py-lineno"> 77</tt> <a class="py-toggle" href="#" id="Main.options_changed-toggle" onclick="return toggle('Main.options_changed');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="traylib.main.Main-class.html#options_changed">options_changed</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Main.options_changed-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Main.options_changed-expanded"><a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">        <tt class="py-docstring">"""Called when the options have changed."""</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_min</tt><tt class="py-op">.</tt><tt class="py-name">has_changed</tt> <tt class="py-keyword">or</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_max</tt><tt class="py-op">.</tt><tt class="py-name">has_changed</tt><tt class="py-op">:</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__main_window</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name" targets="Method traylib.tray_container.TrayContainer.update_icon_size()=traylib.tray_container.TrayContainer-class.html#update_icon_size"><a title="traylib.tray_container.TrayContainer.update_icon_size" class="py-name" href="#" onclick="return doclink('link-37', 'update_icon_size', 'link-37');">update_icon_size</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_min</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">,</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">                                                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_icon_size_max</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">)</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">     </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_separator_left</tt><tt class="py-op">.</tt><tt class="py-name">has_changed</tt> <tt class="py-keyword">or</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_separator_right</tt><tt class="py-op">.</tt><tt class="py-name">has_changed</tt><tt class="py-op">:</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">            <tt id="link-38" class="py-name"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-38', 'separators', 'link-22');">separators</a></tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_separator_left</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">:</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">                <tt id="link-39" class="py-name"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-39', 'separators', 'link-22');">separators</a></tt> <tt class="py-op">|=</tt> <tt id="link-40" class="py-name"><a title="traylib.LEFT" class="py-name" href="#" onclick="return doclink('link-40', 'LEFT', 'link-24');">LEFT</a></tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_separator_right</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt><tt class="py-op">:</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">                <tt id="link-41" class="py-name"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-41', 'separators', 'link-22');">separators</a></tt> <tt class="py-op">|=</tt> <tt id="link-42" class="py-name"><a title="traylib.RIGHT" class="py-name" href="#" onclick="return doclink('link-42', 'RIGHT', 'link-21');">RIGHT</a></tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__tray_config</tt><tt class="py-op">.</tt><tt id="link-43" class="py-name"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-43', 'separators', 'link-22');">separators</a></tt> <tt class="py-op">=</tt> <tt id="link-44" class="py-name"><a title="traylib.tray_config.TrayConfig.separators" class="py-name" href="#" onclick="return doclink('link-44', 'separators', 'link-22');">separators</a></tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_menus</tt><tt class="py-op">.</tt><tt class="py-name">has_changed</tt><tt class="py-op">:</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__tray_config</tt><tt class="py-op">.</tt><tt id="link-45" class="py-name" targets="Variable traylib.tray_config.TrayConfig.menus=traylib.tray_config.TrayConfig-class.html#menus"><a title="traylib.tray_config.TrayConfig.menus" class="py-name" href="#" onclick="return doclink('link-45', 'menus', 'link-45');">menus</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_menus</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_effects</tt><tt class="py-op">.</tt><tt class="py-name">has_changed</tt><tt class="py-op">:</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__icon_config</tt><tt class="py-op">.</tt><tt id="link-46" class="py-name" targets="Variable traylib.icon_config.IconConfig.effects=traylib.icon_config.IconConfig-class.html#effects"><a title="traylib.icon_config.IconConfig.effects" class="py-name" href="#" onclick="return doclink('link-46', 'effects', 'link-46');">effects</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__o_effects</tt><tt class="py-op">.</tt><tt class="py-name">int_value</tt> </tt>
+</div><a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">    <tt id="link-47" class="py-name"><a title="traylib.icon.Icon.icon_config
+traylib.icon_config
+traylib.main.Main.icon_config
+traylib.tray.Tray.icon_config
+traylib.tray_container.TrayContainer.icon_config" class="py-name" href="#" onclick="return doclink('link-47', 'icon_config', 'link-11');">icon_config</a></tt> <tt class="py-op">=</tt> <tt class="py-name">property</tt><tt class="py-op">(</tt><tt class="py-keyword">lambda</tt> <tt class="py-name">self</tt> <tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__icon_config</tt><tt class="py-op">)</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">    <tt id="link-48" class="py-name"><a title="traylib.main.Main.tray_config
+traylib.menu_icon.MenuIcon.tray_config
+traylib.tray.Tray.tray_config
+traylib.tray_config
+traylib.tray_container.TrayContainer.tray_config" class="py-name" href="#" onclick="return doclink('link-48', 'tray_config', 'link-14');">tray_config</a></tt> <tt class="py-op">=</tt> <tt class="py-name">property</tt><tt class="py-op">(</tt><tt class="py-keyword">lambda</tt> <tt class="py-name">self</tt> <tt class="py-op">:</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__tray_config</tt><tt class="py-op">)</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">    <tt id="link-49" class="py-name"><a title="traylib.icon_manager.IconManager.tray
+traylib.main.Main.tray
+traylib.menu_icon.MenuIcon.tray
+traylib.tray
+traylib.tray_container.TrayContainer.tray" class="py-name" href="#" onclick="return doclink('link-49', 'tray', 'link-8');">tray</a></tt> <tt class="py-op">=</tt> <tt class="py-name">property</tt><tt class="py-op">(</tt><tt class="py-keyword">lambda</tt> <tt class="py-name">self</tt> <tt class="py-op">:</tt> <tt class="py-op">(</tt><tt class="py-keyword">not</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__main_window</tt> <tt class="py-keyword">and</tt> <tt class="py-name">None</tt>  </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">                                   <tt class="py-keyword">or</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__main_window</tt><tt class="py-op">.</tt><tt id="link-50" class="py-name"><a title="traylib.icon_manager.IconManager.tray
+traylib.main.Main.tray
+traylib.menu_icon.MenuIcon.tray
+traylib.tray
+traylib.tray_container.TrayContainer.tray" class="py-name" href="#" onclick="return doclink('link-50', 'tray', 'link-8');">tray</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="traylib-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Mar  3 15:30:27 2015
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+import gtk, gobject, os, rox
+from rox import filer, InfoWin
+from rox.tasks import Task
+
+import traylib
+from traylib import *
+import traylib.pixmaps as pixmaps
+from traylib.config import Config
+from traylib.icon import Icon
+from traylib.tray_config import TrayConfig
+from traylib.menu_icon import MenuIcon
+
+_ = rox.i18n.translation(os.path.join(os.path.dirname(
+                                        os.path.dirname(
+                                            os.path.dirname(traylib.__file__))),
+                                    'Messages'))
+
+
+class Tray(object):
+
+    def __init__(self, icon_config, tray_config, menu_icon_class=MenuIcon):
+        """
+        Creates a new C{Tray}.
+        
+        @param icon_config: The L{IconConfig} of the C{Tray}.
+        @param tray_config: The L{TrayConfig} of the C{Tray}.
+        """
+
+        self.__icon_config = icon_config
+        self.__tray_config = tray_config
+        tray_config.add_configurable(self)
+
+        self.__container = None
+
+        self.__icons = {}
+        self.__boxes = {}
+
+        if self.__icon_config.vertical:
+            self.__separator_left = gtk.HSeparator()
+            self.__separator_right = gtk.HSeparator()
+        else:
+            self.__separator_left = gtk.VSeparator()
+            self.__separator_right = gtk.VSeparator()
+        self.__menuicon = menu_icon_class(self, icon_config, tray_config)
+
+        if self.__icon_config.vertical:
+            self.__main_box = gtk.VBox()
+            self.__box_left = gtk.VBox()
+            self.__box = gtk.VBox()
+            self.__box_right = gtk.VBox()
+        else:
+            self.__main_box = gtk.HBox()
+            self.__box_left = gtk.HBox()
+            self.__box = gtk.HBox()
+            self.__box_right = gtk.HBox()
+
+        self.__main_box.pack_start(self.__box_left)
+        self.__main_box.pack_start(self.__box)
+        self.__main_box.pack_start(self.__box_right)
+
+        self.__main_box.show()
+        self.__box_left.show()
+        self.__box.show()
+        self.__box_right.show()
+
+        self.update_option_separators()
+        self.update_option_menus()
+
+        self.__main_box.connect("destroy", self.__main_box_destroyed)
+
+        assert self.__icon_config == icon_config
+        assert self.__tray_config == tray_config
+        assert self.__tray_config.has_configurable(self)
+
+    def add_box(self, box_id, separator = False):
+        """
+        Adds a box to the C{Tray} to which icons can be added via the 
+        L{add_icon()} method.
+        
+        @param box_id: An identifier for the box.
+        """
+        assert box_id not in self.__boxes
+
+        if self.__icon_config.vertical:
+            box = gtk.VBox()
+        else:
+            box = gtk.HBox()
+        box.show()
+        
+        if separator:
+            if self.__icon_config.vertical:
+                separator = gtk.HSeparator()
+            else:
+                separator = gtk.VSeparator()
+            separator.show()
+            self.__box.pack_start(separator)
+
+        self.__box.pack_start(box)
+        self.__boxes[box_id] = box
+        
+    def add_icon(self, box_id, icon_id, icon):
+        """
+        Adds an C{Icon} to the C{Tray}.
+        
+        @param box_id: The identifier of the box the icon should be added to.
+        @param icon_id: The identifier of the icon.
+        @param icon: The C{Icon} to be added.
+        """
+        self.__boxes[box_id].pack_start(icon)
+        self.__icons[icon_id] = icon
+
+    def remove_icon(self, icon_id):
+        """
+        Removes an icon from the C{Tray}.
+        
+        @param icon_id: The identifier of the icon.
+        """
+        icon = self.__icons[icon_id]
+        icon.destroy()
+        del self.__icons[icon_id]
+        
+    def destroy(self):
+        """
+        Destroys the C{Tray} and the container containing it.
+        """
+        if self.__container:
+            self.__container.destroy()
+        else:
+            self.__main_box.destroy()
+
+    def forget_menus(self):
+        """
+        Makes the C{Tray} forget its main menu. Call this if something affecting
+        the main menu has changed.
+        """
+        if self.__menuicon_left:
+            self.__menuicon_left.forget_menu()
+        if self.__menuicon_right:
+            self.__menuicon_right.forget_menu()
+
+    def get_icon(self, id):
+        """
+        Returns the C{Icon} with the identifier C{id}
+        
+        @param id: The identifier of the C{Icon}
+        @return: The C{Icon} with the identifier C{id}. Returns C{None} if the 
+            C{Tray} has no C{Icon} with the identifier C{id}. 
+        """
+        return self.__icons.get(id)
+
+    def set_container(self, container):
+        """
+        Adds the C{Tray} to the C{gtk.Container} C{container} after removing it
+        from its current container.
+
+        @param container: The C{gtk.Container} the C{Tray} will be added to
+            (may be C{None}).
+        """
+        if self.__container == container:
+            return
+        if self.__container:
+            self.__container.remove(self.__main_box)
+        self.__container = container
+        if self.__container:
+            self.__container.add(self.__main_box)
+
+
+    # Signal callbacks        
+
+    def __main_box_destroyed(self, main_box):
+        assert main_box == self.__main_box
+        self.__tray_config.remove_configurable(self)
+        self.quit()
+
+
+    # Methods called when config options of the associated TrayConfig changed
+
+    def update_option_separators(self):
+        separators = self.__tray_config.separators
+        vertical = self.__icon_config.vertical
+        if separators & LEFT:
+            if self.__separator_left not in self.__box_left.get_children():
+                self.__box_left.pack_start(self.__separator_left)
+                self.__separator_left.show()
+        else:
+            if self.__separator_left in self.__box_left.get_children():
+                self.__box_left.remove(self.__separator_left)
+
+        if separators & RIGHT:
+            if self.__separator_right not in self.__box_right.get_children():
+                self.__box_right.pack_end(self.__separator_right)
+                self.__separator_right.show()
+        else:
+            if self.__separator_right in self.__box_right.get_children():
+                self.__box_right.remove(self.__separator_right)
+
+    def update_option_menus(self):
+        menus = self.__tray_config.menus
+        menuicon = self.__menuicon
+        old_box, new_box = (menus == LEFT and (self.__box_right, self.__box_left) 
+                            or (self.__box_left, self.__box_right))
+
+        if menuicon in old_box.get_children():
+            old_box.remove(menuicon)
+        if menuicon not in new_box.get_children():
+            new_box.pack_end(menuicon)
+            menuicon.update_visibility()
+            menuicon.update_icon()
+            menuicon.update_tooltip()
+            menuicon.update_is_drop_target()
+            menuicon.show_all()
+
+
+       # Methods to be implemented by subclasses
+                
+    def get_custom_menu_items(self):
+        """
+        Override this to return custom items for the main menu.
+        """
+        return []
+
+    def quit(self):
+        """
+        Override this to clean up when the container containing the tray is 
+        destroyed.
+        """
+        pass
+
+    icon_config = property(lambda self : self.__icon_config)
+    tray_config = property(lambda self : self.__tray_config)
+    icon_ids = property(lambda self : self.__icons.keys())
+    icons = property(lambda self : self.__icons.values())
+    menu_icon = property(lambda self : self.__menu_icon)

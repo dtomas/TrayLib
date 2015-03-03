@@ -1,0 +1,1335 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>traylib.winicon.WinIcon</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="traylib-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="traylib-module.html">Package&nbsp;traylib</a> ::
+        <a href="traylib.winicon-module.html">Module&nbsp;winicon</a> ::
+        Class&nbsp;WinIcon
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="traylib.winicon.WinIcon-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class WinIcon</h1><p class="nomargin-top"><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+gtk.EventBox --+    
+               |    
+      object --+    
+               |    
+       <a href="traylib.icon.Icon-class.html">icon.Icon</a> --+
+                   |
+                  <strong class="uidshort">WinIcon</strong>
+</pre>
+
+<hr />
+<p>An <a href="traylib.icon.Icon-class.html" class="link">Icon</a> 
+  representing a group of windows. You can add/remove windows using the <a 
+  href="traylib.winicon.WinIcon-class.html#add_window" 
+  class="link">add_window()</a> and <a 
+  href="traylib.winicon.WinIcon-class.html#remove_window" 
+  class="link">remove_window()</a> methods.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">icon_config</span>,
+        <span class="summary-sig-arg">win_config</span>)</span><br />
+      Creates a new <code>WinIcon</code>.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#is_minimized" class="summary-sig-name">is_minimized</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns:
+      {True} if all visible windows of the <code>WinIcon</code> are 
+      minimized.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.is_minimized">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="update_name"></a><span class="summary-sig-name">update_name</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Updates the name by calling <a 
+      href="traylib.winicon.WinIcon-class.html#make_name" 
+      class="link">make_name()</a></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.update_name">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#update_windows" class="summary-sig-name">update_windows</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Updates the list of visible windows.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.update_windows">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#activate_next_window" class="summary-sig-name">activate_next_window</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">time</span>=<span class="summary-sig-default">0L</span>)</span><br />
+      If the active window is in the <code>WinIcon</code>'s list of visible
+      windows, activates the window after the active window in the list of 
+      visible windows.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.activate_next_window">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#activate_previous_window" class="summary-sig-name">activate_previous_window</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">time</span>=<span class="summary-sig-default">0L</span>)</span><br />
+      If the active window is in the <code>WinIcon</code>'s list of visible
+      windows, activates the window before the active window in the list of
+      visible windows.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.activate_previous_window">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#add_window" class="summary-sig-name">add_window</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">window</span>)</span><br />
+      Adds <code>window</code> to the <code>WinIcon</code>'s list of 
+      windows.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.add_window">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#remove_window" class="summary-sig-name">remove_window</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">window</span>)</span><br />
+      Removes <code>window</code> from the <code>WinIcon</code>'s list of 
+      windows.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.remove_window">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#window_is_visible" class="summary-sig-name">window_is_visible</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">window</span>)</span><br />
+      Returns:
+      <code>True</code> if the window should show up in the 
+      <code>WinIcon</code>'s menu.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.window_is_visible">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#make_visibility" class="summary-sig-name">make_visibility</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Determines the visibility.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_visibility">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#make_zoom_factor" class="summary-sig-name">make_zoom_factor</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Determines the zoom factor.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_zoom_factor">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#make_has_arrow" class="summary-sig-name">make_has_arrow</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Determines whether to show an arrow or not.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_has_arrow">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#make_tooltip" class="summary-sig-name">make_tooltip</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Determines the <code>WinIcon</code>'s tooltip by calling <a 
+      href="traylib.winicon.WinIcon-class.html#make_name" 
+      class="link">make_name()</a>.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_tooltip">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#click" class="summary-sig-name">click</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">time</span>=<span class="summary-sig-default">0L</span>)</span><br />
+      If the <code>WinIcon</code> has only one visible window, it is 
+      activated or minimized, depending on its current state.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.click">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#get_menu_left" class="summary-sig-name">get_menu_left</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns:
+      The menu when the <code>WinIcon</code> was left-clicked.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.get_menu_left">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#get_menu_right" class="summary-sig-name">get_menu_right</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns:
+      The menu when the <code>WinIcon</code> was right-clicked.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.get_menu_right">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#mouse_wheel_up" class="summary-sig-name">mouse_wheel_up</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">time</span>=<span class="summary-sig-default">0L</span>)</span><br />
+      Activates the next window.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.mouse_wheel_up">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#mouse_wheel_down" class="summary-sig-name">mouse_wheel_down</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">time</span>=<span class="summary-sig-default">0L</span>)</span><br />
+      Activates the previous window.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.mouse_wheel_down">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#spring_open" class="summary-sig-name">spring_open</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">time</span>=<span class="summary-sig-default">0L</span>)</span><br />
+      Activates the next window.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.spring_open">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#should_hide_if_no_visible_windows" class="summary-sig-name">should_hide_if_no_visible_windows</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Override this to determine whether the <code>WinIcon</code> should 
+      hide if it has no visible windows anymore.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.should_hide_if_no_visible_windows">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#menu_has_kill" class="summary-sig-name">menu_has_kill</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Override this to determine whether the <code>WinIcon</code>'s menu 
+      has a &quot;kill&quot; menu item.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.menu_has_kill">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="update_option_all_workspaces"></a><span class="summary-sig-name">update_option_all_workspaces</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.update_option_all_workspaces">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="update_option_arrow"></a><span class="summary-sig-name">update_option_arrow</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.update_option_arrow">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.winicon.WinIcon-class.html#make_name" class="summary-sig-name">make_name</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Override this to determine the <code>WinIcon</code>'s name.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_name">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="should_have_window"></a><span class="summary-sig-name">should_have_window</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">window</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.should_have_window">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_root_path"></a><span class="summary-sig-name">get_root_path</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.get_root_path">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.icon.Icon-class.html">icon.Icon</a></code></b>:
+      <code><a href="traylib.icon.Icon-class.html#destroy">destroy</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#get_icon_names">get_icon_names</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#get_icon_path">get_icon_path</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#get_icon_pixbuf">get_icon_pixbuf</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#hide">hide</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#icon_theme_changed">icon_theme_changed</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#make_emblem">make_emblem</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#make_icon">make_icon</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#make_is_drop_target">make_is_drop_target</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#set_blinking">set_blinking</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#show">show</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_emblem">update_emblem</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_has_arrow">update_has_arrow</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_icon">update_icon</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_is_drop_target">update_is_drop_target</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_option_edge">update_option_edge</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_option_effects">update_option_effects</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_option_hidden">update_option_hidden</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_option_size">update_option_size</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_tooltip">update_tooltip</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_visibility">update_visibility</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#update_zoom_factor">update_zoom_factor</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#uris_dropped">uris_dropped</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="name"></a><span class="summary-name">name</span> = <code title="property(lambda self: self.__name)">property(lambda self: self.__name)</code><br />
+      The <code>WinIcon</code>'s name.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="visible_windows"></a><span class="summary-name">visible_windows</span> = <code title="property(lambda self: self.__visible_windows)">property(lambda self: self.__visible_windows)</code><br />
+      The list of visible windows.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="traylib.winicon.WinIcon-class.html#has_active_window" class="summary-name">has_active_window</a> = <code title="property(lambda self:(SCREEN != None and SCREEN.get_active_window() in\
+ self.__windows))">property(lambda self:(SCREEN != None and S<code class="variable-ellipsis">...</code></code><br />
+      {True} if the <code>WinIcon</code> has the active window.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="traylib.winicon.WinIcon-class.html#has_visible_windows" class="summary-name">has_visible_windows</a> = <code title="property(lambda self: bool(self.__visible_windows))">property(lambda self: bool(self.__visibl<code class="variable-ellipsis">...</code></code><br />
+      {True} if the <code>WinIcon</code> has any visible windows.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="has_windows"></a><span class="summary-name">has_windows</span> = <code title="property(lambda self: bool(self.__windows))">property(lambda self: bool(self.__windows))</code><br />
+      {True} if the <code>WinIcon</code> has any windows.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.icon.Icon-class.html">icon.Icon</a></code></b>:
+      <code><a href="traylib.icon.Icon-class.html#has_arrow">has_arrow</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#has_themed_icon">has_themed_icon</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#icon">icon</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#icon_config">icon_config</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#icon_names">icon_names</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#icon_path">icon_path</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#icon_pixbuf">icon_pixbuf</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#is_drop_target">is_drop_target</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#size">size</a></code>,
+      <code><a href="traylib.icon.Icon-class.html#tooltip">tooltip</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">icon_config</span>,
+        <span class="sig-arg">win_config</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Creates a new <code>WinIcon</code>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>win_config</code></strong> - The <code>WinConfig</code> controlling the configuration of the 
+          <code>WinIcon</code>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="is_minimized"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">is_minimized</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.is_minimized">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>{True} if all visible windows of the <code>WinIcon</code> are 
+          minimized.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="update_windows"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">update_windows</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.update_windows">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Updates the list of visible windows. Also calls <a 
+  href="traylib.icon.Icon-class.html#update_has_arrow" 
+  class="link">update_has_arrow()</a>, <a 
+  href="traylib.icon.Icon-class.html#update_tooltip" 
+  class="link">update_tooltip()</a>, <a 
+  href="traylib.icon.Icon-class.html#update_zoom_factor" 
+  class="link">update_zoom_factor()</a> and <a 
+  href="traylib.icon.Icon-class.html#update_visibility" 
+  class="link">update_visibility()</a>.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="activate_next_window"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">activate_next_window</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">time</span>=<span class="sig-default">0L</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.activate_next_window">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>If the active window is in the <code>WinIcon</code>'s list of visible 
+  windows, activates the window after the active window in the list of 
+  visible windows. If not, the first visible window of the 
+  <code>WinIcon</code> is activated.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="activate_previous_window"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">activate_previous_window</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">time</span>=<span class="sig-default">0L</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.activate_previous_window">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>If the active window is in the <code>WinIcon</code>'s list of visible 
+  windows, activates the window before the active window in the list of 
+  visible windows. If not, the first visible window of the 
+  <code>WinIcon</code> is activated.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="add_window"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">add_window</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">window</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.add_window">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Adds <code>window</code> to the <code>WinIcon</code>'s list of 
+  windows.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>window</code></strong> - The window to be added.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="remove_window"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">remove_window</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">window</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.remove_window">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Removes <code>window</code> from the <code>WinIcon</code>'s list of 
+  windows.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>window</code></strong> - The window to be removed.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="window_is_visible"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">window_is_visible</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">window</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.window_is_visible">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if the window should show up in the 
+          <code>WinIcon</code>'s menu.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="make_visibility"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">make_visibility</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_visibility">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determines the visibility.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if the <code>WinIcon</code> has any visible 
+          windows or if it should not hide icons with no visible windows.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#make_visibility">icon.Icon.make_visibility</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="make_zoom_factor"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">make_zoom_factor</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_zoom_factor">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determines the zoom factor.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>If the icon has the active window: <code>1.5</code> If the icon 
+          has only minimized windows: half the zoom factor returned by 
+          <code>Icon.make_zoom_factor()</code> Else: the zoom factor 
+          returned by <code>Icon.make_zoom_factor()</code></dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#make_zoom_factor">icon.Icon.make_zoom_factor</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="make_has_arrow"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">make_has_arrow</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_has_arrow">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determines whether to show an arrow or not.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if the icon has more than one visible window 
+          and its <code>WinConfig</code> is configured to show an arrow.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#make_has_arrow">icon.Icon.make_has_arrow</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="make_tooltip"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">make_tooltip</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_tooltip">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determines the <code>WinIcon</code>'s tooltip by calling <a 
+  href="traylib.winicon.WinIcon-class.html#make_name" 
+  class="link">make_name()</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The new tooltip of the <code>WinIcon</code>.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#make_tooltip">icon.Icon.make_tooltip</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="click"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">click</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">time</span>=<span class="sig-default">0L</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.click">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>If the <code>WinIcon</code> has only one visible window, it is 
+  activated or minimized, depending on its current state. If it's on a 
+  different workspace, that workspace is also activated.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>time</code></strong> - The time of the click event.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if some action could be performed.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#click">icon.Icon.click</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_menu_left"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_menu_left</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.get_menu_left">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Override this to determine the menu that pops up when left-clicking 
+  the <code>Icon</code>. (In case the <code>click()</code> method returned 
+  <code>False</code>.)</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The menu when the <code>WinIcon</code> was left-clicked. If it 
+          has more than one visible window, returns a <a 
+          href="traylib.winmenu.WindowMenu-class.html" 
+          class="link">WindowMenu</a> where a window can be selected to be 
+          activated. Else, returns <code>None</code>.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#get_menu_left">icon.Icon.get_menu_left</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_menu_right"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_menu_right</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.get_menu_right">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Override this to determine the menu that pops up when right-clicking 
+  the <code>Icon</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The menu when the <code>WinIcon</code> was right-clicked. If it 
+          has more than one visible window, returns a <a 
+          href="traylib.winmenu.WindowMenu-class.html" 
+          class="link">WindowMenu</a> with a submenu of window actions for 
+          each window. If there's only one visible window, returns a <a 
+          href="traylib.winmenu.WindowActionMenu-class.html" 
+          class="link">WindowActionMenu</a> for that window. Else, returns 
+          <code>None</code>.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#get_menu_right">icon.Icon.get_menu_right</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="mouse_wheel_up"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">mouse_wheel_up</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">time</span>=<span class="sig-default">0L</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.mouse_wheel_up">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Activates the next window.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>time</code></strong> - The time of the scroll event.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if the next window could be activated.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#mouse_wheel_up">icon.Icon.mouse_wheel_up</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        WinIcon.activate_next_window()
+      </p>
+</div></td></tr></table>
+</div>
+<a name="mouse_wheel_down"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">mouse_wheel_down</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">time</span>=<span class="sig-default">0L</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.mouse_wheel_down">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Activates the previous window.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>time</code></strong> - The time of the scroll event.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if the previous window could be activated.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#mouse_wheel_down">icon.Icon.mouse_wheel_down</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="traylib.winicon.WinIcon-class.html#activate_previous_window" 
+        class="link">activate_previous_window()</a>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="spring_open"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">spring_open</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">time</span>=<span class="sig-default">0L</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.spring_open">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Activates the next window.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code> if the next window could be activated.</dd>
+    <dt>Overrides:
+        <a href="traylib.icon.Icon-class.html#spring_open">icon.Icon.spring_open</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="traylib.winicon.WinIcon-class.html#activate_next_window" 
+        class="link">activate_next_window()</a>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="should_hide_if_no_visible_windows"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">should_hide_if_no_visible_windows</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.should_hide_if_no_visible_windows">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Override this to determine whether the <code>WinIcon</code> should 
+  hide if it has no visible windows anymore.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="menu_has_kill"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">menu_has_kill</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.menu_has_kill">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Override this to determine whether the <code>WinIcon</code>'s menu has
+  a &quot;kill&quot; menu item.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>True</code></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="make_name"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">make_name</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.winicon-pysrc.html#WinIcon.make_name">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Override this to determine the <code>WinIcon</code>'s name.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The new name of the <code>WinIcon</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variable Details</span></td>
+</tr>
+</table>
+<a name="has_active_window"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">has_active_window</h3>
+  <p>{True} if the <code>WinIcon</code> has the active window.</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+property(lambda self:(SCREEN != None and SCREEN.get_active_window() in<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ self.__windows))
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="has_visible_windows"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">has_visible_windows</h3>
+  <p>{True} if the <code>WinIcon</code> has any visible windows.</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+property(lambda self: bool(self.__visible_windows))
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="traylib-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Mar  3 15:30:26 2015
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
