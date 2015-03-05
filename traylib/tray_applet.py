@@ -36,14 +36,8 @@ class TrayApplet(Applet, TrayContainer):
             self.set_size_request(8, -1)
         else:
             self.set_size_request(-1, 8)
-        TrayContainer.__init__(self,
-                                min_size,
-                                max_size,
-                                vertical,
-                                tray_class, 
-                                icon_config, 
-                                tray_config, 
-                                *tray_args)
+        TrayContainer.__init__(self, min_size, max_size, vertical, tray_class, 
+                                icon_config, tray_config, *tray_args)
 
     def get_icon_size(self):
         """
@@ -55,9 +49,7 @@ class TrayApplet(Applet, TrayContainer):
         return int(size)
 
     def get_panel_orientation(self):
-        """
-        @return: The panel orientation ('Top', 'Bottom', 'Left', 'Right')
-        """
+        """@return: The panel orientation ('Top', 'Bottom', 'Left', 'Right')"""
         pos = self.socket.property_get('_ROX_PANEL_MENU_POS', 'STRING', False)
         if pos: pos = pos[2]
         if pos:

@@ -10,10 +10,10 @@ from traylib.icon import Icon
 from traylib.tray_config import TrayConfig
 from traylib.menu_icon import MenuIcon
 
-_ = rox.i18n.translation(os.path.join(os.path.dirname(
-                                        os.path.dirname(
-                                            os.path.dirname(traylib.__file__))),
-                                    'Messages'))
+_ = rox.i18n.translation(
+    os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(traylib.__file__))),
+        'Messages'))
 
 
 class Tray(object):
@@ -67,10 +67,6 @@ class Tray(object):
         self.update_option_menus()
 
         self.__main_box.connect("destroy", self.__main_box_destroyed)
-
-        assert self.__icon_config == icon_config
-        assert self.__tray_config == tray_config
-        assert self.__tray_config.has_configurable(self)
 
     def add_box(self, box_id, separator = False):
         """
@@ -214,9 +210,7 @@ class Tray(object):
        # Methods to be implemented by subclasses
                 
     def get_custom_menu_items(self):
-        """
-        Override this to return custom items for the main menu.
-        """
+        """Override this to return custom items for the main menu."""
         return []
 
     def quit(self):

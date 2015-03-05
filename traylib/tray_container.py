@@ -5,8 +5,8 @@ from traylib.icon import IconConfig
 
 class TrayContainer(object):
     """
-    An object containing a L{Tray}. If you subclass this, you must also subclass
-    C{gtk.Container}.
+    An object containing a L{Tray}. If you subclass this, you must also
+    subclass C{gtk.Container}.
     """
     
     def __init__(self, min_size, max_size, vertical, tray_class, icon_config, 

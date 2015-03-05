@@ -5,10 +5,9 @@ import traylib
 from traylib import *
 from pixbuf_helper import *
 
-_ = rox.i18n.translation(os.path.join(os.path.dirname(
-                                        os.path.dirname(
-                                            os.path.dirname(traylib.__file__))),
-                                    'Messages'))
+_ = rox.i18n.translation(
+    os.path.join(os.path.dirname(os.path.dirname(
+        os.path.dirname(traylib.__file__))), 'Messages'))
 
 def _load_icons(icon_theme):
     global dir_icon, home_icon
@@ -169,7 +168,8 @@ class WindowActionMenu(gtk.Menu):
 
         if self.__parent and self.__path and os.path.isdir(self.__path):
             item = gtk.ImageMenuItem(_("Close subdirectories"))
-            item.get_image().set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(gtk.STOCK_CLOSE,
+                                            gtk.ICON_SIZE_MENU)
             item.connect("activate", self.__close_subdirs)
             self.append(item)
 
@@ -308,14 +308,15 @@ class WindowMenu(gtk.Menu):
             "hide all" or "show all" and "close all" menu items. If 
             C{has_kill} is C{True}, it also contains a "force quit" menu
             entry.
-        @param root: If not C{None}, indicates that the windows are filemanager
-            windows and the path prefix "root" should not be omitted.
+        @param root: If not C{None}, indicates that the windows are
+            filemanager windows and the path prefix "root" should not be
+            omitted.
         @param root_icon: The icon to show for the root menu entry. This is the
             menu entry showing C{root}.
-        @param has_kill: If C{True} and C{type==TYPE_OPTIONS}, the menu contains
-            a "kill" menu entry which kills the process the windows belong to.
-            If the windows belong to different processes, each submenu has its 
-            own "kill" menu entry.
+        @param has_kill: If C{True} and C{type==TYPE_OPTIONS}, the menu
+            contains a "kill" menu entry which kills the process the windows
+            belong to. If the windows belong to different processes, each
+            submenu has its own "kill" menu entry.
         """
         assert type in (TYPE_SELECT, TYPE_OPTIONS)
         gtk.Menu.__init__(self)
@@ -369,14 +370,13 @@ class WindowMenu(gtk.Menu):
                 self.append(item)
             self.append(gtk.SeparatorMenuItem())
             item = gtk.ImageMenuItem(_("Close all"))
-            item.get_image().set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(gtk.STOCK_CLOSE,
+                                            gtk.ICON_SIZE_MENU)
             item.connect("activate", self.__close_all)
             self.append(item)
             
     def get_windows(self):
-        """
-        @return: The windows belonging to the C{WindowMenu}.
-        """
+        """@return: The windows belonging to the C{WindowMenu}."""
         return self.__windows
 
     def __minimize_all(self, menu_item):

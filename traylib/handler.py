@@ -1,5 +1,10 @@
-import gtk, os, sys, imp
+import gtk
+import os
+import sys
+import imp
+
 from rox.options import Option
+
 from traylib import ICON_THEME
 
 

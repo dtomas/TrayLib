@@ -2,7 +2,6 @@ from rox import filer, InfoWin
 
 from traylib import *
 from traylib.icon import Icon
-from traylib.tray_config import TrayConfig
 
 
 class MenuIcon(Icon):

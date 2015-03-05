@@ -40,42 +40,35 @@ class IconConfig(Config):
         self.__arrow = gtk.gdk.pixbuf_new_from_xpm_data(pixmap)            
 
     arrow = property(lambda self : self.__arrow)
-    """
-    The arrow pixmap.
-    """
+    """The arrow pixmap."""
     
     edge = property(lambda self : self.get_attribute('edge'), 
                     lambda self, edge : self.set_attribute('edge', edge))
     """
-    The edge of the screen where the icons are put. One of C{0}, C{TOP}, C{BOTTOM}, 
-    C{LEFT}, C{RIGHT}.
+    The edge of the screen where the icons are put. One of C{0}, C{TOP},
+    C{BOTTOM}, C{LEFT}, C{RIGHT}.
     """
     
     effects = property(lambda self : self.get_attribute('effects'), 
-                       lambda self, effects : self.set_attribute('effects', effects))
-    """
-    C{True} if effects such as smooth zooming should be shown.
-    """
+                       lambda self, effects : self.set_attribute('effects',
+                                                                 effects))
+    """C{True} if effects such as smooth zooming should be shown."""
         
     pos_func = property(lambda self : self.get_attribute('pos_func'), 
-                        lambda self, pos_func : self.set_attribute('pos_func', pos_func))
-    """
-    The function for positioning the menu (may be None).
-    """
+                        lambda self, pos_func : self.set_attribute('pos_func',
+                                                                   pos_func))
+    """The function for positioning the menu (may be None)."""
         
     size = property(lambda self : self.get_attribute('size'), 
                     lambda self, size : self.set_attribute('size', size))
-    """
-    The size of the icons.
-    """ 
+    """The size of the icons.""" 
     
     vertical = property(lambda self : self.edge in (LEFT, RIGHT))
     """
-    C{True} if the icons are on a vertical panel, that is: the edge is either LEFT or RIGHT.
+    C{True} if the icons are on a vertical panel, that is: the edge is either
+    LEFT or RIGHT.
     """
 
     hidden = property(lambda self : self.get_attribute('hidden'), 
                     lambda self, hidden : self.set_attribute('hidden', hidden))
-    """
-    C{True} if all icons except the main icon should be hidden.
-    """
+    """C{True} if all icons except the main icon should be hidden."""

@@ -1,31 +1,30 @@
 
+
 class Config(object):
     """
     A C{Config} is an object containing attributes. They can be added using the 
     L{add_attribute()} method, changed using L{set_attribute()} and accessed
     using L{get_attribute()}.
-    If an attribute is changed, an update function is called on all configurable
-    objects registered via L{add_configurable()}.
+    If an attribute is changed, an update function is called on all
+    configurable objects registered via L{add_configurable()}.
     """
 
     def __init__(self):
         """
         Creates a new C{Config}.
         """
-        object.__init__(self)
-        
         self.__attributes = {}
         self.__objects = []
 
-    def add_attribute(self, key, value, update_func = None, set_func = None):
+    def add_attribute(self, key, value, update_func=None, set_func=None):
         """
         Adds an attribute to the C{Config}.
         
         @param key: The key.
         @param value: The value.
         @param update_func: The name of a method that gets called on all 
-            configurable objects (registered via L{add_configurable()}) when the 
-            value of the attribute has changed.
+            configurable objects (registered via L{add_configurable()}) when
+            the value of the attribute has changed.
         @param set_func: The name of a method with signature 
             C{set_func(old_value, new_value)} that gets called on the C{Config} 
             when the value of the attribute has changed.

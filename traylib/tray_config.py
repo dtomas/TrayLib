@@ -23,4 +23,5 @@ class TrayConfig(Config):
     menus = property(lambda self : self.get_attribute('menus'),
                     lambda self, menus : self.set_attribute('menus', menus))
     separators = property(lambda self : self.get_attribute('separators'),
-                    lambda self, separators : self.set_attribute('separators', separators))
+                    lambda self, separators : self.set_attribute('separators',
+                                                                 separators))

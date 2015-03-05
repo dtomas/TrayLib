@@ -3,10 +3,8 @@ import gobject, wnck
 from traylib import *
 from traylib.icon import Icon
 from traylib.winicon_config import WinIconConfig
-from traylib.winmenu import (TYPE_SELECT, 
-                            TYPE_OPTIONS, 
-                            WindowMenu, 
-                            WindowActionMenu) 
+from traylib.winmenu import (TYPE_SELECT, TYPE_OPTIONS, WindowMenu, 
+                             WindowActionMenu) 
 
 
 class WinIcon(Icon):
@@ -20,8 +18,8 @@ class WinIcon(Icon):
         """
         Creates a new C{WinIcon}.
         
-        @param win_config: The C{WinConfig} controlling the configuration of the
-            C{WinIcon}.
+        @param win_config: The C{WinConfig} controlling the configuration of
+            the C{WinIcon}.
         """
 
         self.__win_config = win_config
@@ -55,7 +53,8 @@ class WinIcon(Icon):
     def update_windows(self):
         """
         Updates the list of visible windows. Also calls L{update_has_arrow()},
-        L{update_tooltip()}, L{update_zoom_factor()} and L{update_visibility()}.
+        L{update_tooltip()}, L{update_zoom_factor()} and
+        L{update_visibility()}.
         """
         self.__visible_windows = []
         for window in self.__windows:
@@ -360,7 +359,7 @@ class WinIcon(Icon):
         return True
 
 
-    # Methods called when config options of the associated WinIconConfig changed
+    # Methods called when config options of the associated WinIconConfig change
 
     def update_option_all_workspaces(self):
         self.update_windows()
@@ -387,28 +386,18 @@ class WinIcon(Icon):
 
 
     name = property(lambda self : self.__name)
-    """
-    The C{WinIcon}'s name.
-    """
+    """The C{WinIcon}'s name."""
     
     visible_windows = property(lambda self : self.__visible_windows)
-    """
-    The list of visible windows.
-    """
+    """The list of visible windows."""
     
-    has_active_window = property(lambda self : (SCREEN != None
-                                                 and SCREEN.get_active_window() 
-                                                     in self.__windows))
-    """
-    {True} if the C{WinIcon} has the active window.
-    """
+    has_active_window = property(lambda self : (SCREEN != None and
+                                                SCREEN.get_active_window() 
+                                                in self.__windows))
+    """{True} if the C{WinIcon} has the active window."""
 
     has_visible_windows = property(lambda self : bool(self.__visible_windows))
-    """
-    {True} if the C{WinIcon} has any visible windows.
-    """
+    """{True} if the C{WinIcon} has any visible windows."""
 
     has_windows = property(lambda self : bool(self.__windows))
-    """
-    {True} if the C{WinIcon} has any windows.
-    """
+    """{True} if the C{WinIcon} has any windows."""
