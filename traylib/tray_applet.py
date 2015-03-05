@@ -27,6 +27,8 @@ class TrayApplet(Applet, TrayContainer):
             edge = LEFT
         elif orientation == 'Right':
             edge = RIGHT
+        else:
+	    edge = 0
         icon_config.edge = edge
         icon_config.pos_func = self.position_menu
         vertical = orientation in ('Left', 'Right')
