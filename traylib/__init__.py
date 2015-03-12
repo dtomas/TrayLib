@@ -1,4 +1,3 @@
-import findrox; findrox.version(1, 9, 6)
 import rox, gtk, os
 import pixmaps
 
