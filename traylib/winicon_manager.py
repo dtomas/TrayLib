@@ -1,5 +1,5 @@
 from traylib.winicon import WinIcon
-from traylib.gui.icon_manager import IconManager
+from traylib.icon_manager import IconManager
 from traylib import SCREEN
 
 
@@ -45,14 +45,14 @@ class WinIconManager(IconManager):
     def __window_opened(self, screen, window):
         self.__window_handlers[window] = [window.connect("name_changed",
                                             self.__window_name_changed)]
-        for icon in self.__tray.icons:
+        for icon in self.tray.icons:
             if not isinstance(icon, WinIcon):
                 continue
             if icon.should_have_window(window):
                 icon.add_window(window)
 
     def __window_name_changed(self, window):
-        for icon in self.__tray.icons:
+        for icon in self.tray.icons:
             if not isinstance(icon, WinIcon):
                 continue
             if icon.should_have_window(window):
@@ -61,20 +61,20 @@ class WinIconManager(IconManager):
                 icon.remove_window(window)
 
     def __window_closed(self, screen, window):
-        for icon in self.__tray.icons:
+        for icon in self.tray.icons:
             icon.remove_window(window)
         for handler in self.__window_handlers[window]:
             window.disconnect(handler)
         self.__window_handlers[window] = []
 
     def __active_window_changed(self, screen, window = None):
-        for icon in self.__tray.icons:
+        for icon in self.tray.icons:
             if not isinstance(icon, WinIcon):
                 continue
             icon.update_zoom_factor()
 
     def __active_workspace_changed(self, screen, workspace = None):
-        for icon in self.__tray.icons:
+        for icon in self.tray.icons:
             if not isinstance(icon, WinIcon):
                 continue
             icon.update_windows()
