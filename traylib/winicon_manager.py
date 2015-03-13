@@ -1,6 +1,5 @@
 from traylib.winicon import WinIcon
 from traylib.icon_manager import IconManager
-from traylib import SCREEN
 
 
 class WinIconManager(IconManager):
@@ -12,6 +11,8 @@ class WinIconManager(IconManager):
 
     def init(self):
         screen = self.__screen
+        if screen is None:
+            return
         self.__window_opened_handler = screen.connect("window_opened", self.__window_opened)
         self.__window_closed_handler = screen.connect("window_closed", self.__window_closed)
         self.__active_window_changed_handler = screen.connect("active_window_changed", 
@@ -25,6 +26,8 @@ class WinIconManager(IconManager):
 
     def quit(self):
         screen = self.__screen
+        if screen is None:
+            return
         screen.disconnect(self.__window_opened_handler)
         screen.disconnect(self.__window_closed_handler)
         screen.disconnect(self.__active_window_changed_handler)
@@ -38,6 +41,8 @@ class WinIconManager(IconManager):
         if not isinstance(icon, WinIcon):
             return
         screen = self.__screen
+        if screen is None:
+            return
         for window in screen.get_windows():
             if icon.should_have_window(window):
                 icon.add_window(window)

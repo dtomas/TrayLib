@@ -1,4 +1,4 @@
-import gobject, wnck
+import gobject
 
 from traylib import *
 from traylib.icon import Icon
