@@ -1,4 +1,4 @@
-import rox, os, gobject, gtk, struct, wnck
+import rox, os, gobject, gtk, struct
 from rox import processes
 
 import traylib
