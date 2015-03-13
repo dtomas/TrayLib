@@ -38,7 +38,7 @@ def _kill(menu_item, pids, name):
             rox.processes.PipeThroughCommand(('kill', '-KILL', str(pid)), 
                                             None, None).wait()
 
-def _get_filer_window_path(window):
+def get_filer_window_path(window):
     name = window.get_name()
     if (window.get_class_group().get_name() != 'ROX-Filer'
         or not (name.startswith('/') or name.startswith('~'))):
@@ -181,7 +181,7 @@ class WindowActionMenu(gtk.Menu):
         path = self.__path + os.sep
         windows = []
         for window in self.__parent.get_windows():
-            window_path = os.path.expanduser(_get_filer_window_path(window))
+            window_path = os.path.expanduser(get_filer_window_path(window))
             if window_path and window_path.startswith(path):
                 windows.append(window)
         if not windows:
@@ -221,7 +221,7 @@ class WindowMenuItem(gtk.ImageMenuItem):
         """
         pixbuf = None
         self.__window = window
-        self.__path = _get_filer_window_path(window)
+        self.__path = get_filer_window_path(window)
         if self.__path:
             name = self.__path
             if root:
