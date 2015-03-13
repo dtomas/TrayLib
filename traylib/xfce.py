@@ -21,4 +21,4 @@ def install_panel_plugin(name, start_script):
         f.write('Icon=%s\n' % os.path.join(rox.app_dir, '.DirIcon'))
         f.write('X-XFCE-Exec=%s\n' % os.path.join(rox.app_dir, start_script))
 
-    rox.info("MediaTray has been installed as XFCE panel plugin.")
+    rox.info("%s has been installed as XFCE panel plugin." % name)
