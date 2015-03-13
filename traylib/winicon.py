@@ -387,6 +387,9 @@ class WinIcon(Icon):
 
     name = property(lambda self : self.__name)
     """The C{WinIcon}'s name."""
+
+    windows = property(lambda self : self.__windows)
+    """The icon's windows."""
     
     visible_windows = property(lambda self : self.__visible_windows)
     """The list of visible windows."""
