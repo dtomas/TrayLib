@@ -1,4 +1,5 @@
 import rox, os, gobject, gtk, struct
+from urllib import pathname2url
 from rox import processes
 
 import traylib
@@ -265,11 +266,13 @@ class WindowMenuItem(gtk.ImageMenuItem):
         pixbuf = scale_pixbuf_to_size(pixbuf, size)
         self.get_image().set_from_pixbuf(pixbuf)
 
-        self.drag_source_set(gtk.gdk.BUTTON1_MASK, 
-                            [("application/x-wnck-window-id", 
-                                0,
-                                TARGET_WNCK_WINDOW_ID)], 
-                            gtk.gdk.ACTION_MOVE)
+        targets = [("application/x-wnck-window-id", 0, TARGET_WNCK_WINDOW_ID)]
+        if self.__path:
+            targets.append(("text/uri-list", 0, TARGET_URI_LIST))
+        self.drag_source_set(
+            gtk.gdk.BUTTON1_MASK, targets, 
+            gtk.gdk.ACTION_MOVE | gtk.gdk.ACTION_COPY | gtk.gdk.ACTION_LINK
+        )
         self.connect("drag-begin", self.__drag_begin, pixbuf)
         self.connect("drag-data-get", self.__drag_data_get)
 
@@ -278,8 +281,11 @@ class WindowMenuItem(gtk.ImageMenuItem):
         context.set_icon_pixbuf(pixbuf, 0,0)
     
     def __drag_data_get(self, widget, context, data, info, time):
-        xid = self.__window.get_xid()
-        data.set(data.target, 8, apply(struct.pack, ['1i', xid]))
+        if info == TARGET_WNCK_WINDOW_ID:
+            xid = self.__window.get_xid()
+            data.set(data.target, 8, apply(struct.pack, ['1i', xid]))
+        else:
+            data.set_uris(['file://%s' % pathname2url(self.__path)])
 
     def get_path(self):
         return self.__path
