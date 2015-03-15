@@ -6,7 +6,8 @@ class Attribute(object):
     # This is set by ConfigMeta.
     _attr = None
 
-    def __init__(self, update_func=None, set_func=None):
+    def __init__(self, update_func=None, set_func=None, default=None):
+        self._default = default
         self._update_func = update_func
         self._set_func = set_func
 
@@ -15,6 +16,7 @@ class Attribute(object):
             return
         obj.add_attribute(
             self._attr,
+            self._default,
             self._update_func if self._update_func is not None
             else 'update_%s' % self._attr,
             self._set_func if self._set_func is not None

@@ -43,7 +43,7 @@ class IconConfig(Config):
                         pos_func=pos_func, hidden=hidden)
         self.__arrow = None
 
-    def update_arrow(self, old_edge, edge):
+    def arrow_changed(self, old_edge, edge):
         if edge == LEFT:
             pixmap = pixmaps.right
         elif edge == RIGHT:
