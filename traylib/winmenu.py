@@ -408,6 +408,8 @@ class WindowMenu(gtk.Menu):
             window.close(gtk.get_current_event_time())
 
     def __window_selected(self, menu_item, window, time):
+        window.get_workspace().activate(time)
+        window.unminimize(time)
         window.activate(time)
 
     def __scroll(self, menu_item, event, window):
