@@ -1,5 +1,47 @@
 
 
+class Attribute(object):
+    """Descriptor adding an attribute to a L{Config} class."""
+
+    # This is set by ConfigMeta.
+    _attr = None
+
+    def __init__(self, update_func=None, set_func=None):
+        self._update_func = update_func
+        self._set_func = set_func
+
+    def _ensure_attribute(self, obj):
+        if obj.has_attribute(self._attr):
+            return
+        obj.add_attribute(
+            self._attr,
+            self._update_func if self._update_func is not None
+            else 'update_%s' % self._attr,
+            self._set_func if self._set_func is not None
+            else '%s_changed' % self._attr,
+        )
+
+    def __get__(self, obj, objtype=None):
+        if obj is None:
+            return self
+        self._ensure_attribute(obj)
+        return obj.get_attribute(self._attr)
+
+    def __set__(self, obj, value):
+        self._ensure_attribute(obj)
+        obj.set_attribute(self._attr, value)
+
+
+class ConfigMeta(type):
+
+    def __init__(self, name, bases, attrs):
+        type.__init__(self, name, bases, attrs)
+        for key, attr in attrs.iteritems():
+            if not isinstance(attr, Attribute):
+                continue
+            attr._attr = key
+
+
 class Config(object):
     """
     A C{Config} is an object containing attributes. They can be added using the 
@@ -9,12 +51,24 @@ class Config(object):
     configurable objects registered via L{add_configurable()}.
     """
 
-    def __init__(self):
+    __metaclass__ = ConfigMeta
+
+    def __init__(self, **attrs):
         """
         Creates a new C{Config}.
         """
         self.__attributes = {}
         self.__objects = []
+        for key, value in attrs.iteritems():
+            setattr(self, key, value)
+
+    def has_attribute(self, key):
+        """
+        Returns C{True} if the object has an attribute of the given name.
+
+        @param key: The key.
+        """
+        return key in self.__attributes
 
     def add_attribute(self, key, value, update_func=None, set_func=None):
         """
@@ -30,7 +84,7 @@ class Config(object):
             when the value of the attribute has changed.
         """
         self.__attributes[key] = (value, update_func, set_func)
-        if set_func:
+        if set_func and hasattr(self, set_func):
             getattr(self, set_func)(None, value)
 
     def set_attribute(self, key, value):
@@ -46,7 +100,7 @@ class Config(object):
         if old_value == value:
             return
         self.__attributes[key] = (value, update_func, set_func)
-        if set_func:
+        if set_func and hasattr(self, set_func):
             getattr(self, set_func)(old_value, value)
 
         if update_func:

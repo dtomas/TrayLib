@@ -2,6 +2,10 @@
 			Library for tray-like applets
 			by Dennis Tomas
 
+0.4.2 (unreleased)
+~~~~~
+- Introduced Attribute descriptor, for fewer LOC in config classes.
+
 0.4.1
 ~~~~~
 - winmenu: Activate the window's workspace when activating a window menu item.

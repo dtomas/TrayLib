@@ -35,12 +35,18 @@ class Main(object):
             separators |= LEFT
         if self.__o_separator_right.int_value:
             separators |= RIGHT
-        self.__icon_config = IconConfig(16, 0, 
-                                        self.__o_effects.int_value, 
-                                        None, 
-                                        self.__o_hidden.int_value)
-        self.__tray_config = TrayConfig(self.name, self.__o_menus.int_value,
-                                        separators)
+        self.__icon_config = IconConfig(
+            size=16,
+            edge=0,
+            effects=self.__o_effects.int_value, 
+            pos_func=None, 
+            hidden=self.__o_hidden.int_value
+        )
+        self.__tray_config = TrayConfig(
+            name=self.name,
+            menus=self.__o_menus.int_value,
+            separators=separators,
+        )
 
     def mainloop(self, app_args, tray_class, *tray_args):
         """
