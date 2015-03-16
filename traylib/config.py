@@ -18,9 +18,9 @@ class Attribute(object):
             self._attr,
             self._default,
             self._update_func if self._update_func is not None
-            else 'update_%s' % self._attr,
+            else 'update_option_%s' % self._attr,
             self._set_func if self._set_func is not None
-            else '%s_changed' % self._attr,
+            else 'option_%s_changed' % self._attr,
         )
 
     def __get__(self, obj, objtype=None):

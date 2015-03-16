@@ -10,22 +10,22 @@ class IconConfig(Config):
     arrow = property(lambda self : self.__arrow)
     """The arrow pixmap."""
 
-    size = Attribute('update_option_size')
+    size = Attribute(default=32)
     """The size of the icons.""" 
 
-    edge = Attribute('update_option_edge')
+    edge = Attribute(default=0)
     """
     The edge of the screen where the icons are put. One of C{0}, C{TOP},
     C{BOTTOM}, C{LEFT}, C{RIGHT}.
     """
 
-    effects = Attribute('update_option_effects')
+    effects = Attribute(default=True)
     """C{True} if effects such as smooth zooming should be shown."""
 
-    hidden = Attribute('update_option_hidden')
+    hidden = Attribute(default=False)
     """C{True} if all icons except the main icon should be hidden."""
 
-    pos_func = Attribute()
+    pos_func = Attribute(default=None)
     """The function for positioning the menu (may be None)."""
     
     vertical = property(lambda self : self.edge in (LEFT, RIGHT))
@@ -43,7 +43,7 @@ class IconConfig(Config):
                         pos_func=pos_func, hidden=hidden)
         self.__arrow = None
 
-    def arrow_changed(self, old_edge, edge):
+    def option_arrow_changed(self, old_edge, edge):
         if edge == LEFT:
             pixmap = pixmaps.right
         elif edge == RIGHT:

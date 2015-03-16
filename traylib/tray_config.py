@@ -3,14 +3,14 @@ from traylib.config import Config, Attribute
 
 
 class TrayConfig(Config):
-    name = Attribute('update_option_name')
+    name = Attribute()
     """The name of the tray."""
 
-    menus = Attribute('update_option_menus')
+    menus = Attribute(default=LEFT)
     """
     Where to show boxes for the main menu: C{LEFT}, C{RIGHT} or C{LEFT|RIGHT}.
     """
-    separators = Attribute('update_option_separators')
+    separators = Attribute(default=0)
     """Where to show separators (may be C{0})."""
     
     # Constructor is kept for compatibility reasons, as there might be clients
