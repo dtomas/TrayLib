@@ -4,6 +4,8 @@
 
 0.4.2 (unreleased)
 ~~~~~
+- Added argument side to Tray.add_box().
+- Methods Tray.remove_box(), Tray.clear_box().
 - Introduced Attribute descriptor, for fewer LOC in config classes.
 
 0.4.1

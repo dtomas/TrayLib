@@ -34,6 +34,7 @@ class Tray(object):
 
         self.__icons = {}
         self.__boxes = {}
+        self.__box_separators = {}
 
         if self.__icon_config.vertical:
             self.__separator_left = gtk.HSeparator()
@@ -68,12 +69,14 @@ class Tray(object):
 
         self.__main_box.connect("destroy", self.__main_box_destroyed)
 
-    def add_box(self, box_id, separator = False):
+    def add_box(self, box_id, separator = False, side = LEFT):
         """
         Adds a box to the C{Tray} to which icons can be added via the 
         L{add_icon()} method.
         
         @param box_id: An identifier for the box.
+        @param separator: Whether to put a separator before/after the box.
+        @param side: Where to add the box (C{LEFT}, C{RIGHT}).
         """
         assert box_id not in self.__boxes
 
@@ -89,10 +92,52 @@ class Tray(object):
             else:
                 separator = gtk.VSeparator()
             separator.show()
-            self.__box.pack_start(separator)
+            if side == LEFT:
+                self.__box.pack_start(separator)
+            else:
+                self.__box.pack_end(separator)
+            self.__box_separators[box_id] = separator
 
-        self.__box.pack_start(box)
+        if side == LEFT:
+            self.__box.pack_start(box)
+        else:
+            self.__box.pack_end(box)
+
         self.__boxes[box_id] = box
+        self.__icons[box_id] = {}
+
+    def remove_box(self, box_id):
+        """
+        Removes the box with the given ID.
+
+        @param box_id: The identifier of the box.
+        """
+        self.__boxes[box_id].destroy()
+        del self.__icons[box_id]
+        del self.__boxes[box_id]
+        try:
+            del self.__box_separators[box_id]
+        except KeyError:
+            pass
+
+    def has_box(self, box_id):
+        """
+        Returns C{True} if the tray has a box with the given ID.
+
+        @param box_id: The identifier of the box.
+
+        @return: C{True} if the tray has a box with the given ID.
+        """
+        return box_id in self.__boxes
+
+    def clear_box(self, box_id):
+        """
+        Removes all icons in a box.
+
+        @param box_id: The box to be cleared.
+        """
+        for icon_id in list(self.__icons[box_id]):
+            self.remove_icon(icon_id)
         
     def add_icon(self, box_id, icon_id, icon):
         """
@@ -103,7 +148,7 @@ class Tray(object):
         @param icon: The C{Icon} to be added.
         """
         self.__boxes[box_id].pack_start(icon)
-        self.__icons[icon_id] = icon
+        self.__icons[box_id][icon_id] = icon
 
     def remove_icon(self, icon_id):
         """
@@ -111,9 +156,14 @@ class Tray(object):
         
         @param icon_id: The identifier of the icon.
         """
-        icon = self.__icons[icon_id]
-        icon.destroy()
-        del self.__icons[icon_id]
+        for icons in self.__icons.itervalues():
+            try:
+                icon = icons[icon_id]
+            except KeyError:
+                pass
+            else:
+                icon.destroy()
+                del icons[icon_id]
         
     def destroy(self):
         """
@@ -142,7 +192,10 @@ class Tray(object):
         @return: The C{Icon} with the identifier C{id}. Returns C{None} if the 
             C{Tray} has no C{Icon} with the identifier C{id}. 
         """
-        return self.__icons.get(id)
+        for icons in self.__icons.itervalues():
+            icon = icons.get(id)
+            if icon is not None:
+                return icon
 
     def set_container(self, container):
         """
@@ -220,8 +273,18 @@ class Tray(object):
         """
         pass
 
+    @property
+    def icon_ids(self):
+        for icons in self.__icons.itervalues():
+            for icon_id in icons.iterkeys():
+                yield icon_id
+
+    @property
+    def icons(self):
+        for icons in self.__icons.itervalues():
+            for icon in icons.itervalues():
+                yield icon
+
     icon_config = property(lambda self : self.__icon_config)
     tray_config = property(lambda self : self.__tray_config)
-    icon_ids = property(lambda self : self.__icons.keys())
-    icons = property(lambda self : self.__icons.values())
     menu_icon = property(lambda self : self.__menu_icon)

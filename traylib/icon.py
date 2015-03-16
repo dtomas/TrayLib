@@ -4,10 +4,8 @@ from traylib import *
 from traylib.icon_config import IconConfig
 from traylib.pixbuf_helper import *
 
-_targets = [
-    ("text/uri-list", 0, TARGET_URI_LIST),
-    ("text/x-moz-url", 0, TARGET_MOZ_URL)
-]
+_targets = [("text/uri-list", 0, TARGET_URI_LIST),
+            ("text/x-moz-url", 0, TARGET_MOZ_URL)]
 
 
 MAX_SIZE = 128
@@ -34,6 +32,7 @@ class Icon(gtk.EventBox, object):
         @param config: The L{IconConfig} controlling the configuration of this
             C{Icon}.
         """
+
         gtk.EventBox.__init__(self)
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
         
@@ -137,6 +136,8 @@ class Icon(gtk.EventBox, object):
         """Updates the emblem by calling L{make_emblem()}"""
         old_emblem = self.__emblem_orig
         self.__emblem_orig = self.make_emblem()
+        assert (self.__emblem_orig == None 
+                or isinstance(self.__emblem_orig, gtk.gdk.Pixbuf))
         if self.__emblem_orig:
             self.__emblem_scaled = scale_pixbuf_to_size(self.__emblem_orig,
                                                         self.__max_size/3,
@@ -152,6 +153,8 @@ class Icon(gtk.EventBox, object):
         """Updates the icon by calling L{make_icon()}"""
         old_pixbuf = self.__pixbuf
         self.__pixbuf = self.make_icon()
+        assert (self.__pixbuf == None 
+                or isinstance(self.__pixbuf, gtk.gdk.Pixbuf))
         if (self.__pixbuf and (self.__pixbuf.get_width() >= MAX_SIZE 
                         or self.__pixbuf.get_height() >= MAX_SIZE)):
             self.__pixbuf = scale_pixbuf_to_size(self.__pixbuf, MAX_SIZE, False)
@@ -173,6 +176,8 @@ class Icon(gtk.EventBox, object):
     def update_tooltip(self):
         """Updates the tooltip by calling L{make_tooltip()}"""
         self.__tooltip = self.make_tooltip()
+        assert (self.__tooltip == None or isinstance(self.__tooltip, str)
+                or isinstance(self.__tooltip, unicode))
         TOOLTIPS.set_tip(self, self.__tooltip)
 
     def update_visibility(self):
@@ -186,6 +191,7 @@ class Icon(gtk.EventBox, object):
         """Updates the zoom factor by calling L{make_zoom_factor()}."""
         old_zoom_factor = self.__zoom_factor
         self.__zoom_factor = max(0.0, min(self.make_zoom_factor(), 1.5))
+        assert isinstance(self.__zoom_factor, float)
         if old_zoom_factor != self.__zoom_factor:
             self._refresh()
 
@@ -776,31 +782,51 @@ class Icon(gtk.EventBox, object):
         return 1.0
 
     icon = property(lambda self : self.__pixbuf)
-    """The pixbuf of the C{Icon}."""
+    """
+    The pixbuf of the C{Icon}.
+    """
 
     icon_config = property(lambda self : self.__config)
-    """The C{Icon}'s configuration."""
+    """
+    The C{Icon}'s configuration.
+    """
     
     icon_names = property(lambda self : self.get_icon_names())
-    """The icon names returned by L{get_icon_names()}."""
+    """
+    The icon names returned by L{get_icon_names()}.
+    """
     
     icon_path = property(lambda self : self.get_icon_path())
-    """The icon path returned by L{get_icon_path()}."""
+    """
+    The icon path returned by L{get_icon_path()}.
+    """
     
     icon_pixbuf = property(lambda self : self.get_icon_pixbuf())
-    """The pixbuf returned by L{get_icon_pixbuf()}."""
+    """
+    The pixbuf returned by L{get_icon_pixbuf()}.
+    """
 
     size = property(lambda self : self.__config.size)
-    """The size of the C{Icon}."""
+    """
+    The size of the C{Icon}.
+    """
 
     tooltip = property(lambda self : self.__tooltip)
-    """The tooltip of the C{Icon}."""
+    """
+    The tooltip of the C{Icon}.
+    """
     
     has_arrow = property(lambda self : self.__has_arrow)
-    """C{True} if the C{Icon} has an arrow."""
+    """
+    C{True} if the C{Icon} has an arrow.
+    """
 
     has_themed_icon = property(lambda self : self.__has_themed_icon)
-    """C{True} if the C{Icon}'s pixbuf comes from an icon theme."""
+    """
+    C{True} if the C{Icon}'s pixbuf comes from an icon theme.
+    """
 
     is_drop_target = property(lambda self : self.__is_drop_target)
-    """C{True} if uris can be dropped on the C{Icon}."""
+    """
+    C{True} if uris can be dropped on the C{Icon}. 
+    """
