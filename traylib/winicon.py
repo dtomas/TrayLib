@@ -65,6 +65,17 @@ class WinIcon(Icon):
         self.update_zoom_factor()
         self.update_visibility()
 
+    def update_blinking(self):
+        """
+        Makes the icon blink If one or more windows need attention.
+        """
+        for window in self.__windows:
+            if window.needs_attention():
+                self.set_blinking(True)
+                break
+        else:
+            self.set_blinking(False)
+
     def activate_next_window(self, time = 0L):
         """
         If the active window is in the C{WinIcon}'s list of visible windows, 
@@ -131,6 +142,7 @@ class WinIcon(Icon):
         self.update_zoom_factor()
         self.update_tooltip()
         self.update_visibility()
+        self.update_blinking()
 
     def remove_window(self, window):
         """
@@ -163,7 +175,8 @@ class WinIcon(Icon):
             and (self.__win_config.all_workspaces
                 or window.get_workspace() == SCREEN.get_active_workspace()
                 or window.is_pinned()
-                or window.is_sticky()))
+                or window.is_sticky())
+            or window.needs_attention())
 
 
     # Signal callbacks
@@ -176,12 +189,10 @@ class WinIcon(Icon):
         self.update_tooltip()
         self.update_zoom_factor()
         self.update_visibility()
+        self.update_has_arrow()
         if changed_mask & (wnck.WINDOW_STATE_DEMANDS_ATTENTION
                             | wnck.WINDOW_STATE_URGENT):
-            if window.needs_attention():
-                self.set_blinking(True)
-            else:
-                self.set_blinking(False)
+            self.update_blinking()
 
     def __window_name_changed(self, window):
         self.__update_window_visibility(window)
