@@ -30,19 +30,24 @@ if not XDG_DATA_DIRS:
     XDG_DATA_DIRS = ['/usr/share', '/usr/local/share']
 else:
     XDG_DATA_DIRS = XDG_DATA_DIRS.split(os.pathsep)
-    
+
+XDG_DATA_HOME = os.getenv("XDG_DATA_HOME")
+if not XDG_DATA_HOME:
+    XDG_DATA_HOME = os.path.expanduser(os.path.join('~', '.local', 'share'))
+
+XDG_DATA_DIRS.insert(0, XDG_DATA_HOME)
+
 XDG_CONFIG_DIRS = os.getenv("XDG_CONFIG_DIRS")
 if XDG_CONFIG_DIRS:
-    XDG_CONFIG_DIRS = XDG_CONFIG_DIRS.split(':')
+    XDG_CONFIG_DIRS = XDG_CONFIG_DIRS.split(os.pathsep)
 else:
     XDG_CONFIG_DIRS = ['/etc/xdg']
 
 XDG_CONFIG_HOME = os.getenv("XDG_CONFIG_HOME")
-if XDG_CONFIG_HOME:
-    XDG_CONFIG_DIRS.append(XDG_CONFIG_HOME)
-else:
-    XDG_CONFIG_HOME = os.path.expanduser('~/.config')
-    XDG_CONFIG_DIRS.insert(0, XDG_CONFIG_HOME)
+if not XDG_CONFIG_HOME:
+    XDG_CONFIG_HOME = os.path.expanduser(os.path.join('~', '.config'))
+
+XDG_CONFIG_DIRS.insert(0, XDG_CONFIG_HOME)
 
 XDG_CACHE_HOME = os.getenv("XDG_CACHE_HOME")
 if not XDG_CACHE_HOME:

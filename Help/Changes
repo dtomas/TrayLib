@@ -4,6 +4,7 @@
 
 0.4.2 (unreleased)
 ~~~~~
+- Include $XDG_DATA_HOME in XDG_DATA_DIRS.
 - Added argument side to Tray.add_box().
 - Methods Tray.remove_box(), Tray.clear_box().
 - Introduced Attribute descriptor, for fewer LOC in config classes.
