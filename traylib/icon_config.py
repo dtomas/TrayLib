@@ -42,6 +42,7 @@ class IconConfig(Config):
         Config.__init__(self, size=size, edge=edge, effects=effects,
                         pos_func=pos_func, hidden=hidden)
         self.__arrow = None
+        self.option_edge_changed(None, edge)
 
     def option_edge_changed(self, old_edge, edge):
         if edge == LEFT:
