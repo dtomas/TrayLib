@@ -10,7 +10,6 @@ from rox.basedir import xdg_config_home as XDG_CONFIG_HOME
 from rox.basedir import xdg_config_dirs as XDG_CONFIG_DIRS
 from rox.basedir import xdg_data_home as XDG_DATA_HOME
 from rox.basedir import xdg_data_dirs as XDG_DATA_DIRS
-from rox import file_monitor as dir_monitor
 
 from traylib import pixmaps
 
