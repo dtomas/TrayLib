@@ -1,5 +1,3 @@
-import gobject
-
 from traylib import *
 from traylib.icon import Icon
 from traylib.winicon_config import WinIconConfig

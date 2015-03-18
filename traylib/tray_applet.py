@@ -1,4 +1,3 @@
-from rox import applet
 from rox.applet import Applet
 
 from traylib import *

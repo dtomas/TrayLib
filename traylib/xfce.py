@@ -1,19 +1,18 @@
-import sys
 import os
 
 import rox
 
-from traylib import XDG_DATA_DIRS
+from rox.basedir import xdg_data_dirs
 
 
 def install_panel_plugin(name, start_script):
-    for data_dir in XDG_DATA_DIRS:
+    for data_dir in xdg_data_dirs:
         panel_plugins_dir = os.path.join(data_dir, 'xfce4', 'panel-plugins')
         if os.path.isdir(panel_plugins_dir):
             break
     else:
         rox.croak("XFCE4 panel plugins directory not found!")
-        sys.exit(1)
+        return
 
     with open(os.path.join(panel_plugins_dir, '%s.desktop' % name), 'w') as f:
         f.write('[Xfce Panel]\n')

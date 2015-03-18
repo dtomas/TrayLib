@@ -1,5 +1,6 @@
 import gtk
 
+
 def scale_pixbuf_to_size(pixbuf, size, scale_up = True):
     """
     Returns a pixbuf scaled to the given size. 

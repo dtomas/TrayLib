@@ -1,4 +1,5 @@
-import gtk, gobject
+import gtk
+import gobject
 
 from traylib import *
 from traylib.icon_config import IconConfig

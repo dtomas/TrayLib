@@ -1,14 +1,17 @@
-import rox, os, gobject, gtk, struct
+import os
+import struct
 from urllib import pathname2url
-from rox import processes
+
+import gtk
+import rox
 
 import traylib
 from traylib import *
 from pixbuf_helper import *
 
-_ = rox.i18n.translation(
-    os.path.join(os.path.dirname(os.path.dirname(
-        os.path.dirname(traylib.__file__))), 'Messages'))
+
+_ = rox.i18n.translation(rox.app_dir, 'Messages')
+
 
 def _load_icons(icon_theme):
     global dir_icon, home_icon
@@ -27,10 +30,12 @@ def _load_icons(icon_theme):
         except:
             pass
 
+
 home_icon = None
 dir_icon = None
 ICON_THEME.connect("changed", _load_icons)
 _load_icons(ICON_THEME)
+
 
 def _kill(menu_item, pids, name):
     if rox.confirm(_("Really force %s to quit?") % name,
@@ -38,6 +43,7 @@ def _kill(menu_item, pids, name):
         for pid in pids:
             rox.processes.PipeThroughCommand(('kill', '-KILL', str(pid)), 
                                             None, None).wait()
+
 
 def get_filer_window_path(window):
     name = window.get_name()
@@ -49,6 +55,7 @@ def get_filer_window_path(window):
             name = name[:-(i+1)]
             break
     return name
+
 
 class WindowActionMenu(gtk.Menu):
     """
@@ -209,6 +216,7 @@ class WindowActionMenu(gtk.Menu):
         self.__window.unshade()
         self.__window.minimize()
 
+
 class WindowMenuItem(gtk.ImageMenuItem):
     """
     A menu item representing a window.
@@ -290,11 +298,13 @@ class WindowMenuItem(gtk.ImageMenuItem):
     def get_path(self):
         return self.__path
 
+
 # the type of a WindowMenu from which windows can be selected
 TYPE_SELECT = 0
 
 # the type of a WindowMenu which shows options for each window in a submenu
 TYPE_OPTIONS = 1
+
 
 class WindowMenu(gtk.Menu):
     """

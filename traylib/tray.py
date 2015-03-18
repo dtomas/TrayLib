@@ -1,6 +1,7 @@
-import gtk, gobject, os, rox
-from rox import filer, InfoWin
-from rox.tasks import Task
+import os
+
+import gtk
+import rox
 
 import traylib
 from traylib import *
@@ -10,10 +11,8 @@ from traylib.icon import Icon
 from traylib.tray_config import TrayConfig
 from traylib.menu_icon import MenuIcon
 
-_ = rox.i18n.translation(
-    os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(traylib.__file__))),
-        'Messages'))
+
+_ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
 
 
 class Tray(object):
