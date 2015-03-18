@@ -14,8 +14,7 @@ from rox.basedir import xdg_data_dirs as XDG_DATA_DIRS
 from traylib import pixmaps
 
 
-
-version = (0, 3, 0)
+version = (0, 4, 2)
 
 try:
     import wnck
