@@ -1,4 +1,4 @@
-from traylib import *
+from traylib import LEFT
 from traylib.config import Config, Attribute
 
 

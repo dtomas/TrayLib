@@ -1,4 +1,3 @@
-from traylib import *
 from traylib.tray import Tray, TrayConfig 
 from traylib.icon import IconConfig
 

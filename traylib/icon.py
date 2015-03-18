@@ -1,9 +1,13 @@
 import gtk
 import gobject
 
-from traylib import *
+from traylib import (
+    LEFT, RIGHT, TOP, BOTTOM, TOOLTIPS, ICON_THEME, TARGET_URI_LIST,
+    TARGET_MOZ_URL
+)
 from traylib.icon_config import IconConfig
-from traylib.pixbuf_helper import *
+from traylib.pixbuf_helper import scale_pixbuf_to_size
+
 
 _targets = [("text/uri-list", 0, TARGET_URI_LIST),
             ("text/x-moz-url", 0, TARGET_MOZ_URL)]

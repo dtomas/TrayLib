@@ -1,4 +1,4 @@
-from traylib import *
+from traylib import wnck, SCREEN
 from traylib.icon import Icon
 from traylib.winicon_config import WinIconConfig
 from traylib.winmenu import (TYPE_SELECT, TYPE_OPTIONS, WindowMenu, 

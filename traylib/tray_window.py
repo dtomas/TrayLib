@@ -1,6 +1,5 @@
 from rox import Window
 
-from traylib import *
 from traylib.tray_container import TrayContainer 
 
 

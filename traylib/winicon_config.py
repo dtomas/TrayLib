@@ -1,4 +1,3 @@
-from traylib import *
 from traylib.config import Config, Attribute
 
 

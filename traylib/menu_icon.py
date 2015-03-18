@@ -1,6 +1,10 @@
+import os
+
+import gtk
+
+import rox
 from rox import filer, InfoWin
 
-from traylib import *
 from traylib.icon import Icon
 
 

@@ -1,7 +1,7 @@
 import rox
 from rox.options import Option
 
-from traylib import *
+from traylib import LEFT, RIGHT, TOP, BOTTOM
 from traylib.tray_window import TrayWindow
 from traylib.tray_applet import TrayApplet
 from traylib.icon_config import IconConfig

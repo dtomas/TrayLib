@@ -5,12 +5,13 @@ from urllib import pathname2url
 import gtk
 import rox
 
-import traylib
-from traylib import *
-from pixbuf_helper import *
+from traylib import (
+    ICON_THEME, SCREEN, TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, wnck
+)
+from traylib.pixbuf_helper import scale_pixbuf_to_size
 
 
-_ = rox.i18n.translation(rox.app_dir, 'Messages')
+_ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
 
 
 def _load_icons(icon_theme):

@@ -1,4 +1,6 @@
-from traylib import *
+import gtk
+
+from traylib import LEFT, RIGHT, TOP, BOTTOM, pixmaps
 from traylib.config import Config, Attribute
 
 

@@ -1,6 +1,6 @@
 from rox.applet import Applet
 
-from traylib import *
+from traylib import LEFT, RIGHT, TOP, BOTTOM
 from traylib.tray_container import TrayContainer
 
 

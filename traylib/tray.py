@@ -4,7 +4,7 @@ import gtk
 import rox
 
 import traylib
-from traylib import *
+from traylib import LEFT, RIGHT
 import traylib.pixmaps as pixmaps
 from traylib.config import Config
 from traylib.icon import Icon
@@ -68,7 +68,7 @@ class Tray(object):
 
         self.__main_box.connect("destroy", self.__main_box_destroyed)
 
-    def add_box(self, box_id, separator = False, side = LEFT):
+    def add_box(self, box_id, separator=False, side=LEFT):
         """
         Adds a box to the C{Tray} to which icons can be added via the 
         L{add_icon()} method.
