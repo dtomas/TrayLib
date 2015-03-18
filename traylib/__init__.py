@@ -1,5 +1,20 @@
-import rox, gtk, os
-import pixmaps
+import os
+
+import gtk
+
+import rox
+
+# These are just for backwards compatibility and may be removed in next
+# major version.
+from rox.basedir import xdg_config_home as XDG_CONFIG_HOME
+from rox.basedir import xdg_config_dirs as XDG_CONFIG_DIRS
+from rox.basedir import xdg_data_home as XDG_DATA_HOME
+from rox.basedir import xdg_data_dirs as XDG_DATA_DIRS
+from rox import file_monitor as dir_monitor
+
+from traylib import pixmaps
+
+
 
 version = (0, 3, 0)
 
@@ -24,30 +39,6 @@ LEFT = 1
 RIGHT = 2
 TOP = 3
 BOTTOM = 4
-
-XDG_DATA_DIRS = os.getenv("XDG_DATA_DIRS")
-if not XDG_DATA_DIRS:
-    XDG_DATA_DIRS = ['/usr/share', '/usr/local/share']
-else:
-    XDG_DATA_DIRS = XDG_DATA_DIRS.split(os.pathsep)
-
-XDG_DATA_HOME = os.getenv("XDG_DATA_HOME")
-if not XDG_DATA_HOME:
-    XDG_DATA_HOME = os.path.expanduser(os.path.join('~', '.local', 'share'))
-
-XDG_DATA_DIRS.insert(0, XDG_DATA_HOME)
-
-XDG_CONFIG_DIRS = os.getenv("XDG_CONFIG_DIRS")
-if XDG_CONFIG_DIRS:
-    XDG_CONFIG_DIRS = XDG_CONFIG_DIRS.split(os.pathsep)
-else:
-    XDG_CONFIG_DIRS = ['/etc/xdg']
-
-XDG_CONFIG_HOME = os.getenv("XDG_CONFIG_HOME")
-if not XDG_CONFIG_HOME:
-    XDG_CONFIG_HOME = os.path.expanduser(os.path.join('~', '.config'))
-
-XDG_CONFIG_DIRS.insert(0, XDG_CONFIG_HOME)
 
 XDG_CACHE_HOME = os.getenv("XDG_CACHE_HOME")
 if not XDG_CACHE_HOME:
