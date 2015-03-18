@@ -5,6 +5,7 @@ import gtk
 import rox
 from rox import filer, InfoWin
 
+from traylib import _
 from traylib.icon import Icon
 
 

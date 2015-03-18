@@ -12,9 +12,6 @@ from traylib.tray_config import TrayConfig
 from traylib.menu_icon import MenuIcon
 
 
-_ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
-
-
 class Tray(object):
 
     def __init__(self, icon_config, tray_config, menu_icon_class=MenuIcon):

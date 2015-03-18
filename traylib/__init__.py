@@ -14,6 +14,11 @@ from rox.basedir import xdg_data_dirs as XDG_DATA_DIRS
 from traylib import pixmaps
 
 
+_ = rox.i18n.translation(
+    os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Messages')
+)
+
+
 version = (0, 4, 2)
 
 try:

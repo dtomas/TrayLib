@@ -6,12 +6,9 @@ import gtk
 import rox
 
 from traylib import (
-    ICON_THEME, SCREEN, TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, wnck
+    ICON_THEME, SCREEN, TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, wnck, _
 )
 from traylib.pixbuf_helper import scale_pixbuf_to_size
-
-
-_ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
 
 
 def _load_icons(icon_theme):
