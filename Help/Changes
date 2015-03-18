@@ -4,6 +4,8 @@
 
 0.4.2 (unreleased)
 ~~~~~
+- Tidied up a bit.
+- Removed some unused modules.
 - Copied dir_monitor to rox-lib (will be removed in 0.5).
 - Get XDG_* variables from rox-lib (will be removed in 0.5).
 - Added argument side to Tray.add_box().
