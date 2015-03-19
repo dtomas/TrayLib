@@ -13,8 +13,3 @@ class WinIconConfig(Config):
     C{True}, if the L{WinIcon}s associated with the C{WinIconConfig} should
     have an arrow on them when they have more than one visible window.
     """
-
-    # Constructor is kept for compatibility reasons, as there might be clients
-    # passing positional parameters.
-    def __init__(self, all_workspaces, arrow):
-        Config.__init__(self, all_workspaces=all_workspaces, arrow=arrow)

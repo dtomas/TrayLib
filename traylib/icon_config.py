@@ -36,13 +36,10 @@ class IconConfig(Config):
     LEFT or RIGHT.
     """
 
-    # Constructor is kept for compatibility reasons, as there might be clients
-    # passing positional parameters.
-    def __init__(self, size, edge, effects, pos_func, hidden):
-        assert size > 0
-        assert edge in (0, TOP, BOTTOM, LEFT, RIGHT)
-        Config.__init__(self, size=size, edge=edge, effects=effects,
-                        pos_func=pos_func, hidden=hidden)
+    def __init__(self, **kwargs):
+        assert kwargs['size'] > 0
+        assert kwargs['edge'] in (0, TOP, BOTTOM, LEFT, RIGHT)
+        Config.__init__(self, **kwargs)
         self.add_configurable(self)
         self.update_option_edge()
 

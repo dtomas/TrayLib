@@ -6,7 +6,7 @@ import gtk
 import rox
 
 from traylib import (
-    ICON_THEME, SCREEN, TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, wnck, _
+    ICON_THEME, TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, wnck, _
 )
 from traylib.pixbuf_helper import scale_pixbuf_to_size
 
@@ -73,6 +73,7 @@ class WindowActionMenu(gtk.Menu):
         gtk.Menu.__init__(self)
     
         self.__window = window
+        screen = window.get_screen()
         if path:
             self.__path = os.path.expanduser(path)
         else:
@@ -143,15 +144,15 @@ class WindowActionMenu(gtk.Menu):
             item.set_sensitive(wnck.WINDOW_ACTION_STICK & actions)
         self.append(item)
     
-        if SCREEN.get_workspace_count() > 1:
+        if screen.get_workspace_count() > 1:
             item = gtk.ImageMenuItem(_("Move to workspace"))
             item.get_image().set_from_stock(gtk.STOCK_JUMP_TO, 
                                             gtk.ICON_SIZE_MENU)
             self.append(item)
             submenu = gtk.Menu()
             item.set_submenu(submenu)
-            for i in range(0, SCREEN.get_workspace_count()):
-                workspace = SCREEN.get_workspace(i)
+            for i in range(0, screen.get_workspace_count()):
+                workspace = screen.get_workspace(i)
                 item = gtk.MenuItem(workspace.get_name())
                 if workspace != window.get_workspace():
                     item.connect("activate", 
@@ -228,6 +229,7 @@ class WindowMenuItem(gtk.ImageMenuItem):
         """
         pixbuf = None
         self.__window = window
+        screen = window.get_screen()
         self.__path = get_filer_window_path(window)
         if self.__path:
             name = self.__path
@@ -249,7 +251,7 @@ class WindowMenuItem(gtk.ImageMenuItem):
             name = "= " + name + " ="
         if window.needs_attention():
             name = "!! " + name + " !!"
-        if window == SCREEN.get_active_window():
+        if window == screen.get_active_window():
             size = 32
         gtk.ImageMenuItem.__init__(self, name.replace('_', '__'))
         if self.__path:
@@ -309,8 +311,8 @@ class WindowMenu(gtk.Menu):
     The menu for a list of windows.
     """
 
-    def __init__(self, windows, type, icon, group_name,
-                    root = None, root_icon = None, has_kill = False):
+    def __init__(self, windows, screen, type, icon, group_name,
+                    root=None, root_icon=None, has_kill=False):
         """
         Creates a new WindowMenu.
         
@@ -339,7 +341,7 @@ class WindowMenu(gtk.Menu):
         self.__windows = windows
         windows.sort(key=wnck.Window.get_name)
         time = gtk.get_current_event_time()
-        self.__active_window = SCREEN.get_active_window()
+        self.__active_window = screen.get_active_window()
         has_minimized_windows = False
         has_unminimized_windows = False
         same_app = True

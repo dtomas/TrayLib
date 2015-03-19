@@ -1,4 +1,4 @@
-from traylib import wnck, SCREEN
+from traylib import wnck
 from traylib.icon import Icon
 from traylib.winicon_config import WinIconConfig
 from traylib.winmenu import (TYPE_SELECT, TYPE_OPTIONS, WindowMenu, 
@@ -12,7 +12,7 @@ class WinIcon(Icon):
     methods.
     """
 
-    def __init__(self, icon_config, win_config, screen=SCREEN):
+    def __init__(self, icon_config, win_config, screen):
         """
         Creates a new C{WinIcon}.
         
@@ -289,12 +289,8 @@ class WinIcon(Icon):
             icon = self.icon
         else:
             icon = None
-        return WindowMenu(self.__visible_windows, 
-                        TYPE_SELECT,
-                        icon,
-                        self.__name,
-                        self.get_root_path(),
-                        icon)
+        return WindowMenu(self.__visible_windows, self.__screen, TYPE_SELECT,
+                          icon, self.__name, self.get_root_path(), icon)
 
     def get_menu_right(self):
         """
@@ -312,16 +308,13 @@ class WinIcon(Icon):
                 icon = self.icon
             else:
                 icon = None
-            return WindowMenu(self.__visible_windows, 
-                        TYPE_OPTIONS,
-                        icon,
-                        self.__name,
-                        self.get_root_path(),
-                        icon,
-                        has_kill = self.menu_has_kill())
+            return WindowMenu(self.__visible_windows, self.__screen,
+                              TYPE_OPTIONS, icon, self.__name,
+                              self.get_root_path(), icon,
+                              has_kill=self.menu_has_kill())
         else:
             return WindowActionMenu(self.__visible_windows[0], 
-                                    has_kill = self.menu_has_kill())
+                                    has_kill=self.menu_has_kill())
 
     def mouse_wheel_up(self, time = 0L):
         """
