@@ -14,7 +14,8 @@ from traylib.menu_icon import MenuIcon
 
 class Tray(object):
 
-    def __init__(self, icon_config, tray_config, menu_icon_class=MenuIcon):
+    def __init__(self, icon_config, tray_config, menu_icon_class=MenuIcon,
+                 *menu_icon_args):
         """
         Creates a new C{Tray}.
         
@@ -38,7 +39,8 @@ class Tray(object):
         else:
             self.__separator_left = gtk.VSeparator()
             self.__separator_right = gtk.VSeparator()
-        self.__menuicon = menu_icon_class(self, icon_config, tray_config)
+        self.__menuicon = menu_icon_class(self, icon_config, tray_config,
+                                          *menu_icon_args)
 
         if self.__icon_config.vertical:
             self.__main_box = gtk.VBox()
