@@ -6,6 +6,7 @@
 ~~~
 - Pass wnck screen around.
 - Add $APP_DIR/icons to icon theme path (in Main.mainloop()).
+- Removed Attribute.set_func.
 
 0.4.2
 ~~~~~
