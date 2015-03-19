@@ -83,3 +83,5 @@ class WinIconManager(IconManager):
             if not isinstance(icon, WinIcon):
                 continue
             icon.update_windows()
+
+    screen = property(lambda self : self.__screen)

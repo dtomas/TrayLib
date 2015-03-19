@@ -4,6 +4,7 @@
 
 0.5 (unreleased)
 ~~~
+- Expose WinIconManager.screen.
 - Moved get_custom_menu_items() from Tray to MenuIcon.
 - Passing additional arguments to menu icon constructor.
 - Pass wnck screen around.
