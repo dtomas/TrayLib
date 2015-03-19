@@ -2,8 +2,10 @@
 			Library for tray-like applets
 			by Dennis Tomas
 
-0.4.2 (unreleased)
+0.4.2
 ~~~~~
+- Tidied up a bit.
+- Removed some unused modules.
 - Copied dir_monitor to rox-lib (will be removed in 0.5).
 - Get XDG_* variables from rox-lib (will be removed in 0.5).
 - Added argument side to Tray.add_box().
