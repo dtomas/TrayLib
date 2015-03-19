@@ -12,7 +12,7 @@ class WinIcon(Icon):
     methods.
     """
 
-    def __init__(self, icon_config, win_config):
+    def __init__(self, icon_config, win_config, screen=SCREEN):
         """
         Creates a new C{WinIcon}.
         
@@ -24,6 +24,7 @@ class WinIcon(Icon):
         win_config.add_configurable(self)
         Icon.__init__(self, icon_config)
 
+        self.__screen = screen
         self.__name = ''
         self.__windows = []
         self.__visible_windows = []
@@ -81,9 +82,9 @@ class WinIcon(Icon):
         windows. If not, the first visible window of the C{WinIcon} is 
         activated.
         """
-        if not SCREEN or not self.__visible_windows:
+        if not self.__screen or not self.__visible_windows:
             return False
-        active_window = SCREEN.get_active_window()
+        active_window = self.__screen.get_active_window()
         found = False
         for window in self.__visible_windows:
             if found:
@@ -101,9 +102,9 @@ class WinIcon(Icon):
         windows. If not, the first visible window of the C{WinIcon} is 
         activated.
         """
-        if not SCREEN or not self.__visible_windows:
+        if not self.__screen or not self.__visible_windows:
             return False
-        active_window = SCREEN.get_active_window()
+        active_window = self.__screen.get_active_window()
         found = False
         last = len(self.__visible_windows) - 1
         previous_window = self.__visible_windows[last]
@@ -166,12 +167,12 @@ class WinIcon(Icon):
         """
         @return: C{True} if the window should show up in the C{WinIcon}'s menu.
         """
-        if not SCREEN:
+        if not self.__screen:
             return False
         return (window in self.__windows
             and not window.is_skip_tasklist() 
             and (self.__win_config.all_workspaces
-                or window.get_workspace() == SCREEN.get_active_workspace()
+                or window.get_workspace() == self.__screen.get_active_workspace()
                 or window.is_pinned()
                 or window.is_sticky())
             or window.needs_attention())
@@ -403,9 +404,12 @@ class WinIcon(Icon):
     visible_windows = property(lambda self : self.__visible_windows)
     """The list of visible windows."""
     
-    has_active_window = property(lambda self : (SCREEN != None and
-                                                SCREEN.get_active_window() 
-                                                in self.__windows))
+    has_active_window = property(
+        lambda self : (
+            self.__screen != None and
+            self.__screen.get_active_window() in self.__windows
+        )
+    )
     """{True} if the C{WinIcon} has the active window."""
 
     has_visible_windows = property(lambda self : bool(self.__visible_windows))
