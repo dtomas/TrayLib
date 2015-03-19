@@ -43,10 +43,11 @@ class IconConfig(Config):
         assert edge in (0, TOP, BOTTOM, LEFT, RIGHT)
         Config.__init__(self, size=size, edge=edge, effects=effects,
                         pos_func=pos_func, hidden=hidden)
-        self.__arrow = None
-        self.option_edge_changed(None, edge)
+        self.add_configurable(self)
+        self.update_option_edge()
 
-    def option_edge_changed(self, old_edge, edge):
+    def update_option_edge(self):
+        edge = self.edge
         if edge == LEFT:
             pixmap = pixmaps.right
         elif edge == RIGHT:

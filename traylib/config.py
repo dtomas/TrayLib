@@ -6,10 +6,9 @@ class Attribute(object):
     # This is set by ConfigMeta.
     _attr = None
 
-    def __init__(self, update_func=None, set_func=None, default=None):
+    def __init__(self, update_func=None, default=None):
         self._default = default
         self._update_func = update_func
-        self._set_func = set_func
 
     def _ensure_attribute(self, obj):
         if obj.has_attribute(self._attr):
@@ -19,8 +18,6 @@ class Attribute(object):
             self._default,
             self._update_func if self._update_func is not None
             else 'update_option_%s' % self._attr,
-            self._set_func if self._set_func is not None
-            else 'option_%s_changed' % self._attr,
         )
 
     def __get__(self, obj, objtype=None):
@@ -72,7 +69,7 @@ class Config(object):
         """
         return key in self.__attributes
 
-    def add_attribute(self, key, value, update_func=None, set_func=None):
+    def add_attribute(self, key, value, update_func=None):
         """
         Adds an attribute to the C{Config}.
         
@@ -81,13 +78,8 @@ class Config(object):
         @param update_func: The name of a method that gets called on all 
             configurable objects (registered via L{add_configurable()}) when
             the value of the attribute has changed.
-        @param set_func: The name of a method with signature 
-            C{set_func(old_value, new_value)} that gets called on the C{Config} 
-            when the value of the attribute has changed.
         """
-        self.__attributes[key] = (value, update_func, set_func)
-        if set_func and hasattr(self, set_func):
-            getattr(self, set_func)(None, value)
+        self.__attributes[key] = value, update_func
 
     def set_attribute(self, key, value):
         """
@@ -98,12 +90,10 @@ class Config(object):
         """
         assert key in self.__attributes
 
-        old_value, update_func, set_func = self.__attributes[key]
+        old_value, update_func = self.__attributes[key]
         if old_value == value:
             return
-        self.__attributes[key] = (value, update_func, set_func)
-        if set_func and hasattr(self, set_func):
-            getattr(self, set_func)(old_value, value)
+        self.__attributes[key] = value, update_func
 
         if update_func:
             for obj in self.__objects:
@@ -115,7 +105,7 @@ class Config(object):
         @param key: The key.
         @return: The value associated with the given C{key}.
         """
-        value, update_func, set_func = self.__attributes[key]
+        value, _update_func = self.__attributes[key]
         return value
 
     def add_configurable(self, obj):
