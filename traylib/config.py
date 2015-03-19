@@ -9,10 +9,7 @@ class Attribute(object):
 
     def __init__(self, update_func=None, default=None):
         self._default = default
-        self._update_func = (
-            update_func if update_func is not None
-            else 'update_option_%s' % self._attr
-        )
+        self._update_func = update_func
 
     def __get__(self, obj, objtype=None):
         if obj is None:
@@ -24,6 +21,8 @@ class Attribute(object):
 
     def __set__(self, obj, value):
         setattr(obj, self._internal_attr, value)
+        if self._update_func is None:
+            self._update_func = 'update_option_%s' % self._attr
         for configurable in obj.get_configurables():
             try:
                 update = getattr(configurable, self._update_func)
