@@ -51,6 +51,10 @@ class MenuIcon(Icon):
         Icon.update_option_hidden(self)
         self.update_tooltip()
 
+    def get_custom_menu_items(self):
+        """Override this to return custom items for the main menu."""
+        return []
+
     def __show_info(self, menu_item = None):
         """Shows information."""
         InfoWin.infowin(self.__tray_config.name)
@@ -85,7 +89,7 @@ class MenuIcon(Icon):
         item.connect("activate", self.__show_info)
         menu.add(item)    
         menu.add(gtk.SeparatorMenuItem())
-        custom_menu_items = self.__tray.get_custom_menu_items()
+        custom_menu_items = self.get_custom_menu_items()
         for item in custom_menu_items:
             menu.add(item)
         if custom_menu_items:

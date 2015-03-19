@@ -258,11 +258,7 @@ class Tray(object):
             menuicon.show_all()
 
 
-       # Methods to be implemented by subclasses
-                
-    def get_custom_menu_items(self):
-        """Override this to return custom items for the main menu."""
-        return []
+   # Methods to be implemented by subclasses
 
     def quit(self):
         """
