@@ -26,6 +26,7 @@ try:
 except ImportError:
     wnck = None
 
+# Deprecated.
 SCREEN = None
 if wnck:
     SCREEN = wnck.screen_get_default()

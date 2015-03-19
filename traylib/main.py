@@ -1,7 +1,9 @@
+import os
+
 import rox
 from rox.options import Option
 
-from traylib import LEFT, RIGHT, TOP, BOTTOM
+from traylib import LEFT, RIGHT, TOP, BOTTOM, ICON_THEME
 from traylib.tray_window import TrayWindow
 from traylib.tray_applet import TrayApplet
 from traylib.icon_config import IconConfig
@@ -56,6 +58,7 @@ class Main(object):
         @param tray_class: The type of tray. Must be a subclass of L{Tray}.
         @param *tray_args: Additional args for the L{Tray} subclass.
         """
+        ICON_THEME.append_search_path(os.path.join(rox.app_dir, 'icons'))
         rox.app_options.add_notify(self.options_changed)
         if len(app_args) >= 2:
             self.__main_window = TrayApplet(app_args[1],

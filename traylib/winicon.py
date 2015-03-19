@@ -417,3 +417,6 @@ class WinIcon(Icon):
 
     has_windows = property(lambda self : bool(self.__windows))
     """{True} if the C{WinIcon} has any windows."""
+
+    screen = property(lambda self : self.__screen)
+    """The screen of the icon's windows."""

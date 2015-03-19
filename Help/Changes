@@ -2,6 +2,11 @@
 			Library for tray-like applets
 			by Dennis Tomas
 
+0.5 (unreleased)
+~~~
+- Pass wnck screen around.
+- Add $APP_DIR/icons to icon theme path (in Main.mainloop()).
+
 0.4.2
 ~~~~~
 - Tidied up a bit.
