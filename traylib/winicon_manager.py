@@ -46,13 +46,8 @@ def manage_winicons(tray, screen):
                 continue
             icon.update_windows()
 
-    window_opened_handler = screen.connect("window_opened", window_opened)
-    window_closed_handler = screen.connect("window_closed", window_closed)
-    active_window_changed_handler = screen.connect("active_window_changed",
-                                                   active_window_changed)
-    active_workspace_changed_handler = (
-        screen.connect("active_workspace_changed", active_workspace_changed)
-    )
+    class handlers:
+        pass
 
     def icon_added(tray, icon):
         if not isinstance(icon, WinIcon):
@@ -66,15 +61,26 @@ def manage_winicons(tray, screen):
     tray.connect("icon-added", icon_added)
 
     def manage():
+        handlers.window_opened_handler = screen.connect("window_opened",
+                                                     window_opened)
+        handlers.window_closed_handler = screen.connect("window_closed",
+                                                     window_closed)
+        handlers.active_window_changed_handler = screen.connect(
+            "active_window_changed", active_window_changed
+        )
+        handlers.active_workspace_changed_handler = (
+            screen.connect("active_workspace_changed",
+                           active_workspace_changed)
+        )
         for window in screen.get_windows():
             window_opened(screen, window)
             yield None
 
     def unmanage():
-        screen.disconnect(window_opened_handler)
-        screen.disconnect(window_closed_handler)
-        screen.disconnect(active_window_changed_handler)
-        screen.disconnect(active_workspace_changed_handler)
+        screen.disconnect(handlers.window_opened_handler)
+        screen.disconnect(handlers.window_closed_handler)
+        screen.disconnect(handlers.active_window_changed_handler)
+        screen.disconnect(handlers.active_workspace_changed_handler)
         for window, _window_handlers in window_handlers.iteritems():
             for window_handler in _window_handlers:
                 window.disconnect(window_handler)
