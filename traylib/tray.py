@@ -174,8 +174,8 @@ class Tray(object):
 
     def forget_menus(self):
         """
-        Makes the C{Tray} forget its main menu. Call this if something affecting
-        the main menu has changed.
+        Makes the C{Tray} forget its main menu. Call this if something
+        affecting the main menu has changed.
         """
         if self.__menuicon_left:
             self.__menuicon_left.forget_menu()
@@ -244,8 +244,10 @@ class Tray(object):
     def update_option_menus(self):
         menus = self.__tray_config.menus
         menuicon = self.__menuicon
-        old_box, new_box = (menus == LEFT and (self.__box_right, self.__box_left) 
-                            or (self.__box_left, self.__box_right))
+        old_box, new_box = (
+            (self.__box_right, self.__box_left) if menus == LEFT
+            else (self.__box_left, self.__box_right)
+        )
 
         if menuicon in old_box.get_children():
             old_box.remove(menuicon)

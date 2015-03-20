@@ -172,7 +172,7 @@ class WinIcon(Icon):
         return (window in self.__windows
             and not window.is_skip_tasklist() 
             and (self.__win_config.all_workspaces
-                or window.get_workspace() == self.__screen.get_active_workspace()
+                or window.get_workspace() == self.screen.get_active_workspace()
                 or window.is_pinned()
                 or window.is_sticky())
             or window.needs_attention())

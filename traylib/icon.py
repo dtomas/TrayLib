@@ -110,8 +110,9 @@ class Icon(gtk.EventBox, object):
         self.__is_dragged = False
 
         # theme
-        self.__icon_theme_changed_handler = ICON_THEME.connect("changed", 
-                                                               self.__theme_changed)
+        self.__icon_theme_changed_handler = ICON_THEME.connect(
+            "changed", self.__theme_changed
+        )
         
         self.connect("destroy", self.__destroy)
 
@@ -162,7 +163,9 @@ class Icon(gtk.EventBox, object):
                 or isinstance(self.__pixbuf, gtk.gdk.Pixbuf))
         if (self.__pixbuf and (self.__pixbuf.get_width() >= MAX_SIZE 
                         or self.__pixbuf.get_height() >= MAX_SIZE)):
-            self.__pixbuf = scale_pixbuf_to_size(self.__pixbuf, MAX_SIZE, False)
+            self.__pixbuf = scale_pixbuf_to_size(
+                self.__pixbuf, MAX_SIZE, False
+            )
         if old_pixbuf != self.__pixbuf:
             self.__pixbuf_current = None
         self._refresh(self.__pixbuf != old_pixbuf)
@@ -259,7 +262,7 @@ class Icon(gtk.EventBox, object):
         else:
             self.set_size_request(self.__max_size, -1)
 
-    def _refresh(self, force = False):
+    def _refresh(self, force=False):
         """
         Refreshes the C{Icon}.
         
@@ -274,9 +277,12 @@ class Icon(gtk.EventBox, object):
         effects = self.__config.effects
 
         if self.__zoom_action not in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY):
-            self.__target_size = max(1, min(int(self.__config.size
-                                                    * self.__zoom_factor),
-                                            self.__max_size - 2))
+            self.__target_size = max(
+                1, min(
+                    int(self.__config.size * self.__zoom_factor), 
+                    self.__max_size - 2
+                )
+            )
             if (not force 
                     and self.__current_size 
                         == self.__target_size 
@@ -485,7 +491,9 @@ class Icon(gtk.EventBox, object):
             return
         uri_list = []
         if info == TARGET_MOZ_URL:
-            uri_list = [data.data.decode('utf-16').encode('utf-8').split('\n')[0]]
+            uri_list = [
+                data.data.decode('utf-16').encode('utf-8').split('\n')[0]
+            ]
         elif info == TARGET_URI_LIST:
             uri_list = data.get_uris()
         self.uris_dropped(uri_list, context.action)
@@ -507,8 +515,9 @@ class Icon(gtk.EventBox, object):
 
     def __drag_motion(self, widget, context, x, y, time):
         if self.__spring_open_event == 0:
-            self.__spring_open_event = gobject.timeout_add(1000,
-                                                self.spring_open, time)
+            self.__spring_open_event = gobject.timeout_add(
+                1000, self.spring_open, time
+            )
         if self.is_drop_target:
             action = context.suggested_action
         else:
@@ -600,32 +609,35 @@ class Icon(gtk.EventBox, object):
     
     def get_icon_names(self):
         """
-        Override this to determine the icon's icon names. These will only be used if 
-        L{get_icon_path} doesn't return a path to an icon or the icon could not be 
-        loaded.
+        Override this to determine the icon's icon names. These will only be 
+        used if L{get_icon_path} doesn't return a path to an icon or the icon
+        could not be loaded.
+
         @return The icon names.
         """
         return []
 
     def get_icon_path(self):
         """
-        Override this to determine the path to a file from which the pixbuf will be
-        loaded.
+        Override this to determine the path to a file from which the pixbuf 
+        will be loaded.
         """
         return None
 
     def get_icon_pixbuf(self):
         """
-        Override this to determine the pixbuf to be used for the icon. This will only
-        be used if no icons could be found for the icon names returned by 
-        L{get_icon_names()} and L{get_icon_path()} doesn't return a path to an icon.
+        Override this to determine the pixbuf to be used for the icon. This
+        will only be used if no icons could be found for the icon names
+        returned by L{get_icon_names()} and L{get_icon_path()} doesn't return
+        a path to an icon.
         """
         return None
 
     def get_menu_right(self):
         """
-        Override this to determine the menu that pops up when right-clicking the
-        C{Icon}.
+        Override this to determine the menu that pops up when right-clicking
+        the C{Icon}.
+
         @return: The menu that pops up when right-clicking the C{Icon}.
         """
         return None
@@ -634,6 +646,7 @@ class Icon(gtk.EventBox, object):
         """
         Override this to determine the menu that pops up when left-clicking the
         C{Icon}. (In case the C{click()} method returned C{False}.)
+
         @return: The menu that pops up when left-clicking the C{Icon}.
         """
         return None
@@ -671,22 +684,23 @@ class Icon(gtk.EventBox, object):
         """
         return False
 
-    def uris_dropped(self, uris, action = gtk.gdk.ACTION_COPY):
+    def uris_dropped(self, uris, action=gtk.gdk.ACTION_COPY):
         """
         Override this to react to URIs being dropped on the C{Icon}.
         
         @param uris: A list of URIs.
-        @param action: One of C{gtk.gdk.ACTION_COPY}, C{gtk.gdk.ACTION_MOVE} or
-            C{gtk.gdk.ACTION_LINK}.
+        @param action: One of C{gtk.gdk.ACTION_COPY}, C{gtk.gdk.ACTION_MOVE}
+            or C{gtk.gdk.ACTION_LINK}.
         """
         pass
 
     def spring_open(self, time = 0L):
         """
-        Override this to determine the action when the mouse pointer stays on an
-        icon some time while dragging.
+        Override this to determine the action when the mouse pointer stays on
+        an icon some time while dragging.
         
-        @return: C{True} if C{spring_open()} should be called again in a second. 
+        @return: C{True} if C{spring_open()} should be called again in a
+            second. 
         """
         return False
 
@@ -710,10 +724,11 @@ class Icon(gtk.EventBox, object):
     def make_icon(self):
         """
         This determines the C{gtk.gdk.Pixbuf} the C{Icon} should have.
-        By default, this method tries to load the pixbuf from the path returned by
-        L{get_icon_path()}. If this fails, it looks up the icon in the current icon 
-        theme from the icon names returned by L{get_icon_names()}. If this also fails,
-        it returns the pixbuf returned by L{get_icon_pixbuf()}.
+        By default, this method tries to load the pixbuf from the path
+        returned by L{get_icon_path()}. If this fails, it looks up the icon 
+        in the current icon theme from the icon names returned by 
+        L{get_icon_names()}. If this also fails, it returns the pixbuf
+        returned by L{get_icon_pixbuf()}.
         
         @return: The new pixbuf.
         """
@@ -739,8 +754,8 @@ class Icon(gtk.EventBox, object):
 
     def make_is_drop_target(self):
         """
-        Override this to determine whether URIs can be dropped on the C{Icon} or
-        not.
+        Override this to determine whether URIs can be dropped on the C{Icon}
+        or not.
         
         @return: C{True} if URIs may be dropped on the C{Icon}.
         """
@@ -787,51 +802,31 @@ class Icon(gtk.EventBox, object):
         return 1.0
 
     icon = property(lambda self : self.__pixbuf)
-    """
-    The pixbuf of the C{Icon}.
-    """
+    """The pixbuf of the C{Icon}."""
 
     icon_config = property(lambda self : self.__config)
-    """
-    The C{Icon}'s configuration.
-    """
+    """The C{Icon}'s configuration."""
     
     icon_names = property(lambda self : self.get_icon_names())
-    """
-    The icon names returned by L{get_icon_names()}.
-    """
+    """The icon names returned by L{get_icon_names()}."""
     
     icon_path = property(lambda self : self.get_icon_path())
-    """
-    The icon path returned by L{get_icon_path()}.
-    """
+    """The icon path returned by L{get_icon_path()}."""
     
     icon_pixbuf = property(lambda self : self.get_icon_pixbuf())
-    """
-    The pixbuf returned by L{get_icon_pixbuf()}.
-    """
+    """The pixbuf returned by L{get_icon_pixbuf()}."""
 
     size = property(lambda self : self.__config.size)
-    """
-    The size of the C{Icon}.
-    """
+    """The size of the C{Icon}."""
 
     tooltip = property(lambda self : self.__tooltip)
-    """
-    The tooltip of the C{Icon}.
-    """
+    """The tooltip of the C{Icon}."""
     
     has_arrow = property(lambda self : self.__has_arrow)
-    """
-    C{True} if the C{Icon} has an arrow.
-    """
+    """C{True} if the C{Icon} has an arrow."""
 
     has_themed_icon = property(lambda self : self.__has_themed_icon)
-    """
-    C{True} if the C{Icon}'s pixbuf comes from an icon theme.
-    """
+    """C{True} if the C{Icon}'s pixbuf comes from an icon theme."""
 
     is_drop_target = property(lambda self : self.__is_drop_target)
-    """
-    C{True} if uris can be dropped on the C{Icon}. 
-    """
+    """C{True} if uris can be dropped on the C{Icon}."""
