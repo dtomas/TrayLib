@@ -50,7 +50,7 @@ class Main(object):
             separators=separators,
         )
 
-    def mainloop(self, app_args, tray_class, *tray_args):
+    def mainloop(self, app_args, create_tray):
         """
         Starts the main loop and returns when the tray app is quit.
         
@@ -64,17 +64,15 @@ class Main(object):
             self.__main_window = TrayApplet(app_args[1],
                                             self.__o_icon_size_min.int_value,
                                             self.__o_icon_size_max.int_value,
-                                            tray_class, 
+                                            create_tray, 
                                             self.__icon_config,
-                                            self.__tray_config,
-                                            *tray_args)
+                                            self.__tray_config)
         else:
             self.__main_window = TrayWindow(self.__o_icon_size_min.int_value,
                                             self.__o_icon_size_max.int_value,
-                                            tray_class, 
+                                            create_tray, 
                                             self.__icon_config, 
-                                            self.__tray_config, 
-                                            *tray_args)
+                                            self.__tray_config)
         self.__main_window.show()
         rox.mainloop()
 
