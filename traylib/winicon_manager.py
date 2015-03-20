@@ -1,71 +1,25 @@
 from traylib.winicon import WinIcon
-from traylib.icon_manager import IconManager
 
 
-class WinIconManager(IconManager):
-    
-    def __init__(self, tray, screen):
-        IconManager.__init__(self, tray)
-        self.__screen = screen
-        self.__window_handlers = {}
+def manage_winicons(tray, screen):
 
-    def init(self):
-        screen = self.__screen
-        if screen is None:
-            return
-        self.__window_opened_handler = (
-            screen.connect("window_opened", self.__window_opened)
-        )
-        self.__window_closed_handler = (
-            screen.connect("window_closed", self.__window_closed)
-        )
-        self.__active_window_changed_handler = (
-            screen.connect("active_window_changed",
-                           self.__active_window_changed)
-        )
-        self.__active_workspace_changed_handler = (
-            screen.connect("active_workspace_changed",
-                           self.__active_workspace_changed)
-        )
-        
-        for window in screen.get_windows():
-            self.__window_opened(screen, window)
-            yield None
+    if screen is None:
+        return lambda: None, lambda: None
 
-    def quit(self):
-        screen = self.__screen
-        if screen is None:
-            return
-        screen.disconnect(self.__window_opened_handler)
-        screen.disconnect(self.__window_closed_handler)
-        screen.disconnect(self.__active_window_changed_handler)
-        screen.disconnect(self.__active_workspace_changed_handler)
-        for window, window_handlers in self.__window_handlers.iteritems():
-            for window_handler in window_handlers:
-                window.disconnect(window_handler)
-                yield None
-                
-    def icon_added(self, icon):
-        if not isinstance(icon, WinIcon):
-            return
-        screen = self.__screen
-        if screen is None:
-            return
-        for window in screen.get_windows():
-            if icon.should_have_window(window):
-                icon.add_window(window)
+    window_handlers = {}
 
-    def __window_opened(self, screen, window):
-        self.__window_handlers[window] = [window.connect("name_changed",
-                                            self.__window_name_changed)]
-        for icon in self.tray.icons:
+    def window_opened(screen, window):
+        window_handlers[window] = [
+            window.connect("name_changed", window_name_changed)
+        ]
+        for icon in tray.icons:
             if not isinstance(icon, WinIcon):
                 continue
             if icon.should_have_window(window):
                 icon.add_window(window)
 
-    def __window_name_changed(self, window):
-        for icon in self.tray.icons:
+    def window_name_changed(window):
+        for icon in tray.icons:
             if not isinstance(icon, WinIcon):
                 continue
             if icon.should_have_window(window):
@@ -73,23 +27,57 @@ class WinIconManager(IconManager):
             else:
                 icon.remove_window(window)
 
-    def __window_closed(self, screen, window):
-        for icon in self.tray.icons:
+    def window_closed(screen, window):
+        for icon in tray.icons:
             icon.remove_window(window)
-        for handler in self.__window_handlers[window]:
+        for handler in window_handlers[window]:
             window.disconnect(handler)
-        self.__window_handlers[window] = []
+        window_handlers[window] = []
 
-    def __active_window_changed(self, screen, window=None):
-        for icon in self.tray.icons:
+    def active_window_changed(screen, window=None):
+        for icon in tray.icons:
             if not isinstance(icon, WinIcon):
                 continue
             icon.update_zoom_factor()
 
-    def __active_workspace_changed(self, screen, workspace=None):
-        for icon in self.tray.icons:
+    def active_workspace_changed(screen, workspace=None):
+        for icon in tray.icons:
             if not isinstance(icon, WinIcon):
                 continue
             icon.update_windows()
 
-    screen = property(lambda self : self.__screen)
+    window_opened_handler = screen.connect("window_opened", window_opened)
+    window_closed_handler = screen.connect("window_closed", window_closed)
+    active_window_changed_handler = screen.connect("active_window_changed",
+                                                   active_window_changed)
+    active_workspace_changed_handler = (
+        screen.connect("active_workspace_changed", active_workspace_changed)
+    )
+
+    def icon_added(tray, icon):
+        if not isinstance(icon, WinIcon):
+            return
+        if screen is None:
+            return
+        for window in screen.get_windows():
+            if icon.should_have_window(window):
+                icon.add_window(window)
+
+    tray.connect("icon-added", icon_added)
+
+    def manage():
+        for window in screen.get_windows():
+            window_opened(screen, window)
+            yield None
+
+    def unmanage():
+        screen.disconnect(window_opened_handler)
+        screen.disconnect(window_closed_handler)
+        screen.disconnect(active_window_changed_handler)
+        screen.disconnect(active_workspace_changed_handler)
+        for window, _window_handlers in window_handlers.iteritems():
+            for window_handler in _window_handlers:
+                window.disconnect(window_handler)
+                yield None
+
+    return manage, unmanage

@@ -1,5 +1,6 @@
 import os
 
+import gobject
 import gtk
 import rox
 
@@ -12,7 +13,7 @@ from traylib.tray_config import TrayConfig
 from traylib.menu_icon import MenuIcon
 
 
-class Tray(object):
+class Tray(gobject.GObject):
 
     def __init__(self, icon_config, tray_config, create_menu_icon=MenuIcon):
         """
@@ -21,6 +22,7 @@ class Tray(object):
         @param icon_config: The L{IconConfig} of the C{Tray}.
         @param tray_config: The L{TrayConfig} of the C{Tray}.
         """
+        gobject.GObject.__init__(self)
 
         self.__icon_config = icon_config
         self.__tray_config = tray_config
@@ -147,6 +149,7 @@ class Tray(object):
         """
         self.__boxes[box_id].pack_start(icon)
         self.__icons[box_id][icon_id] = icon
+        self.emit("icon-added", icon)
 
     def remove_icon(self, icon_id):
         """
@@ -162,6 +165,7 @@ class Tray(object):
             else:
                 icon.destroy()
                 del icons[icon_id]
+        self.emit("icon-removed", icon)
         
     def destroy(self):
         """
@@ -284,3 +288,12 @@ class Tray(object):
     icon_config = property(lambda self : self.__icon_config)
     tray_config = property(lambda self : self.__tray_config)
     menu_icon = property(lambda self : self.__menu_icon)
+
+
+gobject.type_register(Tray)
+gobject.signal_new(
+    "icon-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (Icon,)
+)
+gobject.signal_new(
+    "icon-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (Icon,)
+)
