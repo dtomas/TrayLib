@@ -8,24 +8,20 @@ class TrayContainer(object):
     subclass C{gtk.Container}.
     """
     
-    def __init__(self, min_size, max_size, vertical, tray_class, icon_config, 
-                tray_config, *tray_args):
+    def __init__(self, min_size, max_size, vertical, create_tray, icon_config, 
+                tray_config):
         """
         Creates a new C{TrayContainer}.
         
         @param min_size: The minimum size of the icons.
         @param max_size: The maximum size of the icons.
         @param vertical: C{True} if the tray should be vertical.
-        @param tray_class: The class of the tray to be created. Must be a 
-            subclass of L{Tray}.
+        @param create_tray: The function to create the tray.
         @param icon_config: The L{IconConfig}.
         @param tray_config: The L{TrayConfig}.
-        @param *tray_args: Additional arguments passed to the C{tray_class}'s 
-            constructor.
         """
         self.__tray = None
-        self.__tray_class = tray_class
-        self.__tray_args = tray_args
+        self.__create_tray = create_tray
         self.__icon_config = icon_config
         self.__tray_config = tray_config
         self.__size = 0
@@ -45,9 +41,8 @@ class TrayContainer(object):
         self.__size = size
         self.update_icon_size(self.__min_size, self.__max_size)
         if not self.__tray:
-            self.__tray = self.__tray_class(self.__icon_config, 
-                                            self.__tray_config,
-                                            *self.__tray_args)
+            self.__tray = self.__create_tray(self.__icon_config,
+                                             self.__tray_config)
             self.__tray.set_container(self)
 
     def update_icon_size(self, min_size, max_size):
@@ -70,7 +65,5 @@ class TrayContainer(object):
         """
         return self.__size
     
-    icon_config = property(lambda self : self.__icon_config)
     is_vertical = property(lambda self : self.__vertical)
-    tray_config = property(lambda self : self.__tray_config)
     tray = property(lambda self : self.__tray)

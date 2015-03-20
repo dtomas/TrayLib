@@ -6,13 +6,13 @@ from traylib.tray_container import TrayContainer
 class TrayWindow(Window, TrayContainer):
     """A window showing a L{Tray}."""
     
-    def __init__(self, min_size, max_size, tray_class, icon_config, 
-                tray_config, *tray_args):
+    def __init__(self, min_size, max_size, create_tray, icon_config, 
+                tray_config):
         """Creates a new C{TrayWindow}."""
         Window.__init__(self)
         self.set_size_request(-1, 48)
-        TrayContainer.__init__(self, min_size, max_size, False, tray_class, 
-                                icon_config, tray_config, *tray_args)
+        TrayContainer.__init__(self, min_size, max_size, False, create_tray, 
+                                icon_config, tray_config)
 
     def get_icon_size(self):
         """@return: Half the height of the window."""
