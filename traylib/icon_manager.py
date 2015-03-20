@@ -6,15 +6,19 @@ class IconManager(object):
         self.__tray = tray
         
     def init(self):
-        pass
-    
+        """
+        Initializes the icon manager, yielding C{None} as it progresses.
+        """
+
     def quit(self):
-        pass
+        """
+        Destroys the icon manager, yielding C{None} as it progresses.
+        """
     
     def icon_added(self, icon):
-        pass
+        """Called when an icon has been added to the tray."""
     
     def icon_removed(self, icon):
-        pass
+        """Called when an icon has been removed from the tray."""
 
     tray = property(lambda self : self.__tray)
