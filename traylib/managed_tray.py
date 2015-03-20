@@ -7,9 +7,8 @@ from traylib.menu_icon import MenuIcon
 class ManagedTray(Tray):
 
     def __init__(self, icon_config, tray_config, create_manager,
-                 menu_icon_class=MenuIcon, *menu_icon_args):
-        Tray.__init__(self, icon_config, tray_config, menu_icon_class,
-                      *menu_icon_args)
+                 create_menu_icon=MenuIcon):
+        Tray.__init__(self, icon_config, tray_config, create_menu_icon)
         self.__manager = create_manager(self)
         tasks.Task(self.__manager.init())
 
