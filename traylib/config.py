@@ -1,3 +1,4 @@
+import gobject
 
 
 class Attribute(object):
@@ -31,18 +32,22 @@ class Attribute(object):
             update()
 
 
-class ConfigMeta(type):
+class ConfigMeta(gobject.GObjectMeta):
 
     def __init__(self, name, bases, attrs):
-        type.__init__(self, name, bases, attrs)
+        gobject.GObjectMeta.__init__(self, name, bases, attrs)
         for key, attr in attrs.iteritems():
             if not isinstance(attr, Attribute):
                 continue
             attr._attr = key
             attr._internal_attr = '_Attribute__' + key
+            gobject.signal_new(
+                "%s-changed" % key, self, gobject.SIGNAL_RUN_FIRST,
+                gobject.TYPE_NONE, ()
+            )
 
 
-class Config(object):
+class Config(gobject.GObject):
     """
     A C{Config} is an object containing attributes. They can be added using the 
     L{Attribute} descriptor.
@@ -56,6 +61,7 @@ class Config(object):
         """
         Creates a new C{Config}.
         """
+        gobject.GObject.__init__(self)
         self.__objects = set()
         for key, value in attrs.iteritems():
             setattr(self, key, value)
@@ -90,3 +96,6 @@ class Config(object):
 
     def get_configurables(self):
         return self.__objects
+
+
+gobject.type_register(Config)
