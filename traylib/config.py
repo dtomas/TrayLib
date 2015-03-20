@@ -56,7 +56,6 @@ class Config(object):
         """
         Creates a new C{Config}.
         """
-        self.__attributes = {}
         self.__objects = set()
         for key, value in attrs.iteritems():
             setattr(self, key, value)
@@ -91,5 +90,3 @@ class Config(object):
 
     def get_configurables(self):
         return self.__objects
-    
-    attributes = property(lambda self : self.__attributes.keys())
