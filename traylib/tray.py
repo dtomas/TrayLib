@@ -98,10 +98,10 @@ class Tray(gobject.GObject):
                 self.__box.pack_end(separator)
             self.__box_separators[box_id] = separator
 
+        self.__box.pack_start(box)
+
         if side == LEFT:
-            self.__box.pack_start(box)
-        else:
-            self.__box.pack_end(box)
+            self.__box.reorder_child(box, 0)
 
         self.__boxes[box_id] = box
         self.__icons[box_id] = {}
