@@ -7,6 +7,7 @@ class Attribute(object):
     # These are set by ConfigMeta.
     _attr = None
     _internal_attr = None
+    _signal_name = None
 
     def __init__(self, update_func=None, default=None):
         self._default = default
@@ -22,6 +23,7 @@ class Attribute(object):
 
     def __set__(self, obj, value):
         setattr(obj, self._internal_attr, value)
+        obj.emit(self._signal_name)
         if self._update_func is None:
             self._update_func = 'update_option_%s' % self._attr
         for configurable in obj.get_configurables():
@@ -41,8 +43,9 @@ class ConfigMeta(gobject.GObjectMeta):
                 continue
             attr._attr = key
             attr._internal_attr = '_Attribute__' + key
+            attr._signal_name = '%s-changed' % key.replace('_', '-')
             gobject.signal_new(
-                "%s-changed" % key, self, gobject.SIGNAL_RUN_FIRST,
+                attr._signal_name, self, gobject.SIGNAL_RUN_FIRST,
                 gobject.TYPE_NONE, ()
             )
 
