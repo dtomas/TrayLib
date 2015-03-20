@@ -4,6 +4,7 @@
 
 0.5 (unreleased)
 ~~~
+- Added ManagedTray for trays managed by an IconManager.
 - Removed Config.*_attribute() methods.
 - Expose WinIconManager.screen.
 - Moved get_custom_menu_items() from Tray to MenuIcon.
