@@ -162,6 +162,7 @@ class WinIcon(Icon):
         self.update_zoom_factor()
         self.update_tooltip()
         self.update_visibility()
+        self.update_blinking()
         
     def window_is_visible(self, window):
         """
