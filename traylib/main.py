@@ -55,8 +55,7 @@ class Main(object):
         Starts the main loop and returns when the tray app is quit.
         
         @param app_args: The arguments passed to the app.
-        @param tray_class: The type of tray. Must be a subclass of L{Tray}.
-        @param *tray_args: Additional args for the L{Tray} subclass.
+        @param create_tray: Function to create the tray.
         """
         ICON_THEME.append_search_path(os.path.join(rox.app_dir, 'icons'))
         rox.app_options.add_notify(self.options_changed)

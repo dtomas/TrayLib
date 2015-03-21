@@ -4,6 +4,7 @@
 
 0.5 (unreleased)
 ~~~
+- Update blinking when window is closed.
 - Replaced WinIconManager class with function manage_winicons().
 - Added ManagedTray for trays managed by an IconManager.
 - Removed Config.*_attribute() methods.
