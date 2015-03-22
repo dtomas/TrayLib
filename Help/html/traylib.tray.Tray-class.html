@@ -56,9 +56,9 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Tray</h1><p class="nomargin-top"><span class="codelink"><a href="traylib.tray-pysrc.html#Tray">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-object --+
-         |
-        <strong class="uidshort">Tray</strong>
+gobject.GObject --+
+                  |
+                 <strong class="uidshort">Tray</strong>
 </pre>
 
 <hr />
@@ -79,7 +79,7 @@ object --+
           <td><span class="summary-sig"><a href="traylib.tray.Tray-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">icon_config</span>,
         <span class="summary-sig-arg">tray_config</span>,
-        <span class="summary-sig-arg">menu_icon_class</span>=<span class="summary-sig-default">MenuIcon</span>)</span><br />
+        <span class="summary-sig-arg">create_menu_icon</span>=<span class="summary-sig-default">MenuIcon</span>)</span><br />
       Creates a new <code>Tray</code>.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.__init__">source&nbsp;code</a></span>
@@ -98,12 +98,67 @@ object --+
         <tr>
           <td><span class="summary-sig"><a href="traylib.tray.Tray-class.html#add_box" class="summary-sig-name">add_box</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">box_id</span>,
-        <span class="summary-sig-arg">separator</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">separator</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">side</span>=<span class="summary-sig-default">LEFT</span>)</span><br />
       Adds a box to the <code>Tray</code> to which icons can be added via 
       the <a href="traylib.tray.Tray-class.html#add_icon" 
       class="link">add_icon()</a> method.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.add_box">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.tray.Tray-class.html#remove_box" class="summary-sig-name">remove_box</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">box_id</span>)</span><br />
+      Removes the box with the given ID.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.remove_box">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.tray.Tray-class.html#has_box" class="summary-sig-name">has_box</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">box_id</span>)</span><br />
+      Returns <code>True</code> if the tray has a box with the given ID.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.has_box">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.tray.Tray-class.html#clear_box" class="summary-sig-name">clear_box</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">box_id</span>)</span><br />
+      Removes all icons in a box.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.clear_box">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -258,10 +313,11 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="get_custom_menu_items"></a><span class="summary-sig-name">get_custom_menu_items</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Override this to return custom items for the main menu.</td>
+          <td><span class="summary-sig"><a name="quit"></a><span class="summary-sig-name">quit</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Override this to clean up when the container containing the tray is 
+      destroyed.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.get_custom_menu_items">source&nbsp;code</a></span>
+            <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.quit">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -275,11 +331,9 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="quit"></a><span class="summary-sig-name">quit</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Override this to clean up when the container containing the tray is 
-      destroyed.</td>
+          <td><span class="summary-sig"><a href="traylib.tray.Tray-class.html#icon_ids" class="summary-sig-name">icon_ids</a>(<span class="summary-sig-arg">self</span>)</span></td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.quit">source&nbsp;code</a></span>
+            <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.icon_ids">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -287,22 +341,20 @@ object --+
       
     </td>
   </tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__delattr__</code>,
-      <code>__format__</code>,
-      <code>__getattribute__</code>,
-      <code>__hash__</code>,
-      <code>__new__</code>,
-      <code>__reduce__</code>,
-      <code>__reduce_ex__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__sizeof__</code>,
-      <code>__str__</code>,
-      <code>__subclasshook__</code>
-      </p>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="traylib.tray.Tray-class.html#icons" class="summary-sig-name">icons</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.tray-pysrc.html#Tray.icons">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
     </td>
   </tr>
 </table>
@@ -332,37 +384,7 @@ object --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="icon_ids"></a><span class="summary-name">icon_ids</span> = <code title="property(lambda self: self.__icons.keys())">property(lambda self: self.__icons.keys())</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="icons"></a><span class="summary-name">icons</span> = <code title="property(lambda self: self.__icons.values())">property(lambda self: self.__icons.values())</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a name="menu_icon"></a><span class="summary-name">menu_icon</span> = <code title="property(lambda self: self.__menu_icon)">property(lambda self: self.__menu_icon)</code>
-    </td>
-  </tr>
-</table>
-<!-- ==================== PROPERTIES ==================== -->
-<a name="section-Properties"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Properties</span></td>
-</tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__class__</code>
-      </p>
     </td>
   </tr>
 </table>
@@ -385,7 +407,7 @@ object --+
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">icon_config</span>,
         <span class="sig-arg">tray_config</span>,
-        <span class="sig-arg">menu_icon_class</span>=<span class="sig-default">MenuIcon</span>)</span>
+        <span class="sig-arg">create_menu_icon</span>=<span class="sig-default">MenuIcon</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -402,9 +424,6 @@ object --+
         <li><strong class="pname"><code>tray_config</code></strong> - The <a href="traylib.tray_config.TrayConfig-class.html" 
           class="link">TrayConfig</a> of the <code>Tray</code>.</li>
     </ul></dd>
-    <dt>Overrides:
-        object.__init__
-    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -417,7 +436,8 @@ object --+
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">add_box</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">box_id</span>,
-        <span class="sig-arg">separator</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">separator</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">side</span>=<span class="sig-default">LEFT</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="traylib.tray-pysrc.html#Tray.add_box">source&nbsp;code</a></span>&nbsp;
@@ -431,6 +451,82 @@ object --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>box_id</code></strong> - An identifier for the box.</li>
+        <li><strong class="pname"><code>separator</code></strong> - Whether to put a separator before/after the box.</li>
+        <li><strong class="pname"><code>side</code></strong> - Where to add the box (<code>LEFT</code>, <code>RIGHT</code>).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="remove_box"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">remove_box</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">box_id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.tray-pysrc.html#Tray.remove_box">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Removes the box with the given ID.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>box_id</code></strong> - The identifier of the box.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="has_box"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">has_box</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">box_id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.tray-pysrc.html#Tray.has_box">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns <code>True</code> if the tray has a box with the given ID.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>box_id</code></strong> - The identifier of the box.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if the tray has a box with the given ID.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="clear_box"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clear_box</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">box_id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.tray-pysrc.html#Tray.clear_box">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Removes all icons in a box.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>box_id</code></strong> - The box to be cleared.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -561,6 +657,52 @@ object --+
   </dl>
 </td></tr></table>
 </div>
+<a name="icon_ids"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">icon_ids</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.tray-pysrc.html#Tray.icon_ids">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="icons"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">icons</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="traylib.tray-pysrc.html#Tray.icons">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -588,7 +730,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Mar 14 11:16:09 2015
+    Generated by Epydoc 3.0.1 on Sun Mar 22 11:54:15 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -56,23 +56,35 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Config</h1><p class="nomargin-top"><span class="codelink"><a href="traylib.config-pysrc.html#Config">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-object --+
-         |
-        <strong class="uidshort">Config</strong>
+gobject.GObject --+
+                  |
+                 <strong class="uidshort">Config</strong>
 </pre>
 
 <hr />
 <p>A <code>Config</code> is an object containing attributes. They can be 
-  added using the <a href="traylib.config.Config-class.html#add_attribute" 
-  class="link">add_attribute()</a> method, changed using <a 
-  href="traylib.config.Config-class.html#set_attribute" 
-  class="link">set_attribute()</a> and accessed using <a 
-  href="traylib.config.Config-class.html#get_attribute" 
-  class="link">get_attribute()</a>. If an attribute is changed, an update 
-  function is called on all configurable objects registered via <a 
+  added using the <a href="traylib.config.Attribute-class.html" 
+  class="link">Attribute</a> descriptor. If an attribute is changed, an 
+  update function is called on all configurable objects registered via <a 
   href="traylib.config.Config-class.html#add_configurable" 
   class="link">add_configurable()</a>.</p>
 
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Nested Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="traylib.config.ConfigMeta-class.html" class="summary-name">__metaclass__</a>
+    </td>
+  </tr>
+</table>
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -87,70 +99,11 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="traylib.config.Config-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**attrs</span>)</span><br />
       Creates a new <code>Config</code>.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="traylib.config-pysrc.html#Config.__init__">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="traylib.config.Config-class.html#add_attribute" class="summary-sig-name">add_attribute</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">key</span>,
-        <span class="summary-sig-arg">value</span>,
-        <span class="summary-sig-arg">update_func</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">set_func</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Adds an attribute to the <code>Config</code>.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.config-pysrc.html#Config.add_attribute">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="traylib.config.Config-class.html#set_attribute" class="summary-sig-name">set_attribute</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">key</span>,
-        <span class="summary-sig-arg">value</span>)</span><br />
-      Sets the attribute identified by <code>key</code> to the value 
-      <code>value</code>.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.config-pysrc.html#Config.set_attribute">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="traylib.config.Config-class.html#get_attribute" class="summary-sig-name">get_attribute</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">key</span>)</span><br />
-      Returns:
-      The value associated with the given <code>key</code>.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.config-pysrc.html#Config.get_attribute">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -214,54 +167,20 @@ object --+
       
     </td>
   </tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__delattr__</code>,
-      <code>__format__</code>,
-      <code>__getattribute__</code>,
-      <code>__hash__</code>,
-      <code>__new__</code>,
-      <code>__reduce__</code>,
-      <code>__reduce_ex__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__sizeof__</code>,
-      <code>__str__</code>,
-      <code>__subclasshook__</code>
-      </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== CLASS VARIABLES ==================== -->
-<a name="section-ClassVariables"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Class Variables</span></td>
-</tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="attributes"></a><span class="summary-name">attributes</span> = <code title="property(lambda self: self.__attributes.keys())">property(lambda self: self.__attributes.keys())</code>
-    </td>
-  </tr>
-</table>
-<!-- ==================== PROPERTIES ==================== -->
-<a name="section-Properties"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Properties</span></td>
-</tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__class__</code>
-      </p>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_configurables"></a><span class="summary-sig-name">get_configurables</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="traylib.config-pysrc.html#Config.get_configurables">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
     </td>
   </tr>
 </table>
@@ -274,118 +193,6 @@ object --+
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="__init__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>)</span>
-    <br /><em class="fname">(Constructor)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="traylib.config-pysrc.html#Config.__init__">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Creates a new <code>Config</code>.</p>
-  <dl class="fields">
-    <dt>Overrides:
-        object.__init__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="add_attribute"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">add_attribute</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">key</span>,
-        <span class="sig-arg">value</span>,
-        <span class="sig-arg">update_func</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">set_func</span>=<span class="sig-default">None</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="traylib.config-pysrc.html#Config.add_attribute">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Adds an attribute to the <code>Config</code>.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>key</code></strong> - The key.</li>
-        <li><strong class="pname"><code>value</code></strong> - The value.</li>
-        <li><strong class="pname"><code>update_func</code></strong> - The name of a method that gets called on all configurable objects
-          (registered via <a 
-          href="traylib.config.Config-class.html#add_configurable" 
-          class="link">add_configurable()</a>) when the value of the 
-          attribute has changed.</li>
-        <li><strong class="pname"><code>set_func</code></strong> - The name of a method with signature <code>set_func(old_value, 
-          new_value)</code> that gets called on the <code>Config</code> 
-          when the value of the attribute has changed.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="set_attribute"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_attribute</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">key</span>,
-        <span class="sig-arg">value</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="traylib.config-pysrc.html#Config.set_attribute">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Sets the attribute identified by <code>key</code> to the value 
-  <code>value</code>.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>key</code></strong> - The key.</li>
-        <li><strong class="pname"><code>value</code></strong> - The new value.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="get_attribute"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_attribute</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">key</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="traylib.config-pysrc.html#Config.get_attribute">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>key</code></strong> - The key.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The value associated with the given <code>key</code>.</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="add_configurable"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -488,7 +295,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Mar 14 11:16:09 2015
+    Generated by Epydoc 3.0.1 on Sun Mar 22 11:54:15 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

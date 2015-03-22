@@ -56,16 +56,32 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class IconConfig</h1><p class="nomargin-top"><span class="codelink"><a href="traylib.icon_config-pysrc.html#IconConfig">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-   object --+    
-            |    
-<a href="traylib.config.Config-class.html">config.Config</a> --+
-                |
-               <strong class="uidshort">IconConfig</strong>
+gobject.GObject --+    
+                  |    
+      <a href="traylib.config.Config-class.html">config.Config</a> --+
+                      |
+                     <strong class="uidshort">IconConfig</strong>
 </pre>
 
 <hr />
 <p>Icon configuration object.</p>
 
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Nested Classes</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.config.Config-class.html">config.Config</a></code></b>:
+      <code><a href="traylib.config.ConfigMeta-class.html">__metaclass__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -81,12 +97,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="traylib.icon_config.IconConfig-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">size</span>,
-        <span class="summary-sig-arg">edge</span>,
-        <span class="summary-sig-arg">effects</span>,
-        <span class="summary-sig-arg">pos_func</span>,
-        <span class="summary-sig-arg">hidden</span>)</span><br />
-      Creates a new <code>IconConfig</code>.</td>
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Creates a new <code>Config</code>.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="traylib.icon_config-pysrc.html#IconConfig.__init__">source&nbsp;code</a></span>
             
@@ -102,11 +114,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="update_arrow"></a><span class="summary-sig-name">update_arrow</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">old_edge</span>,
-        <span class="summary-sig-arg">edge</span>)</span></td>
+          <td><span class="summary-sig"><a name="update_option_edge"></a><span class="summary-sig-name">update_option_edge</span>(<span class="summary-sig-arg">self</span>)</span></td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.icon_config-pysrc.html#IconConfig.update_arrow">source&nbsp;code</a></span>
+            <span class="codelink"><a href="traylib.icon_config-pysrc.html#IconConfig.update_option_edge">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -117,26 +127,10 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.config.Config-class.html">config.Config</a></code></b>:
-      <code><a href="traylib.config.Config-class.html#add_attribute">add_attribute</a></code>,
       <code><a href="traylib.config.Config-class.html#add_configurable">add_configurable</a></code>,
-      <code><a href="traylib.config.Config-class.html#get_attribute">get_attribute</a></code>,
+      <code><a href="traylib.config.Config-class.html#get_configurables">get_configurables</a></code>,
       <code><a href="traylib.config.Config-class.html#has_configurable">has_configurable</a></code>,
-      <code><a href="traylib.config.Config-class.html#remove_configurable">remove_configurable</a></code>,
-      <code><a href="traylib.config.Config-class.html#set_attribute">set_attribute</a></code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__delattr__</code>,
-      <code>__format__</code>,
-      <code>__getattribute__</code>,
-      <code>__hash__</code>,
-      <code>__new__</code>,
-      <code>__reduce__</code>,
-      <code>__reduce_ex__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__sizeof__</code>,
-      <code>__str__</code>,
-      <code>__subclasshook__</code>
+      <code><a href="traylib.config.Config-class.html#remove_configurable">remove_configurable</a></code>
       </p>
     </td>
   </tr>
@@ -161,8 +155,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="traylib.icon_config.IconConfig-class.html#edge" class="summary-name">edge</a> = <code title="property(lambda self: self.get_attribute('edge'), lambda self, edge: s\
-elf.set_attribute('edge', edge))">property(lambda self: self.get_attribute('edge'), lambd<code class="variable-ellipsis">...</code></code><br />
+        <a name="size"></a><span class="summary-name">size</span> = <code title="Attribute(default= 32)">Attribute(default= 32)</code><br />
+      The size of the icons.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="traylib.icon_config.IconConfig-class.html#edge" class="summary-name">edge</a> = <code title="Attribute(default= 0)">Attribute(default= 0)</code><br />
       The edge of the screen where the icons are put.
     </td>
   </tr>
@@ -170,8 +171,7 @@ elf.set_attribute('edge', edge))">property(lambda self: self.get_attribute('edge
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="traylib.icon_config.IconConfig-class.html#effects" class="summary-name">effects</a> = <code title="property(lambda self: self.get_attribute('effects'), lambda self, effe\
-cts: self.set_attribute('effects', effects))">property(lambda self: self.get_attribute('effects'),<code class="variable-ellipsis">...</code></code><br />
+        <a name="effects"></a><span class="summary-name">effects</span> = <code title="Attribute(default= True)">Attribute(default= True)</code><br />
       <code>True</code> if effects such as smooth zooming should be shown.
     </td>
   </tr>
@@ -179,18 +179,16 @@ cts: self.set_attribute('effects', effects))">property(lambda self: self.get_att
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="traylib.icon_config.IconConfig-class.html#pos_func" class="summary-name">pos_func</a> = <code title="property(lambda self: self.get_attribute('pos_func'), lambda self, pos\
-_func: self.set_attribute('pos_func', pos_func))">property(lambda self: self.get_attribute('pos_func'<code class="variable-ellipsis">...</code></code><br />
-      The function for positioning the menu (may be None).
+        <a name="hidden"></a><span class="summary-name">hidden</span> = <code title="Attribute(default= False)">Attribute(default= False)</code><br />
+      <code>True</code> if all icons except the main icon should be hidden.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="traylib.icon_config.IconConfig-class.html#size" class="summary-name">size</a> = <code title="property(lambda self: self.get_attribute('size'), lambda self, size: s\
-elf.set_attribute('size', size))">property(lambda self: self.get_attribute('size'), lambd<code class="variable-ellipsis">...</code></code><br />
-      The size of the icons.
+        <a name="pos_func"></a><span class="summary-name">pos_func</span> = <code title="Attribute(default= None)">Attribute(default= None)</code><br />
+      The function for positioning the menu (may be None).
     </td>
   </tr>
 <tr>
@@ -200,38 +198,6 @@ elf.set_attribute('size', size))">property(lambda self: self.get_attribute('size
         <a name="vertical"></a><span class="summary-name">vertical</span> = <code title="property(lambda self: self.edge in(LEFT, RIGHT))">property(lambda self: self.edge in(LEFT, RIGHT))</code><br />
       <code>True</code> if the icons are on a vertical panel, that is: the 
       edge is either LEFT or RIGHT.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="traylib.icon_config.IconConfig-class.html#hidden" class="summary-name">hidden</a> = <code title="property(lambda self: self.get_attribute('hidden'), lambda self, hidde\
-n: self.set_attribute('hidden', hidden))">property(lambda self: self.get_attribute('hidden'), l<code class="variable-ellipsis">...</code></code><br />
-      <code>True</code> if all icons except the main icon should be hidden.
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.config.Config-class.html">config.Config</a></code></b>:
-      <code><a href="traylib.config.Config-class.html#attributes">attributes</a></code>
-      </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== PROPERTIES ==================== -->
-<a name="section-Properties"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Properties</span></td>
-</tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__class__</code>
-      </p>
     </td>
   </tr>
 </table>
@@ -252,11 +218,7 @@ n: self.set_attribute('hidden', hidden))">property(lambda self: self.get_attribu
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">size</span>,
-        <span class="sig-arg">edge</span>,
-        <span class="sig-arg">effects</span>,
-        <span class="sig-arg">pos_func</span>,
-        <span class="sig-arg">hidden</span>)</span>
+        <span class="sig-arg">**kwargs</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -264,17 +226,11 @@ n: self.set_attribute('hidden', hidden))">property(lambda self: self.get_attribu
     </td>
   </tr></table>
   
-  <p>Creates a new <code>IconConfig</code>.</p>
+  <p>Creates a new <code>Config</code>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>size</code></strong> - The size of the icons.</li>
-        <li><strong class="pname"><code>edge</code></strong> - The edge of the screen where the icon is. Must be one of 0, TOP, 
-          BOTTOM, LEFT, RIGHT.</li>
-        <li><strong class="pname"><code>pos_func</code></strong> - The function to call for positioning an icon's menu.</li>
-    </ul></dd>
     <dt>Overrides:
-        object.__init__
+        <a href="traylib.config.Config-class.html#__init__">config.Config.__init__</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
   </dl>
 </td></tr></table>
@@ -303,86 +259,7 @@ n: self.set_attribute('hidden', hidden))">property(lambda self: self.get_attribu
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-property(lambda self: self.get_attribute('edge'), lambda self, edge: s<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-elf.set_attribute('edge', edge))
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="effects"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">effects</h3>
-  <p><code>True</code> if effects such as smooth zooming should be 
-  shown.</p>
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-property(lambda self: self.get_attribute('effects'), lambda self, effe<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-cts: self.set_attribute('effects', effects))
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="pos_func"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">pos_func</h3>
-  <p>The function for positioning the menu (may be None).</p>
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-property(lambda self: self.get_attribute('pos_func'), lambda self, pos<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-_func: self.set_attribute('pos_func', pos_func))
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="size"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">size</h3>
-  <p>The size of the icons.</p>
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-property(lambda self: self.get_attribute('size'), lambda self, size: s<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-elf.set_attribute('size', size))
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="hidden"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">hidden</h3>
-  <p><code>True</code> if all icons except the main icon should be 
-  hidden.</p>
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-property(lambda self: self.get_attribute('hidden'), lambda self, hidde<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-n: self.set_attribute('hidden', hidden))
+Attribute(default= 0)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -415,7 +292,7 @@ n: self.set_attribute('hidden', hidden))
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Mar 14 11:16:09 2015
+    Generated by Epydoc 3.0.1 on Sun Mar 22 11:54:15 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>traylib.tray_applet.TrayApplet</title>
+  <title>traylib.managed_tray.ManagedTray</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -38,8 +38,8 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="traylib-module.html">Package&nbsp;traylib</a> ::
-        <a href="traylib.tray_applet-module.html">Module&nbsp;tray_applet</a> ::
-        Class&nbsp;TrayApplet
+        <a href="traylib.managed_tray-module.html">Module&nbsp;managed_tray</a> ::
+        Class&nbsp;ManagedTray
       </span>
     </td>
     <td>
@@ -47,28 +47,23 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="traylib.tray_applet.TrayApplet-class.html"
+            >]&nbsp;|&nbsp;<a href="traylib.managed_tray.ManagedTray-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class TrayApplet</h1><p class="nomargin-top"><span class="codelink"><a href="traylib.tray_applet-pysrc.html#TrayApplet">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Class ManagedTray</h1><p class="nomargin-top"><span class="codelink"><a href="traylib.managed_tray-pysrc.html#ManagedTray">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-           rox.applet.Applet --+
-                               |
-                  object --+   |
-                           |   |
-<a href="traylib.tray_container.TrayContainer-class.html">tray_container.TrayContainer</a> --+
-                               |
-                              <strong class="uidshort">TrayApplet</strong>
+gobject.GObject --+    
+                  |    
+          <a href="traylib.tray.Tray-class.html">tray.Tray</a> --+
+                      |
+                     <strong class="uidshort">ManagedTray</strong>
 </pre>
 
 <hr />
-<p>An applet showing a <a href="traylib.tray.Tray-class.html" 
-  class="link">Tray</a>.</p>
-
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -83,16 +78,14 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="traylib.tray_applet.TrayApplet-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">xid</span>,
-        <span class="summary-sig-arg">min_size</span>,
-        <span class="summary-sig-arg">max_size</span>,
-        <span class="summary-sig-arg">create_tray</span>,
+          <td><span class="summary-sig"><a href="traylib.managed_tray.ManagedTray-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">icon_config</span>,
-        <span class="summary-sig-arg">tray_config</span>)</span><br />
-      Creates a new TrayApplet.</td>
+        <span class="summary-sig-arg">tray_config</span>,
+        <span class="summary-sig-arg">managers</span>,
+        <span class="summary-sig-arg">create_menu_icon</span>=<span class="summary-sig-default">MenuIcon</span>)</span><br />
+      Creates a new <code>Tray</code>.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.tray_applet-pysrc.html#TrayApplet.__init__">source&nbsp;code</a></span>
+            <span class="codelink"><a href="traylib.managed_tray-pysrc.html#ManagedTray.__init__">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -106,11 +99,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="traylib.tray_applet.TrayApplet-class.html#get_icon_size" class="summary-sig-name">get_icon_size</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Returns:
-      0.75 times the width (if vertical) or height of the panel.</td>
+          <td><span class="summary-sig"><a href="traylib.managed_tray.ManagedTray-class.html#quit" class="summary-sig-name">quit</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Override this to clean up when the container containing the tray is 
+      destroyed.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.tray_applet-pysrc.html#TrayApplet.get_icon_size">source&nbsp;code</a></span>
+            <span class="codelink"><a href="traylib.managed_tray-pysrc.html#ManagedTray.quit">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -124,11 +117,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="traylib.tray_applet.TrayApplet-class.html#get_panel_orientation" class="summary-sig-name">get_panel_orientation</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Returns:
-      The panel orientation ('Top', 'Bottom', 'Left', 'Right')</td>
+          <td><span class="summary-sig"><a name="refresh"></a><span class="summary-sig-name">refresh</span>(<span class="summary-sig-arg">self</span>)</span></td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.tray_applet-pysrc.html#TrayApplet.get_panel_orientation">source&nbsp;code</a></span>
+            <span class="codelink"><a href="traylib.managed_tray-pysrc.html#ManagedTray.refresh">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -138,22 +129,21 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.tray_container.TrayContainer-class.html">tray_container.TrayContainer</a></code></b>:
-      <code><a href="traylib.tray_container.TrayContainer-class.html#update_icon_size">update_icon_size</a></code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__delattr__</code>,
-      <code>__format__</code>,
-      <code>__getattribute__</code>,
-      <code>__hash__</code>,
-      <code>__new__</code>,
-      <code>__reduce__</code>,
-      <code>__reduce_ex__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__sizeof__</code>,
-      <code>__str__</code>,
-      <code>__subclasshook__</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.tray.Tray-class.html">tray.Tray</a></code></b>:
+      <code><a href="traylib.tray.Tray-class.html#add_box">add_box</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#add_icon">add_icon</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#clear_box">clear_box</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#destroy">destroy</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#forget_menus">forget_menus</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#get_icon">get_icon</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#has_box">has_box</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#icon_ids">icon_ids</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#icons">icons</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#remove_box">remove_box</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#remove_icon">remove_icon</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#set_container">set_container</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#update_option_menus">update_option_menus</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#update_option_separators">update_option_separators</a></code>
       </p>
     </td>
   </tr>
@@ -168,25 +158,10 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.tray_container.TrayContainer-class.html">tray_container.TrayContainer</a></code></b>:
-      <code><a href="traylib.tray_container.TrayContainer-class.html#is_vertical">is_vertical</a></code>,
-      <code><a href="traylib.tray_container.TrayContainer-class.html#tray">tray</a></code>
-      </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== PROPERTIES ==================== -->
-<a name="section-Properties"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Properties</span></td>
-</tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__class__</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.tray.Tray-class.html">tray.Tray</a></code></b>:
+      <code><a href="traylib.tray.Tray-class.html#icon_config">icon_config</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#menu_icon">menu_icon</a></code>,
+      <code><a href="traylib.tray.Tray-class.html#tray_config">tray_config</a></code>
       </p>
     </td>
   </tr>
@@ -208,73 +183,54 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">xid</span>,
-        <span class="sig-arg">min_size</span>,
-        <span class="sig-arg">max_size</span>,
-        <span class="sig-arg">create_tray</span>,
         <span class="sig-arg">icon_config</span>,
-        <span class="sig-arg">tray_config</span>)</span>
+        <span class="sig-arg">tray_config</span>,
+        <span class="sig-arg">managers</span>,
+        <span class="sig-arg">create_menu_icon</span>=<span class="sig-default">MenuIcon</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="traylib.tray_applet-pysrc.html#TrayApplet.__init__">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="traylib.managed_tray-pysrc.html#ManagedTray.__init__">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Creates a new TrayApplet.</p>
+  <p>Creates a new <code>Tray</code>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>xid</code></strong> - The XID of a gtk.Socket widget.</li>
+        <li><strong class="pname"><code>icon_config</code></strong> - The <a href="traylib.icon_config.IconConfig-class.html" 
+          class="link">IconConfig</a> of the <code>Tray</code>.</li>
+        <li><strong class="pname"><code>tray_config</code></strong> - The <a href="traylib.tray_config.TrayConfig-class.html" 
+          class="link">TrayConfig</a> of the <code>Tray</code>.</li>
     </ul></dd>
     <dt>Overrides:
-        object.__init__
+        <a href="traylib.tray.Tray-class.html#__init__">tray.Tray.__init__</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
   </dl>
 </td></tr></table>
 </div>
-<a name="get_icon_size"></a>
+<a name="quit"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_icon_size</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">quit</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="traylib.tray_applet-pysrc.html#TrayApplet.get_icon_size">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="traylib.managed_tray-pysrc.html#ManagedTray.quit">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Extend this to determine the maximum icon size.</p>
+  <p>Override this to clean up when the container containing the tray is 
+  destroyed.</p>
   <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>0.75 times the width (if vertical) or height of the panel.</dd>
     <dt>Overrides:
-        <a href="traylib.tray_container.TrayContainer-class.html#get_icon_size">tray_container.TrayContainer.get_icon_size</a>
+        <a href="traylib.tray.Tray-class.html#quit">tray.Tray.quit</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="get_panel_orientation"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_panel_orientation</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="traylib.tray_applet-pysrc.html#TrayApplet.get_panel_orientation">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>The panel orientation ('Top', 'Bottom', 'Left', 'Right')</dd>
   </dl>
 </td></tr></table>
 </div>

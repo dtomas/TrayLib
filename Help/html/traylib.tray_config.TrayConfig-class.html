@@ -56,14 +56,30 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class TrayConfig</h1><p class="nomargin-top"><span class="codelink"><a href="traylib.tray_config-pysrc.html#TrayConfig">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-   object --+    
-            |    
-<a href="traylib.config.Config-class.html">config.Config</a> --+
-                |
-               <strong class="uidshort">TrayConfig</strong>
+gobject.GObject --+    
+                  |    
+      <a href="traylib.config.Config-class.html">config.Config</a> --+
+                      |
+                     <strong class="uidshort">TrayConfig</strong>
 </pre>
 
 <hr />
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Nested Classes</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.config.Config-class.html">config.Config</a></code></b>:
+      <code><a href="traylib.config.ConfigMeta-class.html">__metaclass__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -72,49 +88,14 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="traylib.tray_config.TrayConfig-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>,
-        <span class="summary-sig-arg">menus</span>,
-        <span class="summary-sig-arg">separators</span>)</span><br />
-      Creates a new <code>TrayConfig</code>.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="traylib.tray_config-pysrc.html#TrayConfig.__init__">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.config.Config-class.html">config.Config</a></code></b>:
-      <code><a href="traylib.config.Config-class.html#add_attribute">add_attribute</a></code>,
+      <code><a href="traylib.config.Config-class.html#__init__">__init__</a></code>,
       <code><a href="traylib.config.Config-class.html#add_configurable">add_configurable</a></code>,
-      <code><a href="traylib.config.Config-class.html#get_attribute">get_attribute</a></code>,
+      <code><a href="traylib.config.Config-class.html#get_configurables">get_configurables</a></code>,
       <code><a href="traylib.config.Config-class.html#has_configurable">has_configurable</a></code>,
-      <code><a href="traylib.config.Config-class.html#remove_configurable">remove_configurable</a></code>,
-      <code><a href="traylib.config.Config-class.html#set_attribute">set_attribute</a></code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__delattr__</code>,
-      <code>__format__</code>,
-      <code>__getattribute__</code>,
-      <code>__hash__</code>,
-      <code>__new__</code>,
-      <code>__reduce__</code>,
-      <code>__reduce_ex__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__sizeof__</code>,
-      <code>__str__</code>,
-      <code>__subclasshook__</code>
+      <code><a href="traylib.config.Config-class.html#remove_configurable">remove_configurable</a></code>
       </p>
     </td>
   </tr>
@@ -131,160 +112,28 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="traylib.tray_config.TrayConfig-class.html#name" class="summary-name">name</a> = <code title="property(lambda self: self.get_attribute('name'), lambda self, name: s\
-elf.set_attribute('name', name))">property(lambda self: self.get_attribute('name'), lambd<code class="variable-ellipsis">...</code></code>
+        <a name="name"></a><span class="summary-name">name</span> = <code title="Attribute()">Attribute()</code><br />
+      The name of the tray.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="traylib.tray_config.TrayConfig-class.html#menus" class="summary-name">menus</a> = <code title="property(lambda self: self.get_attribute('menus'), lambda self, menus:\
- self.set_attribute('menus', menus))">property(lambda self: self.get_attribute('menus'), lam<code class="variable-ellipsis">...</code></code>
+        <a name="menus"></a><span class="summary-name">menus</span> = <code title="Attribute(default= LEFT)">Attribute(default= LEFT)</code><br />
+      Where to show boxes for the main menu: <code>LEFT</code>, 
+      <code>RIGHT</code> or <code>LEFT|RIGHT</code>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="traylib.tray_config.TrayConfig-class.html#separators" class="summary-name">separators</a> = <code title="property(lambda self: self.get_attribute('separators'), lambda self, s\
-eparators: self.set_attribute('separators', separators))">property(lambda self: self.get_attribute('separat<code class="variable-ellipsis">...</code></code>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="traylib.config.Config-class.html">config.Config</a></code></b>:
-      <code><a href="traylib.config.Config-class.html#attributes">attributes</a></code>
-      </p>
+        <a name="separators"></a><span class="summary-name">separators</span> = <code title="Attribute(default= 0)">Attribute(default= 0)</code><br />
+      Where to show separators (may be <code>0</code>).
     </td>
   </tr>
 </table>
-<!-- ==================== PROPERTIES ==================== -->
-<a name="section-Properties"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Properties</span></td>
-</tr>
-  <tr>
-    <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
-      <code>__class__</code>
-      </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== METHOD DETAILS ==================== -->
-<a name="section-MethodDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Method Details</span></td>
-</tr>
-</table>
-<a name="__init__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>,
-        <span class="sig-arg">menus</span>,
-        <span class="sig-arg">separators</span>)</span>
-    <br /><em class="fname">(Constructor)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="traylib.tray_config-pysrc.html#TrayConfig.__init__">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Creates a new <code>TrayConfig</code>.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - The name of the tray.</li>
-        <li><strong class="pname"><code>menus</code></strong> - Where to show boxes for the main menu: <code>LEFT</code>, 
-          <code>RIGHT</code> or <code>LEFT|RIGHT</code>.</li>
-        <li><strong class="pname"><code>separators</code></strong> - Where to show separators (may be <code>0</code>).</li>
-    </ul></dd>
-    <dt>Overrides:
-        object.__init__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<br />
-<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
-<a name="section-ClassVariableDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Class Variable Details</span></td>
-</tr>
-</table>
-<a name="name"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">name</h3>
-  
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-property(lambda self: self.get_attribute('name'), lambda self, name: s<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-elf.set_attribute('name', name))
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="menus"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">menus</h3>
-  
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-property(lambda self: self.get_attribute('menus'), lambda self, menus:<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- self.set_attribute('menus', menus))
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="separators"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">separators</h3>
-  
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-property(lambda self: self.get_attribute('separators'), lambda self, s<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-eparators: self.set_attribute('separators', separators))
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -311,7 +160,7 @@ eparators: self.set_attribute('separators', separators))
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Mar 14 11:16:09 2015
+    Generated by Epydoc 3.0.1 on Sun Mar 22 11:54:15 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
