@@ -2,6 +2,10 @@
 			Library for tray-like applets
 			by Dennis Tomas
 
+0.5.1
+~~~~~
+- New method Icon.find_icon_name().
+
 0.5
 ~~~
 - Update blinking when window is closed.

@@ -416,6 +416,12 @@ class Icon(gtk.EventBox, object):
                                             self.__emblem_current_alpha + 5)
         return True
 
+    def find_icon_name(self):
+        for icon_name in self.get_icon_names():
+            icon_info = ICON_THEME.lookup_icon(icon_name, 48, 0)
+            if icon_info is not None:
+                break
+        return icon_name
 
     # Methods inherited from gtk.EventBox
     
