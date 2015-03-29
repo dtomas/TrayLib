@@ -2,8 +2,9 @@
 			Library for tray-like applets
 			by Dennis Tomas
 
-0.5.1
+0.5.1 (unreleased)
 ~~~~~
+- Register Icon as GType.
 - New method Icon.find_icon_name().
 
 0.5

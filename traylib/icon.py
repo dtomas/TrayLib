@@ -836,3 +836,5 @@ class Icon(gtk.EventBox, object):
 
     is_drop_target = property(lambda self : self.__is_drop_target)
     """C{True} if uris can be dropped on the C{Icon}."""
+
+gobject.type_register(Icon)
