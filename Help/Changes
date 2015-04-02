@@ -4,6 +4,7 @@
 
 0.5.1 (unreleased)
 ~~~~~
+- Name tray container "{name}PanelApplet", for correct color in XFCE themes.
 - Register Icon as GType.
 - New method Icon.find_icon_name().
 

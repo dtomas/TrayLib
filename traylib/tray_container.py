@@ -28,7 +28,7 @@ class TrayContainer(object):
         self.__max_size = max_size
         self.__min_size = min_size
         self.__vertical = vertical
-        self.set_name(tray_config.name)
+        self.set_name(tray_config.name + "PanelApplet")
         self.connect('size-allocate', self.__size_allocate)
 
     def __size_allocate(self, widget, rectangle):
