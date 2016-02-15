@@ -41,7 +41,7 @@ class Tray(gobject.GObject):
         else:
             self.__separator_left = gtk.VSeparator()
             self.__separator_right = gtk.VSeparator()
-        self.__menuicon = create_menu_icon(self)
+        self.__menu_icon = create_menu_icon(self)
 
         if self.__icon_config.vertical:
             self.__main_box = gtk.VBox()
@@ -180,10 +180,7 @@ class Tray(gobject.GObject):
         Makes the C{Tray} forget its main menu. Call this if something
         affecting the main menu has changed.
         """
-        if self.__menuicon_left:
-            self.__menuicon_left.forget_menu()
-        if self.__menuicon_right:
-            self.__menuicon_right.forget_menu()
+        self.__menu_icon.forget_menu()
 
     def get_icon(self, id):
         """
@@ -248,21 +245,21 @@ class Tray(gobject.GObject):
     def update_option_menus(self):
         """Called when L{TrayConfig.menus} has changed."""
         menus = self.__tray_config.menus
-        menuicon = self.__menuicon
+        menu_icon = self.__menu_icon
         old_box, new_box = (
             (self.__box_right, self.__box_left) if menus == LEFT
             else (self.__box_left, self.__box_right)
         )
 
-        if menuicon in old_box.get_children():
-            old_box.remove(menuicon)
-        if menuicon not in new_box.get_children():
-            new_box.pack_end(menuicon)
-            menuicon.update_visibility()
-            menuicon.update_icon()
-            menuicon.update_tooltip()
-            menuicon.update_is_drop_target()
-            menuicon.show_all()
+        if menu_icon in old_box.get_children():
+            old_box.remove(menu_icon)
+        if menu_icon not in new_box.get_children():
+            new_box.pack_end(menu_icon)
+            menu_icon.update_visibility()
+            menu_icon.update_icon()
+            menu_icon.update_tooltip()
+            menu_icon.update_is_drop_target()
+            menu_icon.show_all()
 
 
    # Methods to be implemented by subclasses
