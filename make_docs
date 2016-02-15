@@ -2,4 +2,4 @@
 
 APP_DIR=`dirname "$0"`
 
-exec epydoc -v --parse-only --no-private --exclude traylib.findrox --html "$APP_DIR/traylib" -o "$APP_DIR/Help/html"
+exec epydoc -v --parse-only --no-private --html "$APP_DIR/traylib" -o "$APP_DIR/Help/html"
