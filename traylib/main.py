@@ -13,9 +13,14 @@ from traylib.tray_config import TrayConfig
 class Main(object):
     
     def __init__(self, name):
-        """Creates a new C{Main} object."""
+        """
+        Creates a new C{Main} object.
         
+        @param name: The name of the C{Main} object.
+        """
+
         self.name = name
+        """The application name."""
 
         self.init_options()
         rox.app_options.notify()
@@ -23,6 +28,9 @@ class Main(object):
         self.init_config()
 
     def init_options(self):
+        """
+        Initializes options.
+        """
         self.__o_icon_size_min = Option("icon_size_min", 16)
         self.__o_icon_size_max = Option("icon_size_max", 32)
         self.__o_effects = Option("effects", True)
@@ -32,6 +40,9 @@ class Main(object):
         self.__o_hidden = Option("hidden", False)
         
     def init_config(self):
+        """
+        Initializes L{Main.icon_config} and L{Main.tray_config}.
+        """
         separators = 0
         if self.__o_separator_left.int_value:
             separators |= LEFT
@@ -99,6 +110,11 @@ class Main(object):
             self.__icon_config.effects = self.__o_effects.int_value
 
     icon_config = property(lambda self : self.__icon_config)
+    """Icon configuration (L{IconConfig} instance)."""
+
     tray_config = property(lambda self : self.__tray_config)
+    """Tray configuration (L{TrayConfig} instance)."""
+
     tray = property(lambda self : self.__main_window.tray if self.__main_window
                                   else None)
+    """The L{Tray}."""

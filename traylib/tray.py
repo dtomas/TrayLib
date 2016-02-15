@@ -21,6 +21,7 @@ class Tray(gobject.GObject):
         
         @param icon_config: The L{IconConfig} of the C{Tray}.
         @param tray_config: The L{TrayConfig} of the C{Tray}.
+        @param create_menu_icon: Callable creating a menu icon from a L{Tray}.
         """
         gobject.GObject.__init__(self)
 
@@ -40,9 +41,7 @@ class Tray(gobject.GObject):
         else:
             self.__separator_left = gtk.VSeparator()
             self.__separator_right = gtk.VSeparator()
-        self.__menuicon = create_menu_icon(
-            self, icon_config, tray_config
-        )
+        self.__menuicon = create_menu_icon(self)
 
         if self.__icon_config.vertical:
             self.__main_box = gtk.VBox()
@@ -227,6 +226,7 @@ class Tray(gobject.GObject):
     # Methods called when config options of the associated TrayConfig changed
 
     def update_option_separators(self):
+        """Called when L{TrayConfig.separators} has changed."""
         separators = self.__tray_config.separators
         vertical = self.__icon_config.vertical
         if separators & LEFT:
@@ -246,6 +246,7 @@ class Tray(gobject.GObject):
                 self.__box_right.remove(self.__separator_right)
 
     def update_option_menus(self):
+        """Called when L{TrayConfig.menus} has changed."""
         menus = self.__tray_config.menus
         menuicon = self.__menuicon
         old_box, new_box = (
@@ -286,8 +287,13 @@ class Tray(gobject.GObject):
                 yield icon
 
     icon_config = property(lambda self : self.__icon_config)
+    """The L{IconConfig} of the C{Tray}, configuring its icons."""
+
     tray_config = property(lambda self : self.__tray_config)
+    """The L{TrayConfig} of the C{Tray}."""
+
     menu_icon = property(lambda self : self.__menu_icon)
+    """The L{MenuIcon} used for the C{Tray}'s menu."""
 
 
 gobject.type_register(Tray)

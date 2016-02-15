@@ -16,8 +16,8 @@ class WinIcon(Icon):
         """
         Creates a new C{WinIcon}.
         
-        @param win_config: The C{WinConfig} controlling the configuration of
-            the C{WinIcon}.
+        @param win_config: The L{WinIconConfig} controlling the configuration
+            of the C{WinIcon}.
         """
 
         self.__win_config = win_config
@@ -34,7 +34,8 @@ class WinIcon(Icon):
         
     def is_minimized(self):
         """
-        @return: {True} if all visible windows of the C{WinIcon} are minimized.
+        @return:
+            C{True} if all visible windows of the C{WinIcon} are minimized.
         """
         if not self.__visible_windows:
             return False
@@ -404,13 +405,13 @@ class WinIcon(Icon):
             self.__screen.get_active_window() in self.__windows
         )
     )
-    """{True} if the C{WinIcon} has the active window."""
+    """C{True} if the C{WinIcon} has the active window."""
 
     has_visible_windows = property(lambda self : bool(self.__visible_windows))
-    """{True} if the C{WinIcon} has any visible windows."""
+    """C{True} if the C{WinIcon} has any visible windows."""
 
     has_windows = property(lambda self : bool(self.__windows))
-    """{True} if the C{WinIcon} has any windows."""
+    """C{True} if the C{WinIcon} has any windows."""
 
     screen = property(lambda self : self.__screen)
     """The screen of the icon's windows."""

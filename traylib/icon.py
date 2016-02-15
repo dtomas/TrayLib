@@ -619,7 +619,7 @@ class Icon(gtk.EventBox, object):
         used if L{get_icon_path} doesn't return a path to an icon or the icon
         could not be loaded.
 
-        @return The icon names.
+        @return: The icon names.
         """
         return []
 

@@ -11,12 +11,16 @@ from traylib.icon import Icon
 
 class MenuIcon(Icon):
     
-    def __init__(self, tray, icon_config, tray_config):
-        Icon.__init__(self, icon_config)
-        
-        tray_config.add_configurable(self)
+    def __init__(self, tray):
+        """
+        Initializes a L{MenuIcon}.
 
-        self.__tray_config = tray_config
+        @param tray: The L{Tray} for which to create a menu.
+        """
+        Icon.__init__(self, tray.icon_config)
+        
+        tray.tray_config.add_configurable(self)
+
         self.__tray = tray
         self.__menu = None
         
@@ -57,7 +61,7 @@ class MenuIcon(Icon):
 
     def __show_info(self, menu_item = None):
         """Shows information."""
-        InfoWin.infowin(self.__tray_config.name)
+        InfoWin.infowin(self.__tray.tray_config.name)
 
     def __show_help(self, menu_item = None):
         """Shows information."""
@@ -73,12 +77,12 @@ class MenuIcon(Icon):
 
     def __quit(self, menu_item = None):
         """Quits the Tray."""
-        if rox.confirm(_("Really quit %s?") % self.__tray_config.name, 
+        if rox.confirm(_("Really quit %s?") % self.__tray.tray_config.name, 
                     gtk.STOCK_QUIT):
             self.__tray.destroy()
 
     def __destroy(self, widget):
-        self.__tray_config.remove_configurable(self)
+        self.__tray.tray_config.remove_configurable(self)
 
     def __create_menu(self):
         menu = gtk.Menu()
@@ -105,4 +109,3 @@ class MenuIcon(Icon):
         return menu
 
     tray = property(lambda self : self.__tray)
-    tray_config = property(lambda self : self.__tray_config)
