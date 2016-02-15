@@ -32,6 +32,16 @@ class MenuIcon(Icon):
         affecting the menu has changed.
         """
         self.__menu = None
+
+
+    # Methods to be implemented by subclasses
+
+    def get_custom_menu_items(self):
+        """Override this to return custom items for the main menu."""
+        return []
+
+
+    # Methods inherited from Icon
         
     def get_menu_right(self):
         if not self.__menu:
@@ -50,14 +60,15 @@ class MenuIcon(Icon):
     def update_visibility(self):
         """Always shows the menu icon."""
         self.show()
-        
+
+
+    # Methods called when config options of the associated IconConfig changed
+
     def update_option_hidden(self):
+        """Called when C{IconConfig.hidden} has changed."""
         Icon.update_option_hidden(self)
         self.update_tooltip()
 
-    def get_custom_menu_items(self):
-        """Override this to return custom items for the main menu."""
-        return []
 
     def __show_info(self, menu_item = None):
         """Shows information."""

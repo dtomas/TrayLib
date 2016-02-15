@@ -2,6 +2,21 @@ from traylib.winicon import WinIcon
 
 
 def manage_winicons(tray, screen):
+    """
+    Tray manager adding L{WinIcon}s for opened windows to the tray.
+    To be used with L{ManagedTray}, example::
+
+        tray = ManagedTray(
+            icon_config, tray_config, managers=[
+                partial(manage_winicons, screen=wnck.screen_get_default())
+            ]
+        )
+
+    @param tray: The L{Tray} to manage.
+    @param screen: The C{wnck.Screen} providing the windows.
+
+    @return: Pair of generator functions manage(tray), unmanage(tray)
+    """
 
     if screen is None:
         return lambda: None, lambda: None

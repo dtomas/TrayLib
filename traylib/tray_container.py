@@ -16,7 +16,8 @@ class TrayContainer(object):
         @param min_size: The minimum size of the icons.
         @param max_size: The maximum size of the icons.
         @param vertical: C{True} if the tray should be vertical.
-        @param create_tray: The function to create the tray.
+        @param create_tray: Callable to create the tray from an
+            L{IconConfig} and a L{TrayConfig}.
         @param icon_config: The L{IconConfig}.
         @param tray_config: The L{TrayConfig}.
         """

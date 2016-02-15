@@ -21,7 +21,7 @@ class Tray(gobject.GObject):
         
         @param icon_config: The L{IconConfig} of the C{Tray}.
         @param tray_config: The L{TrayConfig} of the C{Tray}.
-        @param create_menu_icon: Callable creating a menu icon from a L{Tray}.
+        @param create_menu_icon: Callable creating a L{MenuIcon} from a L{Tray}.
         """
         gobject.GObject.__init__(self)
 
@@ -270,6 +270,7 @@ class Tray(gobject.GObject):
         destroyed.
         """
         pass
+
 
     @property
     def icon_ids(self):

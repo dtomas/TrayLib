@@ -66,7 +66,8 @@ class Main(object):
         Starts the main loop and returns when the tray app is quit.
         
         @param app_args: The arguments passed to the app.
-        @param create_tray: Function to create the tray.
+        @param create_tray: Callable to create the tray from an L{IconConfig}
+            and a L{TrayConfig}.
         """
         ICON_THEME.append_search_path(os.path.join(rox.app_dir, 'icons'))
         rox.app_options.add_notify(self.options_changed)
@@ -74,13 +75,13 @@ class Main(object):
             self.__main_window = TrayApplet(app_args[1],
                                             self.__o_icon_size_min.int_value,
                                             self.__o_icon_size_max.int_value,
-                                            create_tray, 
+                                            create_tray,
                                             self.__icon_config,
                                             self.__tray_config)
         else:
             self.__main_window = TrayWindow(self.__o_icon_size_min.int_value,
                                             self.__o_icon_size_max.int_value,
-                                            create_tray, 
+                                            create_tray,
                                             self.__icon_config, 
                                             self.__tray_config)
         self.__main_window.show()
