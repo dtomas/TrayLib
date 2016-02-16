@@ -42,7 +42,10 @@ class Icon(gtk.EventBox, object):
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
         
         self.__config = config
-        config.add_configurable(self)
+        config.connect_simple("edge-changed", self._refresh, True)
+        config.connect_simple("effects-changed", self._refresh, True)
+        config.connect_simple("size-changed", self.__size_changed)
+        config.connect_simple("hidden-changed", self.update_visibility)
 
         # image
         self.__image = gtk.Image()
@@ -456,28 +459,14 @@ class Icon(gtk.EventBox, object):
         self._refresh()
 
 
-    # Methods called when config options of the associated IconConfig changed
+    # Signal callbacks
 
-    def update_option_edge(self):
-        """Updates the edge the C{Icon} is at."""
-        self._refresh(True)
-        
-    def update_option_effects(self):
-        """Updates the effects of the C{Icon}."""
-        self._refresh(True)
-
-    def update_option_size(self):
+    def __size_changed(self):
         """Updates the C{Icon}'s size."""
         self.__update_max_size()
         self.__update_size_request()
         self.update_icon()
         self.update_emblem()
-        
-    def update_option_hidden(self):
-        self.update_visibility()
-
-
-    # Signal callbacks
     
     def __theme_changed(self, icon_theme):
         self.icon_theme_changed()
@@ -486,7 +475,6 @@ class Icon(gtk.EventBox, object):
 
     def __destroy(self, widget):
         assert widget == self
-        self.__config.remove_configurable(self)
         ICON_THEME.disconnect(self.__icon_theme_changed_handler)
 
     def __drag_data_received(self, widget, context, x, y, data, info, time):

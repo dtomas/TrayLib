@@ -40,10 +40,10 @@ class IconConfig(Config):
         assert kwargs['size'] > 0
         assert kwargs['edge'] in (0, TOP, BOTTOM, LEFT, RIGHT)
         Config.__init__(self, **kwargs)
-        self.add_configurable(self)
-        self.update_option_edge()
+        self.connect("edge-changed", self.__edge_changed)
+        self.__edge_changed()
 
-    def update_option_edge(self):
+    def __edge_changed(self):
         edge = self.edge
         if edge == LEFT:
             pixmap = pixmaps.right

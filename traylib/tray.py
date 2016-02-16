@@ -27,7 +27,10 @@ class Tray(gobject.GObject):
 
         self.__icon_config = icon_config
         self.__tray_config = tray_config
-        tray_config.add_configurable(self)
+        tray_config.connect_simple(
+            "separators-changed", self.__separators_changed
+        )
+        tray_config.connect_simple("menus-changed", self.__menus_changed)
 
         self.__container = None
 
@@ -63,8 +66,8 @@ class Tray(gobject.GObject):
         self.__box.show()
         self.__box_right.show()
 
-        self.update_option_separators()
-        self.update_option_menus()
+        self.__separators_changed()
+        self.__menus_changed()
 
         self.__main_box.connect("destroy", self.__main_box_destroyed)
 
@@ -216,13 +219,9 @@ class Tray(gobject.GObject):
 
     def __main_box_destroyed(self, main_box):
         assert main_box == self.__main_box
-        self.__tray_config.remove_configurable(self)
         self.quit()
 
-
-    # Methods called when config options of the associated TrayConfig changed
-
-    def update_option_separators(self):
+    def __separators_changed(self):
         """Called when L{TrayConfig.separators} has changed."""
         separators = self.__tray_config.separators
         vertical = self.__icon_config.vertical
@@ -242,7 +241,7 @@ class Tray(gobject.GObject):
             if self.__separator_right in self.__box_right.get_children():
                 self.__box_right.remove(self.__separator_right)
 
-    def update_option_menus(self):
+    def __menus_changed(self):
         """Called when L{TrayConfig.menus} has changed."""
         menus = self.__tray_config.menus
         menu_icon = self.__menu_icon

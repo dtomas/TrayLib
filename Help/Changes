@@ -2,6 +2,11 @@
 			Library for tray-like applets
 			by Dennis Tomas
 
+0.6 (unreleased)
+~~~
+- Dropped config update methods, use signals instead.
+- Changed signature of create_menu_icon().
+
 0.5.1
 ~~~~~
 - Name tray container "{name}PanelApplet", for correct color in XFCE themes.

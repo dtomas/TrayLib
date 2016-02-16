@@ -9,9 +9,8 @@ class Attribute(object):
     _internal_attr = None
     _signal_name = None
 
-    def __init__(self, update_func=None, default=None):
+    def __init__(self, default=None):
         self._default = default
-        self._update_func = update_func
 
     def __get__(self, obj, objtype=None):
         if obj is None:
@@ -24,14 +23,6 @@ class Attribute(object):
     def __set__(self, obj, value):
         setattr(obj, self._internal_attr, value)
         obj.emit(self._signal_name)
-        if self._update_func is None:
-            self._update_func = 'update_option_%s' % self._attr
-        for configurable in obj.get_configurables():
-            try:
-                update = getattr(configurable, self._update_func)
-            except AttributeError:
-                continue
-            update()
 
 
 class ConfigMeta(gobject.GObjectMeta):
@@ -65,40 +56,17 @@ class Config(gobject.GObject):
         Creates a new C{Config}.
         """
         gobject.GObject.__init__(self)
-        self.__objects = set()
         for key, value in attrs.iteritems():
             setattr(self, key, value)
 
-    def add_configurable(self, obj):
+    def connect_simple(self, signal, handler, *args):
         """
-        Registers a configurable object.
-
-        @param obj: The object.
+        Connects to a signal with a handler to which only the given arguments
+        are passed, not the C{Config} object itself.
         """
-        self.__objects.add(obj)
-
-    def remove_configurable(self, obj):
-        """
-        Unregisters a configurable object.
-
-        @param obj: The object.
-        """
-        try:
-            self.__objects.remove(obj)
-        except KeyError:
-            # Already removed.
-            pass
-
-    def has_configurable(self, obj):
-        """
-        @param obj: The configurable object.
-        @return: C{True} if the configurable object is registered with the 
-            C{Config}.
-        """
-        return obj in self.__objects
-
-    def get_configurables(self):
-        return self.__objects
+        def _handler(obj, *args):
+            handler(*args)
+        self.connect(signal, _handler, *args)
 
 
 gobject.type_register(Config)

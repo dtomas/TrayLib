@@ -18,13 +18,11 @@ class MenuIcon(Icon):
         @param tray: The L{Tray} for which to create a menu.
         """
         Icon.__init__(self, tray.icon_config)
-        
-        tray.tray_config.add_configurable(self)
+
+        tray.icon_config.connect_simple("hidden-changed", self.update_tooltip)
 
         self.__tray = tray
         self.__menu = None
-        
-        self.connect("destroy", self.__destroy)
 
     def forget_menu(self):
         """
@@ -62,13 +60,7 @@ class MenuIcon(Icon):
         self.show()
 
 
-    # Methods called when config options of the associated IconConfig changed
-
-    def update_option_hidden(self):
-        """Called when C{IconConfig.hidden} has changed."""
-        Icon.update_option_hidden(self)
-        self.update_tooltip()
-
+    # Private methods
 
     def __show_info(self, menu_item = None):
         """Shows information."""
@@ -91,9 +83,6 @@ class MenuIcon(Icon):
         if rox.confirm(_("Really quit %s?") % self.__tray.tray_config.name, 
                     gtk.STOCK_QUIT):
             self.__tray.destroy()
-
-    def __destroy(self, widget):
-        self.__tray.tray_config.remove_configurable(self)
 
     def __create_menu(self):
         menu = gtk.Menu()
