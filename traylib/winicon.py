@@ -365,15 +365,6 @@ class WinIcon(Icon):
         return True
 
 
-    # Methods called when config options of the associated WinIconConfig change
-
-    def update_option_all_workspaces(self):
-        self.update_windows()
-
-    def update_option_arrow(self):
-        self.update_has_arrow()
-
-
     # Methods to be implemented by subclasses
 
     def make_name(self):
