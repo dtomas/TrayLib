@@ -45,8 +45,7 @@ class Config(gobject.GObject):
     """
     A C{Config} is an object containing attributes. They can be added using the 
     L{Attribute} descriptor.
-    If an attribute is changed, an update function is called on all
-    configurable objects registered via L{add_configurable()}.
+    If an attribute is changed, a signal "<attribute>-changed" is emitted.
     """
 
     __metaclass__ = ConfigMeta
