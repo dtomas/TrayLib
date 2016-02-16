@@ -20,7 +20,7 @@ class MenuIcon(Icon):
         Icon.__init__(self, tray.icon_config)
 
         tray.icon_config.connect(
-            "hidden-changed", lambda self: self.update_tooltip()
+            "hidden-changed", lambda icon_config: self.update_tooltip()
         )
 
         self.__tray = tray
