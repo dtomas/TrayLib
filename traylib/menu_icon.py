@@ -64,15 +64,15 @@ class MenuIcon(Icon):
 
     # Private methods
 
-    def __show_info(self, menu_item = None):
+    def __show_info(self, menu_item=None):
         """Shows information."""
         InfoWin.infowin(self.__tray.tray_config.name)
 
-    def __show_help(self, menu_item = None):
+    def __show_help(self, menu_item=None):
         """Shows information."""
         filer.open_dir(os.path.join(rox.app_dir, 'Help'))
 
-    def __show_options(self, menu_item = None):
+    def __show_options(self, menu_item=None):
         """Shows the options."""
         if self.icon_config.vertical:
             options_xml = 'OptionsV.xml'
@@ -80,10 +80,11 @@ class MenuIcon(Icon):
             options_xml = 'OptionsH.xml'
         rox.edit_options(os.path.join(rox.app_dir, options_xml))
 
-    def __quit(self, menu_item = None):
+    def __quit(self, menu_item=None):
         """Quits the Tray."""
-        if rox.confirm(_("Really quit %s?") % self.__tray.tray_config.name, 
-                    gtk.STOCK_QUIT):
+        if rox.confirm(
+                _("Really quit %s?") % self.__tray.tray_config.name,
+                gtk.STOCK_QUIT):
             self.__tray.destroy()
 
     def __create_menu(self):
@@ -110,4 +111,4 @@ class MenuIcon(Icon):
         menu.show_all()
         return menu
 
-    tray = property(lambda self : self.__tray)
+    tray = property(lambda self: self.__tray)

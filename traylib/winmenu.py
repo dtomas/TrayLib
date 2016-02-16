@@ -15,13 +15,13 @@ def _load_icons(icon_theme):
     global dir_icon, home_icon
     home_icon = None
     dir_icon = None
-    for icon_name in ['mime-inode:directory', 'folder', 'gnome-fs-directory']:
+    for icon_name in 'mime-inode:directory', 'folder', 'gnome-fs-directory':
         try:
             dir_icon = icon_theme.load_icon(icon_name, 32, 0)
             break
         except:
             pass
-    for icon_name in ['user-home', 'gnome-fs-home']:
+    for icon_name in 'user-home', 'gnome-fs-home':
         try:
             home_icon = icon_theme.load_icon(icon_name, 32, 0)
             break
@@ -36,17 +36,19 @@ _load_icons(ICON_THEME)
 
 
 def _kill(menu_item, pids, name):
-    if rox.confirm(_("Really force %s to quit?") % name,
-                                gtk.STOCK_QUIT, _("Force quit")):
+    if rox.confirm(
+            _("Really force %s to quit?") % name,
+            gtk.STOCK_QUIT, _("Force quit")):
         for pid in pids:
-            rox.processes.PipeThroughCommand(('kill', '-KILL', str(pid)), 
-                                            None, None).wait()
+            rox.processes.PipeThroughCommand(
+                ('kill', '-KILL', str(pid)), None, None
+            ).wait()
 
 
 def get_filer_window_path(window):
     name = window.get_name()
-    if (window.get_class_group().get_name() != 'ROX-Filer'
-        or not (name.startswith('/') or name.startswith('~'))):
+    if (window.get_class_group().get_name() != 'ROX-Filer' or
+            not (name.startswith('/') or name.startswith('~'))):
         return ''
     for i in range(1-len(name), 0):
         if name[-i] == '(' or name[-i] == '+':
@@ -91,14 +93,16 @@ class WindowActionMenu(gtk.Menu):
 
         if window.is_maximized():
             item = gtk.ImageMenuItem(_("Unmaximize"))
-            item.get_image().set_from_stock(gtk.STOCK_ZOOM_OUT, 
-                                            gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(
+                gtk.STOCK_ZOOM_OUT, gtk.ICON_SIZE_MENU
+            )
             item.connect("activate", self.__winaction, wnck.Window.unmaximize)
             item.set_sensitive(wnck.WINDOW_ACTION_UNMAXIMIZE & actions)
         else:
             item = gtk.ImageMenuItem(_("Maximize"))
-            item.get_image().set_from_stock(gtk.STOCK_ZOOM_100, 
-                                            gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(
+                gtk.STOCK_ZOOM_100, gtk.ICON_SIZE_MENU
+            )
             item.connect("activate", self.__winaction, wnck.Window.maximize)
             item.set_sensitive(wnck.WINDOW_ACTION_MAXIMIZE & actions)
         self.append(item)
@@ -115,14 +119,16 @@ class WindowActionMenu(gtk.Menu):
     
         if window.is_shaded():
             item = gtk.ImageMenuItem(_("Unshade"))
-            item.get_image().set_from_stock(gtk.STOCK_GOTO_BOTTOM, 
-                                            gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(
+                gtk.STOCK_GOTO_BOTTOM, gtk.ICON_SIZE_MENU
+            )
             item.connect("activate", self.__winaction, wnck.Window.unshade)
             item.set_sensitive(wnck.WINDOW_ACTION_UNSHADE & actions)
         else:
             item = gtk.ImageMenuItem(_("Shade"))
-            item.get_image().set_from_stock(gtk.STOCK_GOTO_TOP, 
-                                            gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(
+                gtk.STOCK_GOTO_TOP, gtk.ICON_SIZE_MENU
+            )
             item.connect("activate", self.__winaction, wnck.Window.shade)
             item.set_sensitive(wnck.WINDOW_ACTION_SHADE & actions)
         self.append(item)
@@ -131,8 +137,9 @@ class WindowActionMenu(gtk.Menu):
     
         if window.is_pinned() or window.is_sticky():
             item = gtk.ImageMenuItem(_("Only on this workspace"))
-            item.get_image().set_from_stock(gtk.STOCK_REMOVE, 
-                                            gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(
+                gtk.STOCK_REMOVE, gtk.ICON_SIZE_MENU
+            )
             item.connect("activate", self.__winaction, wnck.Window.unstick)
             item.connect("activate", self.__winaction, wnck.Window.unpin)
             item.set_sensitive(wnck.WINDOW_ACTION_UNSTICK & actions)
@@ -146,8 +153,9 @@ class WindowActionMenu(gtk.Menu):
     
         if screen.get_workspace_count() > 1:
             item = gtk.ImageMenuItem(_("Move to workspace"))
-            item.get_image().set_from_stock(gtk.STOCK_JUMP_TO, 
-                                            gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(
+                gtk.STOCK_JUMP_TO, gtk.ICON_SIZE_MENU
+            )
             self.append(item)
             submenu = gtk.Menu()
             item.set_submenu(submenu)
@@ -155,9 +163,9 @@ class WindowActionMenu(gtk.Menu):
                 workspace = screen.get_workspace(i)
                 item = gtk.MenuItem(workspace.get_name())
                 if workspace != window.get_workspace():
-                    item.connect("activate", 
-                                self.__move_to_workspace, 
-                                workspace)
+                    item.connect(
+                        "activate", self.__move_to_workspace, workspace
+                    )
                 else:
                     item.set_sensitive(False)
                 submenu.append(item)
@@ -175,8 +183,9 @@ class WindowActionMenu(gtk.Menu):
 
         if self.__parent and self.__path and os.path.isdir(self.__path):
             item = gtk.ImageMenuItem(_("Close subdirectories"))
-            item.get_image().set_from_stock(gtk.STOCK_CLOSE,
-                                            gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(
+                gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU
+            )
             item.connect("activate", self.__close_subdirs)
             self.append(item)
 
@@ -196,8 +205,9 @@ class WindowActionMenu(gtk.Menu):
                         % self.__path)
         n_windows = len(windows)
         if n_windows > 1:
-            if not rox.confirm(_("Close all %d subdirectories of %s?")
-                            % (n_windows, self.__path), gtk.STOCK_CLOSE):
+            if not rox.confirm(
+                    _("Close all %d subdirectories of %s?") %
+                    (n_windows, self.__path), gtk.STOCK_CLOSE):
                 return
         for window in windows:
             window.close(gtk.get_current_event_time())
@@ -221,7 +231,7 @@ class WindowMenuItem(gtk.ImageMenuItem):
     A menu item representing a window.
     """
 
-    def __init__(self, window, icon, root = None, root_icon = None):
+    def __init__(self, window, icon, root=None, root_icon=None):
         """
         Creates a new WindowMenuItem.
         
@@ -358,9 +368,12 @@ class WindowMenu(gtk.Menu):
                 has_unminimized_windows = True
             item = WindowMenuItem(window, icon, root, root_icon)
             if type == TYPE_OPTIONS:
-                item.set_submenu(WindowActionMenu(window,
-                                            has_kill and len(self.__pids) > 1,
-                                            item.get_path(), self))
+                item.set_submenu(
+                    WindowActionMenu(
+                        window, has_kill and len(self.__pids) > 1,
+                        item.get_path(), self
+                    )
+                )
             else:
                 item.connect("scroll-event", self.__scroll, window)
                 item.connect("activate", self.__window_selected, window, time)
@@ -380,14 +393,16 @@ class WindowMenu(gtk.Menu):
             if has_kill:
                 self.append(gtk.SeparatorMenuItem())
                 item = gtk.ImageMenuItem(_("Force quit"))
-                item.get_image().set_from_stock(gtk.STOCK_QUIT, 
-                                                gtk.ICON_SIZE_MENU)
+                item.get_image().set_from_stock(
+                    gtk.STOCK_QUIT, gtk.ICON_SIZE_MENU
+                )
                 item.connect("activate", _kill, self.__pids, group_name)
                 self.append(item)
             self.append(gtk.SeparatorMenuItem())
             item = gtk.ImageMenuItem(_("Close all"))
-            item.get_image().set_from_stock(gtk.STOCK_CLOSE,
-                                            gtk.ICON_SIZE_MENU)
+            item.get_image().set_from_stock(
+                gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU
+            )
             item.connect("activate", self.__close_all)
             self.append(item)
             
@@ -407,11 +422,14 @@ class WindowMenu(gtk.Menu):
     def __close_all(self, menu_item):
         n_windows = len(self.__windows)
         if n_windows == 0:
-            rox.info(_("%s hasn't got any open windows anymore.")
-                    % self.__group_name)
+            rox.info(
+                _("%s hasn't got any open windows anymore.") %
+                self.__group_name
+            )
             return
-        if not rox.confirm(_("Close all %d windows of %s?")
-                            % (n_windows, self.__group_name),
+        if not rox.confirm(
+                _("Close all %d windows of %s?") %
+                (n_windows, self.__group_name),
                 gtk.STOCK_CLOSE, _("Close all")):
             return
         for window in self.__windows:

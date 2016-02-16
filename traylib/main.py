@@ -72,18 +72,18 @@ class Main(object):
         ICON_THEME.append_search_path(os.path.join(rox.app_dir, 'icons'))
         rox.app_options.add_notify(self.options_changed)
         if len(app_args) >= 2:
-            self.__main_window = TrayApplet(app_args[1],
-                                            self.__o_icon_size_min.int_value,
-                                            self.__o_icon_size_max.int_value,
-                                            create_tray,
-                                            self.__icon_config,
-                                            self.__tray_config)
+            self.__main_window = TrayApplet(
+                app_args[1],
+                self.__o_icon_size_min.int_value,
+                self.__o_icon_size_max.int_value,
+                create_tray, self.__icon_config, self.__tray_config
+            )
         else:
-            self.__main_window = TrayWindow(self.__o_icon_size_min.int_value,
-                                            self.__o_icon_size_max.int_value,
-                                            create_tray,
-                                            self.__icon_config, 
-                                            self.__tray_config)
+            self.__main_window = TrayWindow(
+                self.__o_icon_size_min.int_value,
+                self.__o_icon_size_max.int_value,
+                create_tray, self.__icon_config, self.__tray_config
+            )
         self.__main_window.show()
         rox.mainloop()
 
@@ -93,7 +93,8 @@ class Main(object):
                 self.__o_icon_size_max.has_changed):
             self.__main_window.update_icon_size(
                 self.__o_icon_size_min.int_value,
-                self.__o_icon_size_max.int_value)
+                self.__o_icon_size_max.int_value
+            )
     
         if (self.__o_separator_left.has_changed or
                 self.__o_separator_right.has_changed):
@@ -110,12 +111,13 @@ class Main(object):
         if self.__o_effects.has_changed:
             self.__icon_config.effects = self.__o_effects.int_value
 
-    icon_config = property(lambda self : self.__icon_config)
+    icon_config = property(lambda self: self.__icon_config)
     """Icon configuration (L{IconConfig} instance)."""
 
-    tray_config = property(lambda self : self.__tray_config)
+    tray_config = property(lambda self: self.__tray_config)
     """Tray configuration (L{TrayConfig} instance)."""
 
-    tray = property(lambda self : self.__main_window.tray if self.__main_window
-                                  else None)
+    tray = property(
+        lambda self: self.__main_window.tray if self.__main_window else None
+    )
     """The L{Tray}."""

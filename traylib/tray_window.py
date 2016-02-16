@@ -11,8 +11,10 @@ class TrayWindow(Window, TrayContainer):
         """Creates a new C{TrayWindow}."""
         Window.__init__(self)
         self.set_size_request(-1, 48)
-        TrayContainer.__init__(self, min_size, max_size, False, create_tray, 
-                                icon_config, tray_config)
+        TrayContainer.__init__(
+            self, min_size, max_size, False,
+            create_tray, icon_config, tray_config
+        )
 
     def get_icon_size(self):
         """@return: Half the height of the window."""

@@ -281,13 +281,13 @@ class Tray(gobject.GObject):
             for icon in icons.itervalues():
                 yield icon
 
-    icon_config = property(lambda self : self.__icon_config)
+    icon_config = property(lambda self: self.__icon_config)
     """The L{IconConfig} of the C{Tray}, configuring its icons."""
 
-    tray_config = property(lambda self : self.__tray_config)
+    tray_config = property(lambda self: self.__tray_config)
     """The L{TrayConfig} of the C{Tray}."""
 
-    menu_icon = property(lambda self : self.__menu_icon)
+    menu_icon = property(lambda self: self.__menu_icon)
     """The L{MenuIcon} used for the C{Tray}'s menu."""
 
 

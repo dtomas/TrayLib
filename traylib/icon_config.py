@@ -9,7 +9,7 @@ class IconConfig(Config):
     Icon configuration object.
     """
 
-    arrow = property(lambda self : self.__arrow)
+    arrow = property(lambda self: self.__arrow)
     """The arrow pixmap."""
 
     size = Attribute(default=32)
@@ -30,7 +30,7 @@ class IconConfig(Config):
     pos_func = Attribute(default=None)
     """The function for positioning the menu (may be None)."""
     
-    vertical = property(lambda self : self.edge in (LEFT, RIGHT))
+    vertical = property(lambda self: self.edge in (LEFT, RIGHT))
     """
     C{True} if the icons are on a vertical panel, that is: the edge is either
     LEFT or RIGHT.

@@ -42,8 +42,9 @@ class TrayContainer(object):
         self.__size = size
         self.update_icon_size(self.__min_size, self.__max_size)
         if not self.__tray:
-            self.__tray = self.__create_tray(self.__icon_config,
-                                             self.__tray_config)
+            self.__tray = self.__create_tray(
+                self.__icon_config, self.__tray_config
+            )
             self.__tray.set_container(self)
 
     def update_icon_size(self, min_size, max_size):
@@ -66,5 +67,5 @@ class TrayContainer(object):
         """
         return self.__size
     
-    is_vertical = property(lambda self : self.__vertical)
-    tray = property(lambda self : self.__tray)
+    is_vertical = property(lambda self: self.__vertical)
+    tray = property(lambda self: self.__tray)

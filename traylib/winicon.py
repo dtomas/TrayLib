@@ -51,8 +51,6 @@ class WinIcon(Icon):
     def update_name(self):
         """Updates the name by calling L{make_name()}"""
         self.__name = self.make_name()
-        assert (self.__name == None or isinstance(self.__name, unicode)
-                or isinstance(self.__name, str))
 
     def update_windows(self):
         """
@@ -80,7 +78,7 @@ class WinIcon(Icon):
         else:
             self.set_blinking(False)
 
-    def activate_next_window(self, time = 0L):
+    def activate_next_window(self, time=0L):
         """
         If the active window is in the C{WinIcon}'s list of visible windows, 
         activates the window after the active window in the list of visible 
@@ -100,7 +98,7 @@ class WinIcon(Icon):
         self.__visible_windows[0].activate(time)
         return True
 
-    def activate_previous_window(self, time = 0L):
+    def activate_previous_window(self, time=0L):
         """
         If the active window is in the C{WinIcon}'s list of visible windows, 
         activates the window before the active window in the list of visible 
@@ -131,12 +129,12 @@ class WinIcon(Icon):
         if not self.should_have_window(window):
             return
         self.__window_handlers[window] = (
-                            window.connect("name_changed", 
-                                        self.__window_name_changed),
-                            window.connect("state_changed",
-                                        self.__window_state_changed),
-                            window.connect("workspace_changed",
-                                        self.__window_workspace_changed))
+            window.connect("name_changed", self.__window_name_changed),
+            window.connect("state_changed", self.__window_state_changed),
+            window.connect(
+                "workspace_changed", self.__window_workspace_changed
+            )
+        )
         self.__windows.append(window)
 
         if self.window_is_visible(window):
@@ -175,13 +173,15 @@ class WinIcon(Icon):
         """
         if not self.__screen:
             return False
-        return (window in self.__windows
-            and not window.is_skip_tasklist() 
-            and (self.__win_config.all_workspaces
-                or window.get_workspace() == self.screen.get_active_workspace()
-                or window.is_pinned()
-                or window.is_sticky())
-            or window.needs_attention())
+        return (
+            window in self.__windows and
+            not window.is_skip_tasklist() and (
+                self.__win_config.all_workspaces or
+                window.get_workspace() == self.screen.get_active_workspace() or
+                window.is_pinned() or window.is_sticky()
+            ) or
+            window.needs_attention()
+        )
 
 
     # Signal callbacks
@@ -192,8 +192,9 @@ class WinIcon(Icon):
         self.update_zoom_factor()
         self.update_visibility()
         self.update_has_arrow()
-        if changed_mask & (wnck.WINDOW_STATE_DEMANDS_ATTENTION
-                            | wnck.WINDOW_STATE_URGENT):
+        if (changed_mask &
+                (wnck.WINDOW_STATE_DEMANDS_ATTENTION |
+                 wnck.WINDOW_STATE_URGENT)):
             self.update_blinking()
 
     def __window_name_changed(self, window):
@@ -224,8 +225,10 @@ class WinIcon(Icon):
         @return: C{True} if the C{WinIcon} has any visible windows or if it 
             should not hide icons with no visible windows.
         """
-        return (not self.should_hide_if_no_visible_windows() 
-                or self.__visible_windows)    
+        return (
+            not self.should_hide_if_no_visible_windows() or
+            self.__visible_windows
+        )
 
     def make_zoom_factor(self):
         """
@@ -292,8 +295,10 @@ class WinIcon(Icon):
             icon = self.icon
         else:
             icon = None
-        return WindowMenu(self.__visible_windows, self.__screen, TYPE_SELECT,
-                          icon, self.__name, self.get_root_path(), icon)
+        return WindowMenu(
+            self.__visible_windows, self.__screen, TYPE_SELECT, icon,
+            self.__name, self.get_root_path(), icon
+        )
 
     def get_menu_right(self):
         """
@@ -311,15 +316,17 @@ class WinIcon(Icon):
                 icon = self.icon
             else:
                 icon = None
-            return WindowMenu(self.__visible_windows, self.__screen,
-                              TYPE_OPTIONS, icon, self.__name,
-                              self.get_root_path(), icon,
-                              has_kill=self.menu_has_kill())
+            return WindowMenu(
+                self.__visible_windows, self.__screen, TYPE_OPTIONS, icon,
+                self.__name, self.get_root_path(), icon,
+                has_kill=self.menu_has_kill()
+            )
         else:
-            return WindowActionMenu(self.__visible_windows[0], 
-                                    has_kill=self.menu_has_kill())
+            return WindowActionMenu(
+                self.__visible_windows[0], has_kill=self.menu_has_kill()
+            )
 
-    def mouse_wheel_up(self, time = 0L):
+    def mouse_wheel_up(self, time=0L):
         """
         Activates the next window.
         
@@ -328,7 +335,7 @@ class WinIcon(Icon):
         """
         return self.activate_next_window(time)
         
-    def mouse_wheel_down(self, time = 0L):
+    def mouse_wheel_down(self, time=0L):
         """
         Activates the previous window.
         
@@ -337,7 +344,7 @@ class WinIcon(Icon):
         """
         return self.activate_previous_window(time)
         
-    def spring_open(self, time = 0L):
+    def spring_open(self, time=0L):
         """
         Activates the next window.
         
@@ -382,13 +389,13 @@ class WinIcon(Icon):
         return None
 
 
-    name = property(lambda self : self.__name)
+    name = property(lambda self: self.__name)
     """The C{WinIcon}'s name."""
 
-    windows = property(lambda self : self.__windows)
+    windows = property(lambda self: self.__windows)
     """The icon's windows."""
     
-    visible_windows = property(lambda self : self.__visible_windows)
+    visible_windows = property(lambda self: self.__visible_windows)
     """The list of visible windows."""
     
     has_active_window = property(
@@ -399,11 +406,11 @@ class WinIcon(Icon):
     )
     """C{True} if the C{WinIcon} has the active window."""
 
-    has_visible_windows = property(lambda self : bool(self.__visible_windows))
+    has_visible_windows = property(lambda self: bool(self.__visible_windows))
     """C{True} if the C{WinIcon} has any visible windows."""
 
-    has_windows = property(lambda self : bool(self.__windows))
+    has_windows = property(lambda self: bool(self.__windows))
     """C{True} if the C{WinIcon} has any windows."""
 
-    screen = property(lambda self : self.__screen)
+    screen = property(lambda self: self.__screen)
     """The screen of the icon's windows."""

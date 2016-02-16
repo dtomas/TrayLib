@@ -121,7 +121,7 @@ class Icon(gtk.EventBox, object):
         
         self.connect("destroy", self.__destroy)
 
-    def set_blinking(self, blinking, time = 500):
+    def set_blinking(self, blinking, time=500):
         """
         Makes the C{Icon} blink or stops it from blinking.
         
@@ -147,33 +147,32 @@ class Icon(gtk.EventBox, object):
         """Updates the emblem by calling L{make_emblem()}"""
         old_emblem = self.__emblem_orig
         self.__emblem_orig = self.make_emblem()
-        assert (self.__emblem_orig == None 
-                or isinstance(self.__emblem_orig, gtk.gdk.Pixbuf))
-        if self.__emblem_orig:
-            self.__emblem_scaled = scale_pixbuf_to_size(self.__emblem_orig,
-                                                        self.__max_size/3,
-                                                        scale_up = False)
+        if self.__emblem_orig is not None:
+            self.__emblem_scaled = scale_pixbuf_to_size(
+                self.__emblem_orig, self.__max_size/3, scale_up=False
+            )
 
         self.__update_emblem_target_alpha()
         self._refresh(self.__emblem_orig != old_emblem)
 
-        assert (self.__emblem_orig == self.__emblem_scaled == None 
-                or self.__emblem_orig and self.__emblem_scaled)
+        assert (
+            self.__emblem_orig is self.__emblem_scaled is None or
+            self.__emblem_orig is not None and self.__emblem_scaled is not None
+        )
 
     def update_icon(self):
         """Updates the icon by calling L{make_icon()}"""
         old_pixbuf = self.__pixbuf
         self.__pixbuf = self.make_icon()
-        assert (self.__pixbuf == None 
-                or isinstance(self.__pixbuf, gtk.gdk.Pixbuf))
-        if (self.__pixbuf and (self.__pixbuf.get_width() >= MAX_SIZE 
-                        or self.__pixbuf.get_height() >= MAX_SIZE)):
+        if (self.__pixbuf is not None and (
+                self.__pixbuf.get_width() >= MAX_SIZE or
+                self.__pixbuf.get_height() >= MAX_SIZE)):
             self.__pixbuf = scale_pixbuf_to_size(
                 self.__pixbuf, MAX_SIZE, False
             )
-        if old_pixbuf != self.__pixbuf:
+        if old_pixbuf is not self.__pixbuf:
             self.__pixbuf_current = None
-        self._refresh(self.__pixbuf != old_pixbuf)
+        self._refresh(self.__pixbuf is not old_pixbuf)
 
     def update_is_drop_target(self):
         """Updates whether URIs can be dropped on the C{Icon}."""
@@ -189,8 +188,6 @@ class Icon(gtk.EventBox, object):
     def update_tooltip(self):
         """Updates the tooltip by calling L{make_tooltip()}"""
         self.__tooltip = self.make_tooltip()
-        assert (self.__tooltip == None or isinstance(self.__tooltip, str)
-                or isinstance(self.__tooltip, unicode))
         TOOLTIPS.set_tip(self, self.__tooltip)
 
     def update_visibility(self):
@@ -204,7 +201,6 @@ class Icon(gtk.EventBox, object):
         """Updates the zoom factor by calling L{make_zoom_factor()}."""
         old_zoom_factor = self.__zoom_factor
         self.__zoom_factor = max(0.0, min(self.make_zoom_factor(), 1.5))
-        assert isinstance(self.__zoom_factor, float)
         if old_zoom_factor != self.__zoom_factor:
             self._refresh()
 
@@ -217,8 +213,8 @@ class Icon(gtk.EventBox, object):
             self.__arrow_target_alpha = 0
 
     def __update_canvas(self):
-        if (self.__zoom_action == ZOOM_ACTION_NONE 
-                or self.__emblem_scaled and self.__emblem_current_alpha > 0):
+        if (self.__zoom_action == ZOOM_ACTION_NONE or
+                self.__emblem_scaled and self.__emblem_current_alpha > 0):
             width = self.__max_size
             height = self.__max_size
         else:
@@ -228,15 +224,13 @@ class Icon(gtk.EventBox, object):
             else:
                 width = self.__max_size
                 height = min(int(self.__current_size * 1.5), self.__max_size)
-        if (self.__canvas 
-                and self.__canvas.get_width() == width 
-                and self.__canvas.get_height() == height):
+        if (self.__canvas and
+                self.__canvas.get_width() == width and
+                self.__canvas.get_height() == height):
             return
-        self.__canvas = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB,
-                                        True,
-                                        8,
-                                        width,
-                                        height)
+        self.__canvas = gtk.gdk.Pixbuf(
+            gtk.gdk.COLORSPACE_RGB, True, 8, width, height
+        )
 
     def __update_emblem_target_alpha(self):
         if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY): 
@@ -288,13 +282,10 @@ class Icon(gtk.EventBox, object):
                     self.__max_size - 2
                 )
             )
-            if (not force 
-                    and self.__current_size 
-                        == self.__target_size 
-                    and self.__arrow_current_alpha 
-                        == self.__arrow_target_alpha
-                    and self.__emblem_current_alpha 
-                        == self.__emblem_target_alpha):
+            if (not force and
+                    self.__current_size == self.__target_size and
+                    self.__arrow_current_alpha == self.__arrow_target_alpha and
+                    self.__emblem_current_alpha == self.__emblem_target_alpha):
                 return
 
         if self.__zoom_event != 0:
@@ -317,10 +308,11 @@ class Icon(gtk.EventBox, object):
 
         edge = self.__config.edge
 
-        if (not self.__pixbuf_current 
-                or self.__current_size != self.__target_size):
-            self.__pixbuf_current = scale_pixbuf_to_size(self.__pixbuf, 
-                                                        self.__current_size)
+        if (not self.__pixbuf_current or
+                self.__current_size != self.__target_size):
+            self.__pixbuf_current = scale_pixbuf_to_size(
+                self.__pixbuf, self.__current_size
+            )
         self.__update_canvas()
         self.__canvas.fill(0x000000)
         canvas_width = self.__canvas.get_width()
@@ -331,21 +323,17 @@ class Icon(gtk.EventBox, object):
                 - round(float(width)/2.0))
         y = int(round(float(canvas_height)/2.0) 
                 - round(float(height)/2.0))
-        self.__pixbuf_current.composite(self.__canvas, 
-                                    x, y,
-                                    width, height, 
-                                    x, y,
-                                    1.0, 1.0, 
-                                    gtk.gdk.INTERP_TILES, 
-                                    255)
+        self.__pixbuf_current.composite(
+            self.__canvas, x, y, width, height, x, y, 1.0, 1.0,
+            gtk.gdk.INTERP_TILES, 255
+        )
         if self.__emblem_current_alpha > 0:
             width = self.__max_size/3
             height = width
-            self.__emblem_scaled.composite(self.__canvas, 0, 0,
-                                width, height,
-                                0, 0,
-                                1.0, 1.0, gtk.gdk.INTERP_TILES,
-                                self.__emblem_current_alpha)
+            self.__emblem_scaled.composite(
+                self.__canvas, 0, 0, width, height, 0, 0, 1.0, 1.0,
+                gtk.gdk.INTERP_TILES, self.__emblem_current_alpha
+            )
         if self.__arrow_current_alpha > 0:
             arrow = self.__config.arrow
             width = arrow.get_width()
@@ -361,20 +349,18 @@ class Icon(gtk.EventBox, object):
                 if edge == LEFT:
                     x = canvas_width - width
 
-            arrow.composite(self.__canvas, x, y,
-                                width, height,
-                                x, y,
-                                1.0, 1.0, 
-                                gtk.gdk.INTERP_TILES,
-                                self.__arrow_current_alpha)
+            arrow.composite(
+                self.__canvas, x, y, width, height, x, y, 1.0, 1.0,
+                gtk.gdk.INTERP_TILES, self.__arrow_current_alpha
+            )
         self.__image.set_from_pixbuf(self.__canvas)
 
-        if (self.__current_size == self.__target_size 
-                and self.__arrow_current_alpha == self.__arrow_target_alpha
-                and self.__emblem_current_alpha == self.__emblem_target_alpha):
+        if (self.__current_size == self.__target_size and
+                self.__arrow_current_alpha == self.__arrow_target_alpha and
+                self.__emblem_current_alpha == self.__emblem_target_alpha):
             if self.__zoom_action == ZOOM_ACTION_HIDE:
-                if (self.__arrow_current_alpha > 0 
-                        or self.__emblem_current_alpha > 0):
+                if (self.__arrow_current_alpha > 0 or
+                        self.__emblem_current_alpha > 0):
                     self.__arrow_target_alpha = 0
                     self.__emblem_target_alpha = 0
                     return True
@@ -385,8 +371,8 @@ class Icon(gtk.EventBox, object):
                     else:
                         gtk.EventBox.hide(self)
             if self.__zoom_action == ZOOM_ACTION_DESTROY:
-                if (self.__arrow_current_alpha > 0 
-                        or self.__emblem_current_alpha > 0):
+                if (self.__arrow_current_alpha > 0 or
+                        self.__emblem_current_alpha > 0):
                     self.__arrow_target_alpha = 0
                     self.__emblem_target_alpha = 0
                     return True
@@ -408,17 +394,21 @@ class Icon(gtk.EventBox, object):
         elif self.__current_size < self.__target_size:
             self.__current_size += 1
         if self.__arrow_current_alpha > self.__arrow_target_alpha:
-            self.__arrow_current_alpha = max(self.__arrow_target_alpha, 
-                                            self.__arrow_current_alpha - 5)
+            self.__arrow_current_alpha = max(
+                self.__arrow_target_alpha, self.__arrow_current_alpha - 5
+            )
         elif self.__arrow_current_alpha < self.__arrow_target_alpha:
-            self.__arrow_current_alpha = min(self.__arrow_target_alpha, 
-                                            self.__arrow_current_alpha + 5)
+            self.__arrow_current_alpha = min(
+                self.__arrow_target_alpha, self.__arrow_current_alpha + 5
+            )
         if self.__emblem_current_alpha > self.__emblem_target_alpha:
-            self.__emblem_current_alpha = max(self.__emblem_target_alpha, 
-                                            self.__emblem_current_alpha - 5)
+            self.__emblem_current_alpha = max(
+                self.__emblem_target_alpha, self.__emblem_current_alpha - 5
+            )
         elif self.__emblem_current_alpha < self.__emblem_target_alpha:
-            self.__emblem_current_alpha = min(self.__emblem_target_alpha, 
-                                            self.__emblem_current_alpha + 5)
+            self.__emblem_current_alpha = min(
+                self.__emblem_target_alpha, self.__emblem_current_alpha + 5
+            )
         return True
 
     def find_icon_name(self):
@@ -559,9 +549,7 @@ class Icon(gtk.EventBox, object):
                 self.__update_mouse_over()
             menu.connect("deactivate", menu_deactivate)
             menu.show_all()
-            menu.popup(None, None, self.__config.pos_func, 
-                                    button, 
-                                    time)
+            menu.popup(None, None, self.__config.pos_func, button, time)
             self.__menu = menu
             self.update_zoom_factor()
 
@@ -653,7 +641,7 @@ class Icon(gtk.EventBox, object):
         """
         pass
 
-    def click(self, time = 0L):
+    def click(self, time=0L):
         """
         Override this to determine the action when left-clicking the C{Icon}. 
         If an action was performed, return C{True}, else return C{False}.
@@ -662,7 +650,7 @@ class Icon(gtk.EventBox, object):
         """
         return False
 
-    def mouse_wheel_up(self, time = 0L):
+    def mouse_wheel_up(self, time=0L):
         """
         Override this to determine the action when the mouse wheel is scrolled 
         up.
@@ -671,7 +659,7 @@ class Icon(gtk.EventBox, object):
         """
         return False
 
-    def mouse_wheel_down(self, time = 0L):
+    def mouse_wheel_down(self, time=0L):
         """
         Override this to determine the action when the mouse wheel is scrolled 
         down.
@@ -690,7 +678,7 @@ class Icon(gtk.EventBox, object):
         """
         pass
 
-    def spring_open(self, time = 0L):
+    def spring_open(self, time=0L):
         """
         Override this to determine the action when the mouse pointer stays on
         an icon some time while dragging.
@@ -783,9 +771,9 @@ class Icon(gtk.EventBox, object):
             return 1.5
         if self.__config.effects and self.__mouse_over:
             px, py = self.get_pointer()
-            hsize = float(self.__max_size)/2.0
-            fract_x = (hsize - (1.0/hsize)*(px-hsize)**2) / hsize
-            fract_y = (hsize - (1.0/hsize)*(py-hsize)**2) / hsize
+            hsize = float(self.__max_size) / 2.0
+            fract_x = (hsize - (1.0 / hsize) * (px - hsize) ** 2) / hsize
+            fract_y = (hsize - (1.0 / hsize) * (py - hsize) ** 2) / hsize
             edge = self.__config.edge
             if edge == TOP and py < hsize or edge == BOTTOM and py > hsize:
                 fract = fract_x
@@ -797,34 +785,34 @@ class Icon(gtk.EventBox, object):
             return 1.0 + fract/2.0
         return 1.0
 
-    icon = property(lambda self : self.__pixbuf)
+    icon = property(lambda self: self.__pixbuf)
     """The pixbuf of the C{Icon}."""
 
-    icon_config = property(lambda self : self.__config)
+    icon_config = property(lambda self: self.__config)
     """The C{Icon}'s configuration."""
     
-    icon_names = property(lambda self : self.get_icon_names())
+    icon_names = property(lambda self: self.get_icon_names())
     """The icon names returned by L{get_icon_names()}."""
     
-    icon_path = property(lambda self : self.get_icon_path())
+    icon_path = property(lambda self: self.get_icon_path())
     """The icon path returned by L{get_icon_path()}."""
     
-    icon_pixbuf = property(lambda self : self.get_icon_pixbuf())
+    icon_pixbuf = property(lambda self: self.get_icon_pixbuf())
     """The pixbuf returned by L{get_icon_pixbuf()}."""
 
-    size = property(lambda self : self.__config.size)
+    size = property(lambda self: self.__config.size)
     """The size of the C{Icon}."""
 
-    tooltip = property(lambda self : self.__tooltip)
+    tooltip = property(lambda self: self.__tooltip)
     """The tooltip of the C{Icon}."""
     
-    has_arrow = property(lambda self : self.__has_arrow)
+    has_arrow = property(lambda self: self.__has_arrow)
     """C{True} if the C{Icon} has an arrow."""
 
-    has_themed_icon = property(lambda self : self.__has_themed_icon)
+    has_themed_icon = property(lambda self: self.__has_themed_icon)
     """C{True} if the C{Icon}'s pixbuf comes from an icon theme."""
 
-    is_drop_target = property(lambda self : self.__is_drop_target)
+    is_drop_target = property(lambda self: self.__is_drop_target)
     """C{True} if uris can be dropped on the C{Icon}."""
 
 gobject.type_register(Icon)
