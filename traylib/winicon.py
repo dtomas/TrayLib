@@ -21,10 +21,12 @@ class WinIcon(Icon):
         """
 
         self.__win_config = win_config
-        win_config.connect_simple(
-            "all-workspaces-changed", self.update_windows
+        win_config.connect(
+            "all-workspaces-changed", lambda win_config: self.update_windows()
         )
-        win_config.connect_simple("arrow-changed", self.update_has_arrow)
+        win_config.connect(
+            "arrow-changed", lambda win_config: self.update_has_arrow()
+        )
 
         Icon.__init__(self, icon_config)
 

@@ -59,14 +59,5 @@ class Config(gobject.GObject):
         for key, value in attrs.iteritems():
             setattr(self, key, value)
 
-    def connect_simple(self, signal, handler, *args):
-        """
-        Connects to a signal with a handler to which only the given arguments
-        are passed, not the C{Config} object itself.
-        """
-        def _handler(obj, *args):
-            handler(*args)
-        self.connect(signal, _handler, *args)
-
 
 gobject.type_register(Config)

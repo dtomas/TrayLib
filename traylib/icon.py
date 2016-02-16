@@ -42,10 +42,12 @@ class Icon(gtk.EventBox, object):
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
         
         self.__config = config
-        config.connect_simple("edge-changed", self._refresh, True)
-        config.connect_simple("effects-changed", self._refresh, True)
-        config.connect_simple("size-changed", self.__size_changed)
-        config.connect_simple("hidden-changed", self.update_visibility)
+        config.connect("edge-changed", lambda config: self._refresh(True))
+        config.connect("effects-changed", lambda config: self._refresh(True))
+        config.connect("size-changed", self.__size_changed)
+        config.connect(
+            "hidden-changed", lambda config: self.update_visibility()
+        )
 
         # image
         self.__image = gtk.Image()
@@ -461,7 +463,7 @@ class Icon(gtk.EventBox, object):
 
     # Signal callbacks
 
-    def __size_changed(self):
+    def __size_changed(self, config):
         """Updates the C{Icon}'s size."""
         self.__update_max_size()
         self.__update_size_request()
