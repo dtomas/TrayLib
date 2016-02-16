@@ -40,7 +40,7 @@ class IconConfig(Config):
         assert kwargs['size'] > 0
         assert kwargs['edge'] in (0, TOP, BOTTOM, LEFT, RIGHT)
         Config.__init__(self, **kwargs)
-        self.connect("edge-changed", lambda self: self.__edge_changed())
+        self.connect("edge-changed", IconConfig.__edge_changed)
         self.__edge_changed()
 
     def __edge_changed(self):
