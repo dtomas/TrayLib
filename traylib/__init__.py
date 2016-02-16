@@ -12,7 +12,7 @@ _ = rox.i18n.translation(
 )
 
 
-version = (0, 5, 1)
+version = (0, 6, 0)
 
 try:
     import wnck
