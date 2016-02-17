@@ -43,14 +43,14 @@ class Icon(gtk.EventBox, object):
         
         self.__config = config
         self.__config_signal_handlers = [
-            config.connect("edge-changed", lambda config: self._refresh(True))
+            config.connect("edge-changed", lambda config: self._refresh(True)),
             config.connect(
                 "effects-changed", lambda config: self._refresh(True)
-            )
-            config.connect("size-changed", self.__size_changed)
+            ),
+            config.connect("size-changed", self.__size_changed),
             config.connect(
                 "hidden-changed", lambda config: self.update_visibility()
-            )
+            ),
         ]
 
         # image
