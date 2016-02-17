@@ -24,6 +24,7 @@ def manage_winicons(tray, screen):
         return lambda: None, lambda: None
 
     window_handlers = {}
+    screen_handlers = []
 
     def window_opened(screen, window):
         window_handlers[window] = [
@@ -51,9 +52,6 @@ def manage_winicons(tray, screen):
             window.disconnect(handler)
         window_handlers[window] = []
 
-    class handlers:
-        pass
-
     def icon_added(tray, icon):
         if not isinstance(icon, WinIcon):
             return
@@ -66,19 +64,19 @@ def manage_winicons(tray, screen):
     tray.connect("icon-added", icon_added)
 
     def manage():
-        handlers.window_opened_handler = screen.connect(
-            "window_opened", window_opened
+        screen_handlers.append(
+            screen.connect("window_opened", window_opened)
         )
-        handlers.window_closed_handler = screen.connect(
-            "window_closed", window_closed
+        screen_handlers.append(
+            screen.connect("window_closed", window_closed)
         )
         for window in screen.get_windows():
             window_opened(screen, window)
             yield None
 
     def unmanage():
-        screen.disconnect(handlers.window_opened_handler)
-        screen.disconnect(handlers.window_closed_handler)
+        for handler in screen_handlers:
+            screen.disconnect(handler)
         for window, _window_handlers in window_handlers.iteritems():
             for window_handler in _window_handlers:
                 window.disconnect(window_handler)
