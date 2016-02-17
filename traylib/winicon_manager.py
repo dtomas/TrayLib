@@ -3,7 +3,9 @@ from traylib.winicon import WinIcon
 
 def manage_winicons(tray, screen):
     """
-    Tray manager adding L{WinIcon}s for opened windows to the tray.
+    Tray manager adding/removing opened windows to/from L{WinIcon}s in the
+    tray.
+
     To be used with L{ManagedTray}, example::
 
         tray = ManagedTray(
