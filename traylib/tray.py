@@ -27,8 +27,12 @@ class Tray(gobject.GObject):
 
         self.__icon_config = icon_config
         self.__tray_config = tray_config
-        tray_config.connect("separators-changed", self.__separators_changed)
-        tray_config.connect("menus-changed", self.__menus_changed)
+        self.__tray_config_signal_handlers = [
+            tray_config.connect(
+                "separators-changed", self.__separators_changed
+            ),
+            tray_config.connect("menus-changed", self.__menus_changed)
+        ]
 
         self.__container = None
 
@@ -175,6 +179,8 @@ class Tray(gobject.GObject):
             self.__container.destroy()
         else:
             self.__main_box.destroy()
+        for handler in self.__tray_config_signal_handlers:
+            self.__tray_config.disconnect(handler)
 
     def forget_menus(self):
         """

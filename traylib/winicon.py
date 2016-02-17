@@ -21,12 +21,14 @@ class WinIcon(Icon):
         """
 
         self.__win_config = win_config
-        win_config.connect(
-            "all-workspaces-changed", lambda win_config: self.update_windows()
-        )
-        win_config.connect(
-            "arrow-changed", lambda win_config: self.update_has_arrow()
-        )
+        self.__win_config_signal_handlers = [
+            win_config.connect(
+                "all-workspaces-changed", lambda win_config: self.update_windows()
+            ),
+            win_config.connect(
+                "arrow-changed", lambda win_config: self.update_has_arrow()
+            )
+        ]
 
         Icon.__init__(self, icon_config)
 
@@ -35,6 +37,8 @@ class WinIcon(Icon):
         self.__windows = []
         self.__visible_windows = []
         self.__window_handlers = {}
+
+        self.connect("destroy", self.__destroy)
 
     def is_minimized(self):
         """
@@ -185,6 +189,10 @@ class WinIcon(Icon):
 
 
     # Signal callbacks
+
+    def __destroy(self, widget):
+        for handler in self.__win_config_signal_handlers:
+            self.__win_config.disconnect(handler)
 
     def __window_state_changed(self, window, changed_mask, new_state):
         self.__update_window_visibility(window)

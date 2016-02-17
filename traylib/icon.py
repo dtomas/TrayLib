@@ -42,12 +42,16 @@ class Icon(gtk.EventBox, object):
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
         
         self.__config = config
-        config.connect("edge-changed", lambda config: self._refresh(True))
-        config.connect("effects-changed", lambda config: self._refresh(True))
-        config.connect("size-changed", self.__size_changed)
-        config.connect(
-            "hidden-changed", lambda config: self.update_visibility()
-        )
+        self.__config_signal_handlers = [
+            config.connect("edge-changed", lambda config: self._refresh(True))
+            config.connect(
+                "effects-changed", lambda config: self._refresh(True)
+            )
+            config.connect("size-changed", self.__size_changed)
+            config.connect(
+                "hidden-changed", lambda config: self.update_visibility()
+            )
+        ]
 
         # image
         self.__image = gtk.Image()
@@ -468,6 +472,8 @@ class Icon(gtk.EventBox, object):
     def __destroy(self, widget):
         assert widget == self
         ICON_THEME.disconnect(self.__icon_theme_changed_handler)
+        for handler in self.__config_signal_handlers:
+            self.__config.disconnect(handler)
 
     def __drag_data_received(self, widget, context, x, y, data, info, time):
         if data.data == None:

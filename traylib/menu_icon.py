@@ -19,12 +19,15 @@ class MenuIcon(Icon):
         """
         Icon.__init__(self, tray.icon_config)
 
-        tray.icon_config.connect(
-            "hidden-changed", lambda icon_config: self.update_tooltip()
-        )
+        self.__icon_config_signal_handlers = [
+            tray.icon_config.connect(
+                "hidden-changed", lambda icon_config: self.update_tooltip()
+            )
+        ]
 
         self.__tray = tray
         self.__menu = None
+        self.connect("destroy", self.__destroy)
 
     def forget_menu(self):
         """
@@ -60,6 +63,13 @@ class MenuIcon(Icon):
     def update_visibility(self):
         """Always shows the menu icon."""
         self.show()
+
+
+    # Signal callbacks
+
+    def __destroy(self, widget):
+        for handler in self.__icon_config_signal_handlers:
+            self.__tray.icon_config.disconnect(handler)
 
 
     # Private methods
