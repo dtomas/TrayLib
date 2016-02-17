@@ -38,6 +38,15 @@ class WinIcon(Icon):
         self.__visible_windows = []
         self.__window_handlers = {}
 
+        self.__screen_signal_handlers = [
+            screen.connect(
+                "active-window-changed", self.__active_window_changed
+            ),
+            screen.connect(
+                "active-workspace-changed", self.__active_workspace_changed
+            )
+        ]
+
         self.connect("destroy", self.__destroy)
 
     def is_minimized(self):
@@ -197,6 +206,14 @@ class WinIcon(Icon):
     def __destroy(self, widget):
         for handler in self.__win_config_signal_handlers:
             self.__win_config.disconnect(handler)
+        for handler in self.__screen_signal_handlers:
+            self.__screen.disconnect(handler)
+
+    def __active_window_changed(self, screen, window=None):
+        self.update_zoom_factor()
+
+    def __active_workspace_changed(self, screen, workspace=None):
+        self.update_windows()
 
     def __window_state_changed(self, window, changed_mask, new_state):
         self.__update_window_visibility(window)
