@@ -125,6 +125,8 @@ class WinIcon(Icon):
     def add_window(self, window):
         """
         Adds C{window} to the C{WinIcon}'s list of windows.
+
+        Does nothing if the window is already in the list.
         
         @param window: The window to be added.
         """
@@ -153,6 +155,8 @@ class WinIcon(Icon):
     def remove_window(self, window):
         """
         Removes C{window} from the C{WinIcon}'s list of windows.
+
+        Does nothing if the window is not in the list.
         
         @param window: The window to be removed.
         """
