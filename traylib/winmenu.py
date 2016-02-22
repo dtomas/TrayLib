@@ -239,6 +239,8 @@ class WindowMenuItem(gtk.ImageMenuItem):
         """
         self.__window = window
         self.__icon = icon
+        self.__root = root
+        self.__root_icon = root_icon
         screen = window.get_screen()
         self.__path = get_filer_window_path(window)
         gtk.ImageMenuItem.__init__(self, "")
@@ -272,13 +274,13 @@ class WindowMenuItem(gtk.ImageMenuItem):
             )
             if os.access(icon_path, os.F_OK):
                 pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
-            elif self.__path != root:
+            elif self.__path != self.__root:
                 if os.path.expanduser(self.__path) == os.path.expanduser('~'):
                     pixbuf = home_icon
                 else:
                     pixbuf = dir_icon
-            elif self.__path == root and root_icon:
-                pixbuf = root_icon
+            elif self.__path == self.__root and self.__root_icon:
+                pixbuf = self.__root_icon
         if not pixbuf:
             if self.__icon:
                 pixbuf = icon
@@ -295,8 +297,8 @@ class WindowMenuItem(gtk.ImageMenuItem):
     def update_name(self):
         if self.__path:
             name = self.__path
-            if root:
-                root_dirname = os.path.dirname(root)
+            if self.__root:
+                root_dirname = os.path.dirname(self.__root)
                 if root_dirname == '/':
                     l = 1
                 else:
