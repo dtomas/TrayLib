@@ -276,6 +276,7 @@ class WindowsItem(Item):
         self.emit("menu-right-changed")
         self.emit("drag-source-changed")
         self.emit("zoom-changed")
+        self.emit("name-changed")
         self.emit("visible-window-items-changed")
 
     def __window_visible_changed(self, window_item):
@@ -285,6 +286,7 @@ class WindowsItem(Item):
         self.emit("menu-right-changed")
         self.emit("drag-source-changed")
         self.emit("zoom-changed")
+        self.emit("name-changed")
         self.emit("visible-window-items-changed")
 
     def __window_blinking_changed(self, window_item):
@@ -309,6 +311,7 @@ class WindowsItem(Item):
             self.emit("menu-right-changed")
             self.emit("drag-source-changed")
             self.emit("zoom-changed")
+            self.emit("name-changed")
             self.emit("visible-window-items-changed")
 
     def has_arrow(self):
@@ -411,7 +414,10 @@ class WindowsItem(Item):
         return 1.0
 
     def get_name(self):
-        return self.__name
+        visible_window_items = self.visible_window_items
+        if len(visible_window_items) == 1:
+            return visible_window_items[0].get_name()
+        return "%s (%d)" % (self.__name, len(visible_window_items))
 
     def get_drag_source_targets(self):
         visible_window_items = self.visible_window_items
@@ -427,6 +433,15 @@ class WindowsItem(Item):
 
     def drag_data_get(self, context, data, info, time):
         self.visible_window_items[0].drag_data_get(context, data, info, time)
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        self.__name = name
+        self.emit("name-changed")
 
     @property
     def window_items(self):
