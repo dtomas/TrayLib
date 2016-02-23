@@ -337,7 +337,9 @@ class WindowMenuItem(gtk.ImageMenuItem):
             xid = self.__window.get_xid()
             data.set(data.target, 8, apply(struct.pack, ['1i', xid]))
         else:
-            data.set_uris(['file://%s' % pathname2url(self.__path)])
+            data.set_uris(
+                ['file://%s' % pathname2url(os.path.expanduser(self.__path))]
+            )
 
     def get_path(self):
         return self.__path

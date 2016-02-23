@@ -7,6 +7,7 @@
 - Dropped config update methods, use signals instead.
 - Changed signature of create_menu_icon().
 - Reflect window state changes in WindowMenuItem.
+- Fixed paths with ~ in menu item DND.
 
 0.5.1
 ~~~~~
