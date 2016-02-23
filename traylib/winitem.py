@@ -1,7 +1,8 @@
 import struct
 from urllib import pathname2url
-
 import os
+
+import gobject
 import gtk
 
 from traylib import TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, ICON_THEME
@@ -275,6 +276,7 @@ class WindowsItem(Item):
         self.emit("menu-right-changed")
         self.emit("drag-source-changed")
         self.emit("zoom-changed")
+        self.emit("visible-window-items-changed")
 
     def __window_visible_changed(self, window_item):
         self.emit("is-visible-changed")
@@ -282,6 +284,8 @@ class WindowsItem(Item):
         self.emit("menu-left-changed")
         self.emit("menu-right-changed")
         self.emit("drag-source-changed")
+        self.emit("zoom-changed")
+        self.emit("visible-window-items-changed")
 
     def __window_blinking_changed(self, window_item):
         self.emit("is-blinking-changed")
@@ -305,6 +309,7 @@ class WindowsItem(Item):
             self.emit("menu-right-changed")
             self.emit("drag-source-changed")
             self.emit("zoom-changed")
+            self.emit("visible-window-items-changed")
 
     def has_arrow(self):
         return self.__win_config.arrow and len(self.visible_window_items) > 1
@@ -430,3 +435,9 @@ class WindowsItem(Item):
     @property
     def visible_window_items(self):
         return [item for item in self.__window_items if item.is_visible()]
+
+gobject.type_register(WindowsItem)
+gobject.signal_new(
+    "visible-window-items-changed", WindowsItem, gobject.SIGNAL_RUN_FIRST,
+    gobject.TYPE_NONE, ()
+)
