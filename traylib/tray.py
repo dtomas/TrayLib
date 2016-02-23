@@ -8,20 +8,22 @@ import traylib
 from traylib import LEFT, RIGHT
 import traylib.pixmaps as pixmaps
 from traylib.config import Config
-from traylib.icon import Icon
+from traylib.item import Item
 from traylib.tray_config import TrayConfig
-from traylib.menu_icon import MenuIcon
+from traylib.main_item import MainItem
+from traylib.icon_renderer import render_icon
 
 
 class Tray(gobject.GObject):
 
-    def __init__(self, icon_config, tray_config, create_menu_icon=MenuIcon):
+    def __init__(self, icon_config, tray_config, create_main_item=MainItem):
         """
         Creates a new C{Tray}.
         
         @param icon_config: The L{IconConfig} of the C{Tray}.
         @param tray_config: The L{TrayConfig} of the C{Tray}.
-        @param create_menu_icon: Callable creating a L{MenuIcon} from a L{Tray}.
+        @param create_main_item: Callable creating a L{MainItem}
+            from a L{Tray}.
         """
         gobject.GObject.__init__(self)
 
@@ -36,7 +38,7 @@ class Tray(gobject.GObject):
 
         self.__container = None
 
-        self.__icons = {}
+        self.__items = {}
         self.__boxes = {}
         self.__box_separators = {}
 
@@ -46,7 +48,9 @@ class Tray(gobject.GObject):
         else:
             self.__separator_left = gtk.VSeparator()
             self.__separator_right = gtk.VSeparator()
-        self.__menu_icon = create_menu_icon(self)
+        self.__main_item = create_main_item(self)
+        self.__menu_icon = render_icon(self.__main_item, self.__icon_config)
+        self.__menu_icon.show()
 
         if self.__icon_config.vertical:
             self.__main_box = gtk.VBox()
@@ -108,7 +112,7 @@ class Tray(gobject.GObject):
             self.__box.reorder_child(box, 0)
 
         self.__boxes[box_id] = box
-        self.__icons[box_id] = {}
+        self.__items[box_id] = {}
 
     def remove_box(self, box_id):
         """
@@ -117,7 +121,7 @@ class Tray(gobject.GObject):
         @param box_id: The identifier of the box.
         """
         self.__boxes[box_id].destroy()
-        del self.__icons[box_id]
+        del self.__items[box_id]
         del self.__boxes[box_id]
         try:
             del self.__box_separators[box_id]
@@ -140,37 +144,48 @@ class Tray(gobject.GObject):
 
         @param box_id: The box to be cleared.
         """
-        for icon_id in list(self.__icons[box_id]):
-            self.remove_icon(icon_id)
-        
-    def add_icon(self, box_id, icon_id, icon):
+        for item_id in list(self.__items[box_id]):
+            self.remove_item(item_id)
+
+    def add_item(self, box_id, item_id, item):
         """
-        Adds an C{Icon} to the C{Tray}.
+        Adds an C{Item} to the C{Tray}.
         
         @param box_id: The identifier of the box the icon should be added to.
-        @param icon_id: The identifier of the icon.
-        @param icon: The C{Icon} to be added.
+        @param item_id: The identifier of the icon.
+        @param item: The C{Item} to be added.
         """
+        icon = render_icon(item, self.__icon_config)
         self.__boxes[box_id].pack_start(icon)
-        self.__icons[box_id][icon_id] = icon
-        self.emit("icon-added", icon)
+        self.__items[box_id][item_id] = item
+        item.connect("destroyed", self.__item_destroyed, item_id)
+        self.emit("item-added", item)
 
-    def remove_icon(self, icon_id):
-        """
-        Removes an icon from the C{Tray}.
-        
-        @param icon_id: The identifier of the icon.
-        """
-        for icons in self.__icons.itervalues():
+    def __item_destroyed(self, item, item_id):
+        for items in self.__items.itervalues():
             try:
-                icon = icons[icon_id]
+                items.pop(item_id)
+            except KeyError:
+                continue
+            break
+        self.emit("item-removed", item)
+
+    def remove_item(self, item_id):
+        """
+        Removes an item from the C{Tray}.
+        
+        @param item_id: The identifier of the item.
+        """
+        for items in self.__items.itervalues():
+            try:
+                item = items[item_id]
             except KeyError:
                 pass
             else:
-                icon.destroy()
-                del icons[icon_id]
-        self.emit("icon-removed", icon)
-        
+                item.destroy()
+                del items[icon_id]
+        self.emit("item-removed", item)
+
     def destroy(self):
         """
         Destroys the C{Tray} and the container containing it.
@@ -187,20 +202,20 @@ class Tray(gobject.GObject):
         Makes the C{Tray} forget its main menu. Call this if something
         affecting the main menu has changed.
         """
-        self.__menu_icon.forget_menu()
+        #self.__menu_icon.forget_menu()
 
-    def get_icon(self, id):
+    def get_item(self, item_id):
         """
-        Returns the C{Icon} with the identifier C{id}
+        Returns the C{Item} with the identifier C{item_id}
         
         @param id: The identifier of the C{Icon}
-        @return: The C{Icon} with the identifier C{id}. Returns C{None} if the 
-            C{Tray} has no C{Icon} with the identifier C{id}. 
+        @return: The C{Icon} with the identifier C{item_id}. Returns C{None}
+            if the C{Tray} has no C{Item} with the identifier C{item_id}. 
         """
-        for icons in self.__icons.itervalues():
-            icon = icons.get(id)
-            if icon is not None:
-                return icon
+        for items in self.__items.itervalues():
+            item = items.get(item_id)
+            if item is not None:
+                return item
 
     def set_container(self, container):
         """
@@ -258,10 +273,10 @@ class Tray(gobject.GObject):
             old_box.remove(menu_icon)
         if menu_icon not in new_box.get_children():
             new_box.pack_end(menu_icon)
-            menu_icon.update_visibility()
-            menu_icon.update_icon()
-            menu_icon.update_tooltip()
-            menu_icon.update_is_drop_target()
+            #menu_icon.update_visibility()
+            #menu_icon.update_icon()
+            #menu_icon.update_tooltip()
+            #menu_icon.update_is_drop_target()
             menu_icon.show_all()
 
 
@@ -276,16 +291,16 @@ class Tray(gobject.GObject):
 
 
     @property
-    def icon_ids(self):
-        for icons in self.__icons.itervalues():
-            for icon_id in icons.iterkeys():
-                yield icon_id
+    def item_ids(self):
+        for items in self.__items.itervalues():
+            for item_id in items.iterkeys():
+                yield item_id
 
     @property
-    def icons(self):
-        for icons in self.__icons.itervalues():
-            for icon in icons.itervalues():
-                yield icon
+    def items(self):
+        for items in self.__items.itervalues():
+            for item in items.itervalues():
+                yield item
 
     icon_config = property(lambda self: self.__icon_config)
     """The L{IconConfig} of the C{Tray}, configuring its icons."""
@@ -293,14 +308,14 @@ class Tray(gobject.GObject):
     tray_config = property(lambda self: self.__tray_config)
     """The L{TrayConfig} of the C{Tray}."""
 
-    menu_icon = property(lambda self: self.__menu_icon)
-    """The L{MenuIcon} used for the C{Tray}'s menu."""
+    main_item = property(lambda self: self.__main_item)
+    """The L{MainItem} used for the C{Tray}'s menu."""
 
 
 gobject.type_register(Tray)
 gobject.signal_new(
-    "icon-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (Icon,)
+    "item-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (Item,)
 )
 gobject.signal_new(
-    "icon-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (Icon,)
+    "item-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (Item,)
 )

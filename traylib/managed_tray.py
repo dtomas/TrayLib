@@ -1,13 +1,13 @@
 from rox import tasks
 
 from traylib.tray import Tray
-from traylib.menu_icon import MenuIcon
+from traylib.main_item import MainItem
 
 
 class ManagedTray(Tray):
 
     def __init__(self, icon_config, tray_config, managers,
-                 create_menu_icon=MenuIcon):
+                 create_main_item=MainItem):
         """
         Initializes the managed tray.
 
@@ -18,7 +18,7 @@ class ManagedTray(Tray):
             to manage and unmanage the tray.
         @param create_menu_icon: Callable creating a L{MenuIcon} from a L{Tray}.
         """
-        Tray.__init__(self, icon_config, tray_config, create_menu_icon)
+        Tray.__init__(self, icon_config, tray_config, create_main_item)
         self.__managers = [manager(self) for manager in managers]
         self.__blocked = False
 

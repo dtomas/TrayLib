@@ -2,6 +2,16 @@
 			Library for tray-like applets
 			by Dennis Tomas
 
+2.0.0 (unreleased)
+~~~~~
+- Renamed WinIconConfig to WinItemConfig.
+- Replaced parameter Tray
+- Replaced MenuIcon with MainItem.
+- Replaced WinIcon with WindowsItem and WindowItem.
+- Add Items to Tray instead of Icons.
+- Introduced class Item, rendered as traylib.Icon or gtk.ImageMenuItem.
+- Replaced abstract Icon methods with properties.
+
 0.6 (unreleased)
 ~~~
 - Dropped config update methods, use signals instead.

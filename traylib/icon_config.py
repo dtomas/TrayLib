@@ -1,6 +1,6 @@
 import gtk
 
-from traylib import LEFT, RIGHT, TOP, BOTTOM, pixmaps
+from traylib import LEFT, RIGHT, TOP, BOTTOM
 from traylib.config import Config, Attribute
 
 
@@ -8,9 +8,6 @@ class IconConfig(Config):
     """
     Icon configuration object.
     """
-
-    arrow = property(lambda self: self.__arrow)
-    """The arrow pixmap."""
 
     size = Attribute(default=32)
     """The size of the icons.""" 
@@ -40,17 +37,3 @@ class IconConfig(Config):
         assert kwargs['size'] > 0
         assert kwargs['edge'] in (0, TOP, BOTTOM, LEFT, RIGHT)
         Config.__init__(self, **kwargs)
-        self.connect("edge-changed", IconConfig.__edge_changed)
-        self.__edge_changed()
-
-    def __edge_changed(self):
-        edge = self.edge
-        if edge == LEFT:
-            pixmap = pixmaps.right
-        elif edge == RIGHT:
-            pixmap = pixmaps.left
-        elif edge == TOP:
-            pixmap = pixmaps.down
-        else:
-            pixmap = pixmaps.up
-        self.__arrow = gtk.gdk.pixbuf_new_from_xpm_data(pixmap)

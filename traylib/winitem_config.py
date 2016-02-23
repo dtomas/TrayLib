@@ -1,7 +1,7 @@
 from traylib.config import Config, Attribute
 
 
-class WinIconConfig(Config):
+class WinItemConfig(Config):
     all_workspaces = Attribute(default=False)
     """
     C{True}, if windows on all workspaces should be visible in the associated

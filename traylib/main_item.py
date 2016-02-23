@@ -1,78 +1,26 @@
 import os
 
 import gtk
-
 import rox
 from rox import filer, InfoWin
 
-from traylib import _
-from traylib.icon import Icon
+from traylib.item import Item
 
 
-class MenuIcon(Icon):
-    
+class MainItem(Item):
+
     def __init__(self, tray):
-        """
-        Initializes a L{MenuIcon}.
-
-        @param tray: The L{Tray} for which to create a menu.
-        """
-        Icon.__init__(self, tray.icon_config)
-
-        self.__icon_config_signal_handlers = [
-            tray.icon_config.connect(
-                "hidden-changed", lambda icon_config: self.update_tooltip()
-            )
-        ]
-
+        Item.__init__(self)
         self.__tray = tray
-        self.__menu = None
-        self.connect("destroy", self.__destroy)
-
-    def forget_menu(self):
-        """
-        Makes the C{MenuIcon} forget its menu. Call this when something 
-        affecting the menu has changed.
-        """
-        self.__menu = None
-
-
-    # Methods to be implemented by subclasses
-
-    def get_custom_menu_items(self):
-        """Override this to return custom items for the main menu."""
-        return []
-
-
-    # Methods inherited from Icon
-        
-    def get_menu_right(self):
-        if not self.__menu:
-            self.__menu = self.__create_menu()
-        return self.__menu
 
     def click(self, time):
-        self.icon_config.hidden = not self.icon_config.hidden
+        self.__tray.icon_config.hidden = not self.icon_config.hidden
 
     def mouse_wheel_up(self, time):
-        self.icon_config.hidden = False
+        self.__tray.icon_config.hidden = False
 
     def mouse_wheel_down(self, time):
-        self.icon_config.hidden = True
-        
-    def update_visibility(self):
-        """Always shows the menu icon."""
-        self.show()
-
-
-    # Signal callbacks
-
-    def __destroy(self, widget):
-        for handler in self.__icon_config_signal_handlers:
-            self.__tray.icon_config.disconnect(handler)
-
-
-    # Private methods
+        self.__tray.icon_config.hidden = True
 
     def __show_info(self, menu_item=None):
         """Shows information."""
@@ -84,7 +32,7 @@ class MenuIcon(Icon):
 
     def __show_options(self, menu_item=None):
         """Shows the options."""
-        if self.icon_config.vertical:
+        if self.__tray.icon_config.vertical:
             options_xml = 'OptionsV.xml'
         else:
             options_xml = 'OptionsH.xml'
@@ -97,7 +45,7 @@ class MenuIcon(Icon):
                 gtk.STOCK_QUIT):
             self.__tray.destroy()
 
-    def __create_menu(self):
+    def get_menu_right(self):
         menu = gtk.Menu()
         item = gtk.ImageMenuItem(gtk.STOCK_HELP)
         item.connect("activate", self.__show_help)
@@ -121,4 +69,13 @@ class MenuIcon(Icon):
         menu.show_all()
         return menu
 
-    tray = property(lambda self: self.__tray)
+    @property
+    def tray(self):
+        return self.__tray
+
+
+    # Methods to be implemented by subclasses
+
+    def get_custom_menu_items(self):
+        """Override this to return custom items for the main menu."""
+        return []

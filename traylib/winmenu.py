@@ -8,31 +8,8 @@ import rox
 from traylib import (
     ICON_THEME, TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, wnck, _
 )
+from traylib.menu_renderer import render_menu_item
 from traylib.pixbuf_helper import scale_pixbuf_to_size
-
-
-def _load_icons(icon_theme):
-    global dir_icon, home_icon
-    home_icon = None
-    dir_icon = None
-    for icon_name in 'mime-inode:directory', 'folder', 'gnome-fs-directory':
-        try:
-            dir_icon = icon_theme.load_icon(icon_name, 32, 0)
-            break
-        except:
-            pass
-    for icon_name in 'user-home', 'gnome-fs-home':
-        try:
-            home_icon = icon_theme.load_icon(icon_name, 32, 0)
-            break
-        except:
-            pass
-
-
-home_icon = None
-dir_icon = None
-ICON_THEME.connect("changed", _load_icons)
-_load_icons(ICON_THEME)
 
 
 def _kill(menu_item, pids, name):
@@ -226,148 +203,17 @@ class WindowActionMenu(gtk.Menu):
         self.__window.minimize()
 
 
-class WindowMenuItem(gtk.ImageMenuItem):
-    """
-    A menu item representing a window.
-    """
-
-    def __init__(self, window, icon, root=None, root_icon=None):
-        """
-        Creates a new WindowMenuItem.
-        
-        @param window: The C{wnck.Window} the menu item represents. 
-        """
-        self.__window = window
-        self.__icon = icon
-        self.__root = root
-        self.__root_icon = root_icon
-        screen = window.get_screen()
-        self.__path = get_filer_window_path(window)
-        gtk.ImageMenuItem.__init__(self, "")
-        self.update_name()
-        self.update_size()
-
-        targets = [("application/x-wnck-window-id", 0, TARGET_WNCK_WINDOW_ID)]
-        if self.__path:
-            targets.append(("text/uri-list", 0, TARGET_URI_LIST))
-        self.drag_source_set(
-            gtk.gdk.BUTTON1_MASK, targets, 
-            gtk.gdk.ACTION_MOVE | gtk.gdk.ACTION_COPY | gtk.gdk.ACTION_LINK
-        )
-        self.connect("drag-begin", self.__drag_begin)
-        self.connect("drag-data-get", self.__drag_data_get)
-        self.connect("destroy", self.__destroy)
-        self.__window_handlers = [
-            window.connect("state_changed", self.__window_state_changed),
-        ]
-        self.__screen_handlers = [
-            screen.connect(
-                "active-window-changed", self.__active_window_changed
-            ),
-        ]
-
-    def update_pixbuf(self):
-        pixbuf = None
-        if self.__path:
-            icon_path = os.path.expanduser(
-                os.path.join(self.__path, '.DirIcon')
-            )
-            if os.access(icon_path, os.F_OK):
-                pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
-            elif self.__path != self.__root:
-                if os.path.expanduser(self.__path) == os.path.expanduser('~'):
-                    pixbuf = home_icon
-                else:
-                    pixbuf = dir_icon
-            elif self.__path == self.__root and self.__root_icon:
-                pixbuf = self.__root_icon
-        if not pixbuf:
-            if self.__icon:
-                pixbuf = icon
-            else:
-                pixbuf = self.__window.get_icon()
-        self.__pixbuf = scale_pixbuf_to_size(pixbuf, self.__size)
-        self.get_image().set_from_pixbuf(self.__pixbuf)
-
-    def update_size(self):
-        screen = self.__window.get_screen()
-        self.__size = 32 if self.__window is screen.get_active_window() else 22
-        self.update_pixbuf()
-
-    def update_name(self):
-        if self.__path:
-            name = self.__path
-            if self.__root:
-                root_dirname = os.path.dirname(self.__root)
-                if root_dirname == '/':
-                    l = 1
-                else:
-                    l = len(root_dirname) + 1
-                if name != '/':
-                    name = os.path.expanduser(name)[l:]
-                    name = name.replace(os.path.expanduser('~'), '~')
-        else:
-            name = self.__window.get_name()
-        if self.__window.is_minimized():
-            name = "[ " + name + " ]"
-        if self.__window.is_shaded():
-            name = "= " + name + " ="
-        if self.__window.needs_attention():
-            name = "!! " + name + " !!"
-        self.set_label(name.replace('_', '__'))
-
-    def __destroy(self):
-        for handler in self.__window_handlers:
-            self.__window.disconnect(handler)
-        for handler in self.__screen_handlers:
-            self.__window.get_screen().disconnect(handler)
-
-    def __active_window_changed(self, screen, window=None):
-        self.update_size()
-
-    def __window_state_changed(self, window, changed_mask, new_state):
-        self.update_name()
-
-    def __drag_begin(self, widget, context):
-        assert widget == self
-        context.set_icon_pixbuf(self.__pixbuf, 0,0)
-    
-    def __drag_data_get(self, widget, context, data, info, time):
-        if info == TARGET_WNCK_WINDOW_ID:
-            xid = self.__window.get_xid()
-            data.set(data.target, 8, apply(struct.pack, ['1i', xid]))
-        else:
-            data.set_uris(['file://%s' % pathname2url(self.__path)])
-
-    def get_path(self):
-        return self.__path
-
-
-# the type of a WindowMenu from which windows can be selected
-TYPE_SELECT = 0
-
-# the type of a WindowMenu which shows options for each window in a submenu
-TYPE_OPTIONS = 1
-
-
 class WindowMenu(gtk.Menu):
     """
     The menu for a list of windows.
     """
 
-    def __init__(self, windows, screen, type, icon, group_name,
+    def __init__(self, window_items, screen, group_name,
                     root=None, root_icon=None, has_kill=False):
         """
         Creates a new WindowMenu.
         
-        @param windows: A list of C{wnck.Window}s.
-        @param type: The type of the menu.\n
-            C{TYPE_SELECT}: A menu from which a window can be selected to be 
-            activated.\n
-            C{TYPE_OPTIONS}: A menu which shows a submenu for each window,  
-            "hide all" or "show all" and "close all" menu items. If 
-            C{has_kill} is C{True}, it also contains a "force quit" menu
-            entry.
+        @param window_items: A list of C{WindowItem}s.
         @param root: If not C{None}, indicates that the windows are
             filemanager windows and the path prefix "root" should not be
             omitted.
@@ -378,83 +224,72 @@ class WindowMenu(gtk.Menu):
             belong to. If the windows belong to different processes, each
             submenu has its own "kill" menu entry.
         """
-        assert type in (TYPE_SELECT, TYPE_OPTIONS)
         gtk.Menu.__init__(self)
         self.__group_name = group_name
-        self.__type = type
-        self.__windows = windows
-        windows.sort(key=wnck.Window.get_name)
+        self.__window_items = window_items
+        window_items.sort(key=lambda item: item.get_name())
         time = gtk.get_current_event_time()
         self.__active_window = screen.get_active_window()
         has_minimized_windows = False
         has_unminimized_windows = False
         same_app = True
         self.__pids = []
-        for window in windows:
-            pid = window.get_application().get_pid()
+        for window_item in window_items:
+            pid = window_item.window.get_application().get_pid()
             if pid in self.__pids:
                 continue
             self.__pids.append(pid)
-        for window in windows:
-            if window.is_minimized():
+        for window_item in window_items:
+            if window_item.window.is_minimized():
                 has_minimized_windows = True
             else:
                 has_unminimized_windows = True
-            item = WindowMenuItem(window, icon, root, root_icon)
-            if type == TYPE_OPTIONS:
-                item.set_submenu(
-                    WindowActionMenu(
-                        window, has_kill and len(self.__pids) > 1,
-                        item.get_path(), self
-                    )
+            item = render_menu_item(window_item, has_submenu=True)#WindowMenuItem(window, icon, root, root_icon)
+            item.set_submenu(
+                WindowActionMenu(
+                    window_item.window, has_kill and len(self.__pids) > 1,
+                    window_item.root_path, self
                 )
-            else:
-                item.connect("scroll-event", self.__scroll, window)
-                item.connect("activate", self.__window_selected, window, time)
-            self.append(item)
-        if self.__type == TYPE_OPTIONS:
-            self.append(gtk.SeparatorMenuItem())
-            item = gtk.ImageMenuItem(_("Show all"))
-            item.get_image().set_from_stock(gtk.STOCK_REDO, gtk.ICON_SIZE_MENU)
-            item.connect("activate", self.__restore_all)
-            item.set_sensitive(has_minimized_windows)
-            self.append(item)
-            item = gtk.ImageMenuItem(_("Hide all"))
-            item.get_image().set_from_stock(gtk.STOCK_UNDO, gtk.ICON_SIZE_MENU)
-            item.connect("activate", self.__minimize_all)
-            item.set_sensitive(has_unminimized_windows)
-            self.append(item)
-            if has_kill:
-                self.append(gtk.SeparatorMenuItem())
-                item = gtk.ImageMenuItem(_("Force quit"))
-                item.get_image().set_from_stock(
-                    gtk.STOCK_QUIT, gtk.ICON_SIZE_MENU
-                )
-                item.connect("activate", _kill, self.__pids, group_name)
-                self.append(item)
-            self.append(gtk.SeparatorMenuItem())
-            item = gtk.ImageMenuItem(_("Close all"))
-            item.get_image().set_from_stock(
-                gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU
             )
-            item.connect("activate", self.__close_all)
             self.append(item)
-            
-    def get_windows(self):
-        """@return: The windows belonging to the C{WindowMenu}."""
-        return self.__windows
+        self.append(gtk.SeparatorMenuItem())
+        item = gtk.ImageMenuItem(_("Show all"))
+        item.get_image().set_from_stock(gtk.STOCK_REDO, gtk.ICON_SIZE_MENU)
+        item.connect("activate", self.__restore_all)
+        item.set_sensitive(has_minimized_windows)
+        self.append(item)
+        item = gtk.ImageMenuItem(_("Hide all"))
+        item.get_image().set_from_stock(gtk.STOCK_UNDO, gtk.ICON_SIZE_MENU)
+        item.connect("activate", self.__minimize_all)
+        item.set_sensitive(has_unminimized_windows)
+        self.append(item)
+        if has_kill:
+            self.append(gtk.SeparatorMenuItem())
+            item = gtk.ImageMenuItem(_("Force quit"))
+            item.get_image().set_from_stock(
+                gtk.STOCK_QUIT, gtk.ICON_SIZE_MENU
+            )
+            item.connect("activate", _kill, self.__pids, group_name)
+            self.append(item)
+        self.append(gtk.SeparatorMenuItem())
+        item = gtk.ImageMenuItem(_("Close all"))
+        item.get_image().set_from_stock(
+            gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU
+        )
+        item.connect("activate", self.__close_all)
+        self.append(item)
 
     def __minimize_all(self, menu_item):
-        for window in self.__windows:
-            window.minimize()
+        for window_item in self.__window_items:
+            window_item.window.minimize()
 
     def __restore_all(self, menu_item):
-        for window in self.__windows:
-            if window.is_minimized():
-                window.unminimize(gtk.get_current_event_time())
+        for window_item in self.__window_items:
+            if window_item.window.is_minimized():
+                window_item.window.unminimize(gtk.get_current_event_time())
 
     def __close_all(self, menu_item):
-        n_windows = len(self.__windows)
+        n_windows = len(self.__window_items)
         if n_windows == 0:
             rox.info(
                 _("%s hasn't got any open windows anymore.") %
@@ -466,23 +301,5 @@ class WindowMenu(gtk.Menu):
                 (n_windows, self.__group_name),
                 gtk.STOCK_CLOSE, _("Close all")):
             return
-        for window in self.__windows:
-            window.close(gtk.get_current_event_time())
-
-    def __window_selected(self, menu_item, window, time):
-        window.get_workspace().activate(time)
-        window.unminimize(time)
-        window.activate(time)
-
-    def __scroll(self, menu_item, event, window):
-        if event.direction == gtk.gdk.SCROLL_UP:
-            #if window == SCREEN.get_active_window():
-            #    window.shade()
-            #else:
-            window.activate(event.time)
-        elif event.direction == gtk.gdk.SCROLL_DOWN:
-            #if window.is_shaded():
-            #    window.unshade()
-            #    window.activate(event.time)
-            #else:
-            window.minimize()
+        for window_item in self.__window_items:
+            window_item.window.close(gtk.get_current_event_time())
