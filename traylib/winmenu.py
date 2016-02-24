@@ -168,7 +168,7 @@ class WindowMenu(gtk.Menu):
         
         @param window_items: A list of C{WindowItem}s.
         @param root: If not C{None}, indicates that the windows are
-            filemanager windows and the path prefix "root" should not be
+            filemanager windows and the path prefix "root" should be
             omitted.
         @param root_icon: The icon to show for the root menu entry. This is the
             menu entry showing C{root}.
