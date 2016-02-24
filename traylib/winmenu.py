@@ -219,17 +219,16 @@ class WindowMenu(gtk.Menu):
             omitted.
         @param root_icon: The icon to show for the root menu entry. This is the
             menu entry showing C{root}.
-        @param has_kill: If C{True} and C{type==TYPE_OPTIONS}, the menu
-            contains a "kill" menu entry which kills the process the windows
-            belong to. If the windows belong to different processes, each
-            submenu has its own "kill" menu entry.
+        @param has_kill: If C{True}, the menu contains a "kill" menu entry
+            which kills the process the windows belong to. If the windows
+            belong to different processes, each submenu has its own "kill"
+            menu entry.
         """
         gtk.Menu.__init__(self)
         self.__group_name = group_name
         self.__window_items = window_items
         window_items.sort(key=lambda item: item.get_name())
         time = gtk.get_current_event_time()
-        self.__active_window = screen.get_active_window()
         has_minimized_windows = False
         has_unminimized_windows = False
         same_app = True
@@ -244,7 +243,7 @@ class WindowMenu(gtk.Menu):
                 has_minimized_windows = True
             else:
                 has_unminimized_windows = True
-            item = render_menu_item(window_item, has_submenu=True)#WindowMenuItem(window, icon, root, root_icon)
+            item = render_menu_item(window_item, has_submenu=True)
             item.set_submenu(
                 WindowActionMenu(
                     window_item.window, has_kill and len(self.__pids) > 1,
