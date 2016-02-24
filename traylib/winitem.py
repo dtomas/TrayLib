@@ -178,13 +178,17 @@ class WindowItem(Item):
                 window.is_active() and not window.is_minimized()):
             window.minimize()
         else:
-            window.get_workspace().activate(time)
-            window.unminimize(time)
-            window.activate(time)
+            self.activate(time)
         return True
 
+    def activate(self, time=0L):
+        window = self.__window
+        window.get_workspace().activate(time)
+        window.unminimize(time)
+        window.activate(time)
+
     def mouse_wheel_up(self, time=0L):
-        self.__window.activate(time)
+        self.activate(time)
 
     def mouse_wheel_down(self, time=0L):
         self.__window.minimize()
