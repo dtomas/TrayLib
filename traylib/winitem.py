@@ -152,8 +152,17 @@ class WindowItem(Item):
 
     def is_greyed_out(self):
         return (
-            self.__window.get_workspace() is not
-            self.__window.get_screen().get_active_workspace()
+            not self.is_on_active_workspace() and
+            not self.__window.needs_attention()
+        )
+
+    def is_on_active_workspace(self):
+        window = self.__window
+        screen = window.get_screen()
+        workspace = window.get_workspace()
+        return (
+            workspace is screen.get_active_workspace() or
+            window.is_pinned() or window.is_sticky()
         )
 
     def get_zoom(self):
@@ -189,8 +198,7 @@ class WindowItem(Item):
         return (
             not window.is_skip_tasklist() and (
                 self.__win_config.all_workspaces or
-                window.get_workspace() == screen.get_active_workspace() or
-                window.is_pinned() or window.is_sticky()
+                self.is_on_active_workspace()
             ) or
             window.needs_attention()
         )
