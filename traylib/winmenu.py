@@ -22,42 +22,22 @@ def _kill(menu_item, pids, name):
             ).wait()
 
 
-def get_filer_window_path(window):
-    name = window.get_name()
-    if (window.get_class_group().get_name() != 'ROX-Filer' or
-            not (name.startswith('/') or name.startswith('~'))):
-        return ''
-    for i in range(1-len(name), 0):
-        if name[-i] == '(' or name[-i] == '+':
-            name = name[:-(i+1)]
-            break
-    return name
-
-
 class WindowActionMenu(gtk.Menu):
     """
     A menu that shows actions for a C{wnck.Window}.
     """
 
-    def __init__(self, window, has_kill=False, path=None, parent=None):
+    def __init__(self, window, has_kill=False):
         """
         Creates a new C{WindowActionMenu}.
         
         @param has_kill: If C{True}, the menu contains an entry to kill the 
             process the window belongs to.
-        @param path: If not C{None}, indicates that the window is a filemanager
-            window showing the directory C{path}.
-        @param parent: The L{WindowMenu} showing all directories.
         """
         gtk.Menu.__init__(self)
     
         self.__window = window
         screen = window.get_screen()
-        if path:
-            self.__path = os.path.expanduser(path)
-        else:
-            self.__path = None
-        self.__parent = parent
     
         item = gtk.ImageMenuItem(_("Activate"))
         item.get_image().set_from_stock(gtk.STOCK_YES, gtk.ICON_SIZE_MENU)
@@ -158,36 +138,9 @@ class WindowActionMenu(gtk.Menu):
     
         self.append(gtk.SeparatorMenuItem())
 
-        if self.__parent and self.__path and os.path.isdir(self.__path):
-            item = gtk.ImageMenuItem(_("Close subdirectories"))
-            item.get_image().set_from_stock(
-                gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU
-            )
-            item.connect("activate", self.__close_subdirs)
-            self.append(item)
-
         item = gtk.ImageMenuItem(gtk.STOCK_CLOSE)
         item.connect("activate", self.__winaction2, wnck.Window.close)
         self.append(item)
-
-    def __close_subdirs(self, menu_item):
-        path = self.__path + os.sep
-        windows = []
-        for window in self.__parent.get_windows():
-            window_path = os.path.expanduser(get_filer_window_path(window))
-            if window_path and window_path.startswith(path):
-                windows.append(window)
-        if not windows:
-            rox.info(_("There are no windows showing subdirectories of %s") 
-                        % self.__path)
-        n_windows = len(windows)
-        if n_windows > 1:
-            if not rox.confirm(
-                    _("Close all %d subdirectories of %s?") %
-                    (n_windows, self.__path), gtk.STOCK_CLOSE):
-                return
-        for window in windows:
-            window.close(gtk.get_current_event_time())
             
     def __winaction(self, menu_item, func):
         func(self.__window)
@@ -243,14 +196,7 @@ class WindowMenu(gtk.Menu):
                 has_minimized_windows = True
             else:
                 has_unminimized_windows = True
-            item = render_menu_item(window_item, has_submenu=True)
-            item.set_submenu(
-                WindowActionMenu(
-                    window_item.window, has_kill and len(self.__pids) > 1,
-                    window_item.root_path, self
-                )
-            )
-            self.append(item)
+            self.append(render_menu_item(window_item, has_submenu=True))
         self.append(gtk.SeparatorMenuItem())
         item = gtk.ImageMenuItem(_("Show all"))
         item.get_image().set_from_stock(gtk.STOCK_REDO, gtk.ICON_SIZE_MENU)

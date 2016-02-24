@@ -8,7 +8,7 @@ import gtk
 from traylib import TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, ICON_THEME
 from traylib.item import Item
 from traylib.menu_renderer import render_menu_item
-from traylib.winmenu import WindowActionMenu, WindowMenu, get_filer_window_path
+from traylib.winmenu import WindowActionMenu, WindowMenu
 
 
 def _load_icons(icon_theme):
@@ -37,15 +37,11 @@ _load_icons(ICON_THEME)
 
 class WindowItem(Item):
 
-    def __init__(self, win_config, window, menu_has_kill=True, root_path=None,
-                 root_icon=None):
+    def __init__(self, win_config, window, menu_has_kill=True):
         Item.__init__(self)
         self.__win_config = win_config
         self.__window = window
         self.__menu_has_kill = menu_has_kill
-        self.__root_path = root_path
-        self.__root_icon = root_icon
-        self.__path = get_filer_window_path(window)
         self.__window_handlers = [
             window.connect("name-changed", self.__window_name_changed),
             window.connect("state-changed", self.__window_state_changed),
@@ -95,9 +91,7 @@ class WindowItem(Item):
         self.emit("icon-changed")
 
     def __window_name_changed(self, window):
-        self.__path = get_filer_window_path(window)
         self.emit("name-changed")
-        self.emit("icon-changed")
 
     def __active_window_changed(self, screen, window=None):
         self.emit("zoom-changed")
@@ -107,19 +101,7 @@ class WindowItem(Item):
         self.emit("icon-changed")
 
     def get_name(self):
-        if self.__path:
-            name = self.__path
-            if self.__root_path:
-                root_dirname = os.path.dirname(self.__root_path)
-                if root_dirname == '/':
-                    l = 1
-                else:
-                    l = len(root_dirname) + 1
-                if name != '/':
-                    name = os.path.expanduser(name)[l:]
-                    name = name.replace(os.path.expanduser('~'), '~')
-        else:
-            name = self.__window.get_name()
+        name = self.get_base_name()
         if self.__window.is_minimized():
             name = "[ " + name + " ]"
         if self.__window.is_shaded():
@@ -128,27 +110,11 @@ class WindowItem(Item):
             name = "!! " + name + " !!"
         return name.replace('_', '__')
 
+    def get_base_name(self):
+        return self.__window.get_name()
+
     def get_icon_pixbuf(self):
-        pixbuf = None
-        if self.__path:
-            icon_path = os.path.expanduser(
-                os.path.join(self.__path, '.DirIcon')
-            )
-            if os.access(icon_path, os.F_OK):
-                pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
-            elif self.__path != self.__root_path:
-                if os.path.expanduser(self.__path) == os.path.expanduser('~'):
-                    pixbuf = home_icon
-                else:
-                    pixbuf = dir_icon
-            elif self.__path == self.__root_path and self.__root_icon:
-                pixbuf = self.__root_icon
-        if not pixbuf:
-            #if self.__icon:
-            #    pixbuf = icon
-            #else:
-            pixbuf = self.__window.get_icon()
-        return pixbuf
+        return self.__window.get_icon()
 
     def is_greyed_out(self):
         return (
@@ -211,45 +177,132 @@ class WindowItem(Item):
         return self.__window.needs_attention()
 
     def get_drag_source_targets(self):
-        targets = [("application/x-wnck-window-id", 0, TARGET_WNCK_WINDOW_ID)]
-        if self.__path:
-            targets.append(("text/uri-list", 0, TARGET_URI_LIST))
-        return targets
+        return [("application/x-wnck-window-id", 0, TARGET_WNCK_WINDOW_ID)]
 
     def get_drag_source_actions(self):
-        actions = gtk.gdk.ACTION_MOVE
-        if self.__path:
-            actions |= gtk.gdk.ACTION_COPY
-            actions |= gtk.gdk.ACTION_LINK
-        return actions
+        return gtk.gdk.ACTION_MOVE
 
     def drag_data_get(self, context, data, info, time):
         if info == TARGET_WNCK_WINDOW_ID:
             xid = self.__window.get_xid()
             data.set(data.target, 8, apply(struct.pack, ['1i', xid]))
-        else:
-            data.set_uris(
-                ['file://%s' % pathname2url(os.path.expanduser(self.__path))]
-            )
 
     @property
     def window(self):
         return self.__window
 
     @property
-    def root_path(self):
-        return self.__root_path
+    def menu_has_kill(self):
+        return self.__menu_has_kill
+
+
+class DirectoryWindowItem(WindowItem):
+
+    def __init__(self, win_config, window, path_from_window_name,
+                 menu_has_kill=True, root_path=None, root_icon=None):
+        WindowItem.__init__(self, win_config, window, menu_has_kill)
+        self.__path_from_window_name = path_from_window_name
+        self.__path = path_from_window_name(window.get_name())
+        self.__root_path = root_path
+        self.__root_icon = root_icon
+        self.__window_handlers = [
+            window.connect("name-changed", self.__window_name_changed),
+        ]
+        self.connect("destroyed", self.__destroyed)
+
+    def __destroyed(self, item):
+        for handler in self.__window_handlers:
+            self.__window.disconnect(handler)
+
+    def __window_name_changed(self, window):
+        self.__path = self.__path_from_window_name(window.get_name())
+        self.emit("name-changed")
+        self.emit("icon-changed")
+
+    def get_base_name(self):
+        name = self.__path
+        if self.__root_path:
+            root_dirname = os.path.dirname(self.__root_path)
+            if root_dirname == '/':
+                l = 1
+            else:
+                l = len(root_dirname) + 1
+            if name != '/':
+                name = os.path.expanduser(name)[l:]
+                name = name.replace(os.path.expanduser('~'), '~')
+        return name
+
+    def get_icon_pixbuf(self):
+        pixbuf = None
+        icon_path = os.path.expanduser(os.path.join(self.__path, '.DirIcon'))
+        if os.access(icon_path, os.F_OK):
+            pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
+        elif self.__path != self.__root_path:
+            if os.path.expanduser(self.__path) == os.path.expanduser('~'):
+                pixbuf = home_icon
+            else:
+                pixbuf = dir_icon
+        elif self.__path == self.__root_path and self.__root_icon:
+            pixbuf = self.__root_icon
+        if pixbuf is None:
+            #if self.__icon:
+            #    pixbuf = icon
+            #else:
+            pixbuf = WindowItem.get_icon_pixbuf(self)
+        return pixbuf
+
+    def get_drag_source_targets(self):
+        return WindowItem.get_drag_source_targets(self) + [
+            ("text/uri-list", 0, TARGET_URI_LIST)
+        ]
+
+    def get_drag_source_actions(self):
+        return (
+            WindowItem.get_drag_source_actions(self) |
+            gtk.gdk.ACTION_COPY | gtk.gdk.ACTION_LINK
+        )
+
+    def drag_data_get(self, context, data, info, time):
+        WindowItem.drag_data_get(self, context, data, info, time)
+        if info == TARGET_URI_LIST:
+            data.set_uris(
+                ['file://%s' % pathname2url(os.path.expanduser(self.__path))]
+            )
+
+    @property
+    def path(self):
+        return self.__path
+
+
+def get_filer_window_path(name):
+    for i in range(1-len(name), 0):
+        if name[-i] == '(' or name[-i] == '+':
+            name = name[:-(i+1)]
+            break
+    return name
+
+
+def create_window_item(win_config, window, menu_has_kill):
+    name = window.get_name()
+    if (window.get_class_group().get_name() == 'ROX-Filer' and
+            name.startswith('/') or name.startswith('~')):
+        return DirectoryWindowItem(
+            win_config, window, get_filer_window_path, menu_has_kill
+        )
+    return WindowItem(win_config, window, get_filer_window_path)
 
 
 class WindowsItem(Item):
 
     def __init__(self, win_config, screen, name, menu_has_kill=True,
-                 root_path=None, root_icon=None):
+                 root_path=None, root_icon=None,
+                 create_window_item=create_window_item):
         Item.__init__(self)
         self.__win_config = win_config
         self.__name = name
         self.__screen = screen
         self.__menu_has_kill = menu_has_kill
+        self.__create_window_item = create_window_item
         self.__root_path = root_path
         self.__root_icon = root_icon
         self.__window_items = []
@@ -290,9 +343,8 @@ class WindowsItem(Item):
         for window_item in self.__window_items:
             if window_item.window is window:
                 return
-        window_item = WindowItem(
-            self.__win_config, window, self.__menu_has_kill, self.__root_path,
-            self.__root_icon
+        window_item = self.__create_window_item(
+            self.__win_config, window, self.__menu_has_kill
         )
         self.__window_handlers[window] = [
             window_item.connect(
