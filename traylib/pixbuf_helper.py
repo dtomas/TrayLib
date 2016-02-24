@@ -27,3 +27,14 @@ def scale_pixbuf_to_size(pixbuf, size, scale_up=True):
             )
     return pixbuf
 
+
+def convert_to_greyscale(pixbuf):
+    dest_pixbuf = gtk.gdk.Pixbuf(
+        pixbuf.get_colorspace(),
+        pixbuf.get_has_alpha(),
+        pixbuf.get_bits_per_sample(),
+        pixbuf.get_width(),
+        pixbuf.get_height(),
+    )
+    pixbuf.saturate_and_pixelate(dest_pixbuf, 0.0, False)
+    return dest_pixbuf

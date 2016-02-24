@@ -1,6 +1,6 @@
 import gtk
 
-from traylib.pixbuf_helper import scale_pixbuf_to_size
+from traylib.pixbuf_helper import scale_pixbuf_to_size, convert_to_greyscale
 
 
 def render_menu_item(item, has_submenu=False, size=24):
@@ -20,11 +20,12 @@ def render_menu_item(item, has_submenu=False, size=24):
     def update_pixbuf(item):
         image = menu_item.get_image()
         if image is not None:
-            image.set_from_pixbuf(
-                scale_pixbuf_to_size(
-                    item.get_icon(size), int(item.get_zoom() * size)
-                )
+            pixbuf = scale_pixbuf_to_size(
+                item.get_icon(size), int(item.get_zoom() * size)
             )
+            if item.is_greyed_out():
+                pixbuf = convert_to_greyscale(pixbuf)
+            image.set_from_pixbuf(pixbuf)
 
     def update_label(item):
         menu_item.set_label(item.get_name())
@@ -49,6 +50,7 @@ def render_menu_item(item, has_submenu=False, size=24):
         item.connect("zoom-changed", update_pixbuf),
         item.connect("menu-right-changed", update_submenu),
         item.connect("drag-source-changed", update_drag_source),
+        item.connect("is-greyed-out-changed", update_pixbuf),
         item.connect("destroyed", destroyed),
     ]
 

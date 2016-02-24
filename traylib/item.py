@@ -27,6 +27,9 @@ class Item(gobject.GObject):
         """
         return True
 
+    def is_greyed_out(self):
+        return False
+
     def is_blinking(self):
         return False
 
@@ -202,6 +205,10 @@ gobject.signal_new(
     ()
 )
 gobject.signal_new(
+    "is-greyed-out-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+    ()
+)
+gobject.signal_new(
     "name-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
 )
 gobject.signal_new(
@@ -237,6 +244,9 @@ class ItemWrapper(Item):
         self.__item_handlers = [
             item.connect("is-visible-changed", self.__is_visible_changed),
             item.connect("is-blinking-changed", self.__is_blinking_changed),
+            item.connect(
+                "is-greyed-out-changed", self.__is_greyed_out_changed
+            ),
             item.connect("name-changed", self.__name_changed),
             item.connect("icon-changed", self.__icon_changed),
             item.connect("zoom-changed", self.__zoom_changed),
@@ -255,6 +265,9 @@ class ItemWrapper(Item):
 
     def __is_blinking_changed(self, item):
         self.emit("is-blinking-changed")
+
+    def __is_greyed_out_changed(self, item):
+        self.emit("is-greyed-out-changed")
 
     def __name_changed(self, item):
         self.emit("name-changed")
@@ -282,6 +295,9 @@ class ItemWrapper(Item):
 
     def is_blinking(self):
         return self.__item.is_blinking()
+
+    def is_greyed_out(self):
+        return self.__item.is_greyed_out()
 
     def get_name(self):
         return self.__item.get_name()

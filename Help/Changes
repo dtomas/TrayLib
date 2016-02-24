@@ -4,6 +4,7 @@
 
 2.0.0 (unreleased)
 ~~~~~
+- Greying out items.
 - Renamed WinIconConfig to WinItemConfig.
 - Replaced parameter Tray
 - Replaced MenuIcon with MainItem.

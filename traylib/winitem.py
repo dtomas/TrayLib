@@ -89,6 +89,7 @@ class WindowItem(Item):
 
     def __window_workspace_changed(self, window):
         self.emit("is-visible-changed")
+        self.emit("icon-changed")
 
     def __window_icon_changed(self, window):
         self.emit("icon-changed")
@@ -101,6 +102,7 @@ class WindowItem(Item):
 
     def __active_workspace_changed(self, screen, workspace=None):
         self.emit("is-visible-changed")
+        self.emit("icon-changed")
 
     def get_name(self):
         if self.__path:
@@ -145,6 +147,12 @@ class WindowItem(Item):
             #else:
             pixbuf = self.__window.get_icon()
         return pixbuf
+
+    def is_greyed_out(self):
+        return (
+            self.__window.get_workspace() is not
+            self.__window.get_screen().get_active_workspace()
+        )
 
     def get_zoom(self):
         if self.__window.is_active():
@@ -277,6 +285,12 @@ class WindowsItem(Item):
             window_item.connect(
                 "is-blinking-changed", self.__window_blinking_changed
             ),
+            window_item.connect(
+                "icon-changed", self.__window_icon_changed
+            ),
+            window_item.connect(
+                "is-greyed-out-changed", self.__window_greyed_out_changed
+            ),
         ]
         self.__window_items.append(window_item)
         self.emit("has-arrow-changed")
@@ -287,6 +301,7 @@ class WindowsItem(Item):
         self.emit("zoom-changed")
         self.emit("name-changed")
         self.emit("visible-window-items-changed")
+        self.emit("is-greyed-out-changed")
 
     def __window_visible_changed(self, window_item):
         self.emit("is-visible-changed")
@@ -296,10 +311,18 @@ class WindowsItem(Item):
         self.emit("drag-source-changed")
         self.emit("zoom-changed")
         self.emit("name-changed")
+        self.emit("icon-changed")
         self.emit("visible-window-items-changed")
+        self.emit("is-greyed-out-changed")
 
     def __window_blinking_changed(self, window_item):
         self.emit("is-blinking-changed")
+
+    def __window_greyed_out_changed(self, window_item):
+        self.emit("is-greyed-out-changed")
+
+    def __window_icon_changed(self, window_item):
+        self.emit("icon-changed")
 
     def remove_window(self, window):
         try:
@@ -322,6 +345,7 @@ class WindowsItem(Item):
             self.emit("zoom-changed")
             self.emit("name-changed")
             self.emit("visible-window-items-changed")
+            self.emit("is-greyed-out-changed")
 
     def has_arrow(self):
         return self.__win_config.arrow and len(self.visible_window_items) > 1
@@ -418,6 +442,25 @@ class WindowsItem(Item):
         else:
             return 0.66
         return 1.0
+
+    def get_icon_pixbuf(self):
+        icon = None
+        visible_window_items = self.visible_window_items
+        for window_item in visible_window_items:
+            if window_item.window.is_active():
+                icon = window_item.get_icon_pixbuf()
+                break
+            if window_item.window.get_workspace() is self.__screen.get_active_workspace():
+                icon = window_item.get_icon_pixbuf()
+        if icon is None and visible_window_items:
+            icon = visible_window_items[0].get_icon_pixbuf()
+        return icon
+
+    def is_greyed_out(self):
+        for window_item in self.visible_window_items:
+            if not window_item.is_greyed_out():
+                return False
+        return True
 
     def get_name(self):
         visible_window_items = self.visible_window_items
