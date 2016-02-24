@@ -95,7 +95,9 @@ class WindowItem(Item):
         self.emit("icon-changed")
 
     def __window_name_changed(self, window):
+        self.__path = get_filer_window_path(window)
         self.emit("name-changed")
+        self.emit("icon-changed")
 
     def __active_window_changed(self, screen, window=None):
         self.emit("zoom-changed")
