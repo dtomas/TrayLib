@@ -238,6 +238,7 @@ class DirectoryWindowItem(WindowItem):
 
 
 def is_filer_window(window):
+    name = window.get_name()
     return (
         window.get_class_group().get_name() == 'ROX-Filer' and
         name.startswith('/') or name.startswith('~')
