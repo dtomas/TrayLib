@@ -269,6 +269,7 @@ class WindowsItem(Item):
 
     def __active_window_changed(self, screen, window=None):
         self.emit("zoom-changed")
+        self.emit("icon-changed")
 
     def add_window(self, window):
         for window_item in self.__window_items:
