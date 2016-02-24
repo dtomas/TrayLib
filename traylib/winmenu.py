@@ -161,17 +161,11 @@ class WindowMenu(gtk.Menu):
     The menu for a list of windows.
     """
 
-    def __init__(self, window_items, screen, group_name,
-                    root=None, root_icon=None, has_kill=False):
+    def __init__(self, window_items, screen, group_name, has_kill=False):
         """
         Creates a new WindowMenu.
         
         @param window_items: A list of C{WindowItem}s.
-        @param root: If not C{None}, indicates that the windows are
-            filemanager windows and the path prefix "root" should be
-            omitted.
-        @param root_icon: The icon to show for the root menu entry. This is the
-            menu entry showing C{root}.
         @param has_kill: If C{True}, the menu contains a "kill" menu entry
             which kills the process the windows belong to. If the windows
             belong to different processes, each submenu has its own "kill"

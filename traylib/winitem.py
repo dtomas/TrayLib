@@ -295,7 +295,6 @@ def create_window_item(win_config, window, menu_has_kill):
 class WindowsItem(Item):
 
     def __init__(self, win_config, screen, name, menu_has_kill=True,
-                 root_path=None, root_icon=None,
                  create_window_item=create_window_item):
         Item.__init__(self)
         self.__win_config = win_config
@@ -303,8 +302,6 @@ class WindowsItem(Item):
         self.__screen = screen
         self.__menu_has_kill = menu_has_kill
         self.__create_window_item = create_window_item
-        self.__root_path = root_path
-        self.__root_icon = root_icon
         self.__window_items = []
         self.__window_handlers = {}
         self.__screen_handlers = [
@@ -433,8 +430,6 @@ class WindowsItem(Item):
             return visible_window_items[0].get_menu_right()
         return WindowMenu(
             visible_window_items, self.__screen, self.get_name(),
-            root=self.__root_path,
-            root_icon=self.__root_icon,
             has_kill=self.__menu_has_kill,
         )
 
