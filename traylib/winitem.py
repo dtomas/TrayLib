@@ -147,7 +147,7 @@ class WindowItem(Item):
         return pixbuf
 
     def get_zoom(self):
-        if self.__window is self.__window.get_screen().get_active_window():
+        if self.__window.is_active():
             return 1.5
         if self.__window.is_minimized():
             return 0.66
@@ -155,9 +155,8 @@ class WindowItem(Item):
 
     def click(self, time=0L, force_activate=False):
         window = self.__window
-        active_window = window.get_screen().get_active_window()
         if (not force_activate and
-                window is active_window and not window.is_minimized()):
+                window.is_active() and not window.is_minimized()):
             window.minimize()
         else:
             window.get_workspace().activate(time)
@@ -357,13 +356,12 @@ class WindowsItem(Item):
         visible_window_items = self.visible_window_items
         if not self.__screen or not visible_window_items:
             return False
-        active_window = self.__screen.get_active_window()
         found = False
         for window_item in visible_window_items:
             if found:
                 window_item.click(time, force_activate=True)
                 return True
-            if window_item.window is active_window:
+            if window_item.window.is_active():
                 found = True
         visible_window_items[0].click(time, force_activate=True)
         return True
@@ -378,12 +376,11 @@ class WindowsItem(Item):
         visible_window_items = self.visible_window_items
         if not self.__screen or not visible_window_items:
             return False
-        active_window = self.__screen.get_active_window()
         found = False
         last = len(visible_window_items) - 1
         previous_window_item = visible_window_items[last]
         for window_item in visible_window_items:
-            if window_item.window is active_window:
+            if window_item.window.is_active():
                 break
             previous_window_item = window_item
         previous_window_item.click(time, force_activate=True)
@@ -411,10 +408,9 @@ class WindowsItem(Item):
         return False
 
     def get_zoom(self):
-        active_window = self.__screen.get_active_window()
         visible_window_items = self.visible_window_items
         for window_item in visible_window_items:
-            if window_item.window is active_window:
+            if window_item.window.is_active():
                 return 1.5
         for window_item in visible_window_items:
             if not window_item.window.is_minimized():
