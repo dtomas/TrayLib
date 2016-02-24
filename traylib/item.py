@@ -215,6 +215,9 @@ gobject.signal_new(
     "icon-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
 )
 gobject.signal_new(
+    "emblem-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
+)
+gobject.signal_new(
     "zoom-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
 )
 gobject.signal_new(
@@ -249,6 +252,7 @@ class ItemWrapper(Item):
             ),
             item.connect("name-changed", self.__name_changed),
             item.connect("icon-changed", self.__icon_changed),
+            item.connect("emblem-changed", self.__emblem_changed),
             item.connect("zoom-changed", self.__zoom_changed),
             item.connect("has-arrow-changed", self.__has_arrow_changed),
             item.connect("menu-left-changed", self.__menu_left_changed),
@@ -274,6 +278,9 @@ class ItemWrapper(Item):
 
     def __icon_changed(self, item):
         self.emit("icon-changed")
+
+    def __emblem_changed(self, item):
+        self.emit("emblem-changed")
 
     def __zoom_changed(self, item):
         self.emit("zoom-changed")
