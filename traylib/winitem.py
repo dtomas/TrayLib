@@ -252,7 +252,7 @@ def create_window_item(win_config, window, menu_has_kill):
         return DirectoryWindowItem(
             win_config, window, get_filer_window_path, menu_has_kill
         )
-    return WindowItem(win_config, window, get_filer_window_path)
+    return WindowItem(win_config, window, menu_has_kill)
 
 
 class WindowsItem(Item):
