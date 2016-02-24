@@ -42,6 +42,9 @@ def render_icon(item, icon_config):
             icon.pixbuf = pixbuf
             icon.alpha = 128 if item.is_greyed_out() else 255
 
+    def update_emblem(item):
+        icon.emblem = item.get_emblem()
+
     def update_zoom(item):
         icon.zoom_factor = 1.5 if state.menu_visible else item.get_zoom()
 
@@ -75,6 +78,7 @@ def render_icon(item, icon_config):
         item.connect("is-visible-changed", update_visibility),
         item.connect("is-blinking-changed", update_blinking),
         item.connect("is-greyed-out-changed", update_icon),
+        item.connect("emblem-changed", update_emblem),
         item.connect("destroyed", destroyed),
     ]
 
