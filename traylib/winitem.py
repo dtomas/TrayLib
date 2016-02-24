@@ -237,6 +237,13 @@ class DirectoryWindowItem(WindowItem):
         return self.__path
 
 
+def is_filer_window(window):
+    return (
+        window.get_class_group().get_name() == 'ROX-Filer' and
+        name.startswith('/') or name.startswith('~')
+    )
+
+
 def get_filer_window_path(name):
     for i in range(1-len(name), 0):
         if name[-i] == '(' or name[-i] == '+':
@@ -247,8 +254,7 @@ def get_filer_window_path(name):
 
 def create_window_item(win_config, window, menu_has_kill):
     name = window.get_name()
-    if (window.get_class_group().get_name() == 'ROX-Filer' and
-            name.startswith('/') or name.startswith('~')):
+    if is_filer_window(window):
         return DirectoryWindowItem(
             win_config, window, get_filer_window_path, menu_has_kill
         )
