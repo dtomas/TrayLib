@@ -1,7 +1,6 @@
 import gtk
 
 from traylib.icon import Icon
-from traylib.pixbuf_helper import convert_to_greyscale
 
 
 def render_icon(item, icon_config):
@@ -40,9 +39,8 @@ def render_icon(item, icon_config):
     def update_icon(item):
         pixbuf = item.get_icon(icon_config.size)
         if pixbuf is not None:
-            if item.is_greyed_out():
-                pixbuf = convert_to_greyscale(pixbuf)
             icon.pixbuf = pixbuf
+            icon.alpha = 128 if item.is_greyed_out() else 255
 
     def update_zoom(item):
         icon.zoom_factor = 1.5 if state.menu_visible else item.get_zoom()

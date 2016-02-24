@@ -1,6 +1,6 @@
 import gtk
 
-from traylib.pixbuf_helper import scale_pixbuf_to_size, convert_to_greyscale
+from traylib.pixbuf_helper import scale_pixbuf_to_size, change_alpha
 
 
 def render_menu_item(item, has_submenu=False, size=24):
@@ -24,7 +24,7 @@ def render_menu_item(item, has_submenu=False, size=24):
                 item.get_icon(size), int(item.get_zoom() * size)
             )
             if item.is_greyed_out():
-                pixbuf = convert_to_greyscale(pixbuf)
+                pixbuf = change_alpha(pixbuf, 128)
             image.set_from_pixbuf(pixbuf)
 
     def update_label(item):

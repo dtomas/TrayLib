@@ -45,6 +45,8 @@ class Icon(gtk.EventBox, object):
         self.__canvas = None
         self.__pixbuf = None
         self.__pixbuf_current = None
+        self.__current_alpha = 0xff
+        self.__target_alpha = 0xff
 
         # blink
         self.__blink_event = 0
@@ -276,6 +278,17 @@ class Icon(gtk.EventBox, object):
     def vertical(self):
         return self.edge in {LEFT, RIGHT}
 
+    @property
+    def alpha(self):
+        return self.__target_alpha
+
+    @alpha.setter
+    def alpha(self, alpha):
+        if self.__target_alpha == alpha:
+            return
+        self.__target_alpha = alpha
+        self._refresh()
+
     def __update_arrow_target_alpha(self):
         if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY): 
             return
@@ -344,7 +357,7 @@ class Icon(gtk.EventBox, object):
             return
         if not int(self.get_property('visible')):
             return
-            
+
         effects = self.__effects
 
         if self.__zoom_action not in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY):
@@ -357,7 +370,8 @@ class Icon(gtk.EventBox, object):
             if (not force and
                     self.__current_size == self.__target_size and
                     self.__arrow_current_alpha == self.__arrow_target_alpha and
-                    self.__emblem_current_alpha == self.__emblem_target_alpha):
+                    self.__emblem_current_alpha == self.__emblem_target_alpha and
+                    self.__current_alpha == self.__target_alpha):
                 return
 
         if self.__zoom_event != 0:
@@ -369,6 +383,7 @@ class Icon(gtk.EventBox, object):
         else:
             self.__arrow_current_alpha = self.__arrow_target_alpha
             self.__emblem_current_alpha = self.__emblem_target_alpha
+            self.__current_alpha = self.__target_alpha
             self.__current_size = self.__target_size
             self.__pixbuf_current = None
             while self.__refresh():
@@ -397,7 +412,7 @@ class Icon(gtk.EventBox, object):
                 - round(float(height)/2.0))
         self.__pixbuf_current.composite(
             self.__canvas, x, y, width, height, x, y, 1.0, 1.0,
-            gtk.gdk.INTERP_TILES, 255
+            gtk.gdk.INTERP_TILES, self.__current_alpha
         )
         if self.__emblem_current_alpha > 0:
             width = self.__max_size/3
@@ -429,7 +444,8 @@ class Icon(gtk.EventBox, object):
 
         if (self.__current_size == self.__target_size and
                 self.__arrow_current_alpha == self.__arrow_target_alpha and
-                self.__emblem_current_alpha == self.__emblem_target_alpha):
+                self.__emblem_current_alpha == self.__emblem_target_alpha and
+                self.__current_alpha == self.__target_alpha):
             if self.__zoom_action == ZOOM_ACTION_HIDE:
                 if (self.__arrow_current_alpha > 0 or
                         self.__emblem_current_alpha > 0):
@@ -465,6 +481,14 @@ class Icon(gtk.EventBox, object):
             self.__current_size -= 1
         elif self.__current_size < self.__target_size:
             self.__current_size += 1
+        if self.__current_alpha > self.__target_alpha:
+            self.__current_alpha = max(
+                self.__target_alpha, self.__current_alpha - 5
+            )
+        elif self.__current_alpha < self.__target_alpha:
+            self.__current_alpha = min(
+                self.__target_alpha, self.__current_alpha + 5
+            )
         if self.__arrow_current_alpha > self.__arrow_target_alpha:
             self.__arrow_current_alpha = max(
                 self.__arrow_target_alpha, self.__arrow_current_alpha - 5

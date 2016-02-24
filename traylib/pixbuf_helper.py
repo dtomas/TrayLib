@@ -38,3 +38,19 @@ def convert_to_greyscale(pixbuf):
     )
     pixbuf.saturate_and_pixelate(dest_pixbuf, 0.0, False)
     return dest_pixbuf
+
+
+def change_alpha(pixbuf, alpha):
+    dest_pixbuf = gtk.gdk.Pixbuf(
+        pixbuf.get_colorspace(),
+        pixbuf.get_has_alpha(),
+        pixbuf.get_bits_per_sample(),
+        pixbuf.get_width(),
+        pixbuf.get_height(),
+    )
+    dest_pixbuf.fill(0)
+    pixbuf.composite(
+        dest_pixbuf, 0, 0, pixbuf.get_width(), pixbuf.get_height(),
+        0, 0, 1, 1, gtk.gdk.INTERP_TILES, alpha
+    )
+    return dest_pixbuf
