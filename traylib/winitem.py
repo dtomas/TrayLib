@@ -278,10 +278,9 @@ class WindowsItem(Item):
         self.emit("has-arrow-changed")
 
     def __active_window_changed(self, screen, window=None):
-        if screen.get_active_window() is None:
-            return
         self.emit("zoom-changed")
-        self.emit("icon-changed")
+        if screen.get_active_window() is not None:
+            self.emit("icon-changed")
 
     def add_window(self, window):
         for window_item in self.__window_items:
