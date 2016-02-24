@@ -47,8 +47,12 @@ class WindowItem(Item):
         self.__root_icon = root_icon
         self.__path = get_filer_window_path(window)
         self.__window_handlers = [
-            window.connect("name_changed", self.__window_name_changed),
-            window.connect("state_changed", self.__window_state_changed),
+            window.connect("name-changed", self.__window_name_changed),
+            window.connect("state-changed", self.__window_state_changed),
+            window.connect(
+                "workspace-changed", self.__window_workspace_changed
+            ),
+            window.connect("icon-changed", self.__window_icon_changed),
         ]
         self.__screen_handlers = [
             window.get_screen().connect(
@@ -82,6 +86,12 @@ class WindowItem(Item):
         self.emit("zoom-changed")
         self.emit("is-visible-changed")
         self.emit("is-blinking-changed")
+
+    def __window_workspace_changed(self, window):
+        self.emit("is-visible-changed")
+
+    def __window_icon_changed(self, window):
+        self.emit("icon-changed")
 
     def __window_name_changed(self, window):
         self.emit("name-changed")
