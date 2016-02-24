@@ -270,6 +270,8 @@ class WindowsItem(Item):
         self.emit("has-arrow-changed")
 
     def __active_window_changed(self, screen, window=None):
+        if screen.get_active_window() is None:
+            return
         self.emit("zoom-changed")
         self.emit("icon-changed")
 
@@ -449,14 +451,12 @@ class WindowsItem(Item):
     def get_icon_pixbuf(self):
         icon = None
         visible_window_items = self.visible_window_items
+        if len(visible_window_items) == 1:
+            return visible_window_items[0].get_icon_pixbuf()
         for window_item in visible_window_items:
             if window_item.window.is_active():
                 icon = window_item.get_icon_pixbuf()
                 break
-            if window_item.window.get_workspace() is self.__screen.get_active_workspace():
-                icon = window_item.get_icon_pixbuf()
-        if icon is None and visible_window_items:
-            icon = visible_window_items[0].get_icon_pixbuf()
         return icon
 
     def is_greyed_out(self):
