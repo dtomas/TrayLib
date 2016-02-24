@@ -176,12 +176,10 @@ class WindowItem(Item):
 class DirectoryWindowItem(WindowItem):
 
     def __init__(self, win_config, window, path_from_window_name,
-                 menu_has_kill=True, root_path=None, root_icon=None):
+                 menu_has_kill=True):
         WindowItem.__init__(self, win_config, window, menu_has_kill)
         self.__path_from_window_name = path_from_window_name
         self.__path = path_from_window_name(window.get_name())
-        self.__root_path = root_path
-        self.__root_icon = root_icon
         self.__window_handlers = [
             window.connect("name-changed", self.__window_name_changed),
         ]
