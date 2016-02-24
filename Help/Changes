@@ -4,6 +4,7 @@
 
 2.0.0 (unreleased)
 ~~~~~
+- Replaced Item.get_icon_* methods with Item.get_icons() returning IIconLoaders.
 - Greying out items.
 - Renamed WinIconConfig to WinItemConfig.
 - Replaced parameter Tray

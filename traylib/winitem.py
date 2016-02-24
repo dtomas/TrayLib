@@ -9,30 +9,7 @@ from traylib import TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, ICON_THEME
 from traylib.item import Item
 from traylib.menu_renderer import render_menu_item
 from traylib.winmenu import WindowActionMenu, WindowMenu
-
-
-def _load_icons(icon_theme):
-    global dir_icon, home_icon
-    home_icon = None
-    dir_icon = None
-    for icon_name in 'mime-inode:directory', 'folder', 'gnome-fs-directory':
-        try:
-            dir_icon = icon_theme.load_icon(icon_name, 32, 0)
-            break
-        except:
-            pass
-    for icon_name in 'user-home', 'gnome-fs-home':
-        try:
-            home_icon = icon_theme.load_icon(icon_name, 32, 0)
-            break
-        except:
-            pass
-
-
-home_icon = None
-dir_icon = None
-ICON_THEME.connect("changed", _load_icons)
-_load_icons(ICON_THEME)
+from traylib.icons import FileIcon, ThemedIcon, PixbufIcon
 
 
 class WindowItem(Item):
@@ -113,8 +90,8 @@ class WindowItem(Item):
     def get_base_name(self):
         return self.__window.get_name()
 
-    def get_icon_pixbuf(self):
-        return self.__window.get_icon()
+    def get_icons(self):
+        return [PixbufIcon(self.__window.get_icon())]
 
     def is_greyed_out(self):
         return (
@@ -220,36 +197,24 @@ class DirectoryWindowItem(WindowItem):
         self.emit("icon-changed")
 
     def get_base_name(self):
-        name = self.__path
-        if self.__root_path:
-            root_dirname = os.path.dirname(self.__root_path)
-            if root_dirname == '/':
-                l = 1
-            else:
-                l = len(root_dirname) + 1
-            if name != '/':
-                name = os.path.expanduser(name)[l:]
-                name = name.replace(os.path.expanduser('~'), '~')
-        return name
+        return self.__path
 
-    def get_icon_pixbuf(self):
-        pixbuf = None
-        icon_path = os.path.expanduser(os.path.join(self.__path, '.DirIcon'))
-        if os.access(icon_path, os.F_OK):
-            pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
-        elif self.__path != self.__root_path:
-            if os.path.expanduser(self.__path) == os.path.expanduser('~'):
-                pixbuf = home_icon
-            else:
-                pixbuf = dir_icon
-        elif self.__path == self.__root_path and self.__root_icon:
-            pixbuf = self.__root_icon
-        if pixbuf is None:
-            #if self.__icon:
-            #    pixbuf = icon
-            #else:
-            pixbuf = WindowItem.get_icon_pixbuf(self)
-        return pixbuf
+    def get_icons(self):
+        icons = [
+            FileIcon(
+                os.path.expanduser(os.path.join(self.__path, '.DirIcon'))
+            ),
+        ]
+        if os.path.expanduser(self.__path) == os.path.expanduser('~'):
+            icons += [ThemedIcon('user-home'), ThemedIcon('gnome-fs-home')]
+        else:
+            icons += [
+                ThemedIcon('mime-inode:directory'),
+                ThemedIcon('folder'),
+                ThemedIcon('gnome-fs-directory')
+            ]
+        icons += WindowItem.get_icons(self)
+        return icons
 
     def get_drag_source_targets(self):
         return WindowItem.get_drag_source_targets(self) + [
@@ -506,16 +471,14 @@ class WindowsItem(Item):
             return 0.66
         return 1.0
 
-    def get_icon_pixbuf(self):
-        icon = None
+    def get_icons(self):
         visible_window_items = self.visible_window_items
         if len(visible_window_items) == 1:
-            return visible_window_items[0].get_icon_pixbuf()
+            return visible_window_items[0].get_icons()
         for window_item in visible_window_items:
             if window_item.window.is_active():
-                icon = window_item.get_icon_pixbuf()
-                break
-        return icon
+                return window_item.get_icons()
+        return []
 
     def is_greyed_out(self):
         for window_item in self.visible_window_items:

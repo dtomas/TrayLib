@@ -44,57 +44,25 @@ class Item(gobject.GObject):
     def get_icon(self, size):
         """
         This determines the C{gtk.gdk.Pixbuf} the C{Item} should have.
-        By default, this method tries to load the pixbuf from the path
-        returned by L{get_icon_path()}. If this fails, it looks up the icon 
-        in the current icon theme from the icon names returned by 
-        L{get_icon_names()}. If this also fails, it returns the pixbuf
-        returned by L{get_icon_pixbuf()}.
-        
+
+        This method tries to use the L{IIconLoader}s returned by
+        L{Item.get_icons} to load the pixbuf.
+
         @return: The new pixbuf.
         """
-        icon_path = self.get_icon_path()
-        if icon_path:
-            try:
-                return gtk.gdk.pixbuf_new_from_file(icon_path)
-            except:
-                pass
-        for icon_name in self.get_icon_names():
-            icon_info = ICON_THEME.lookup_icon(icon_name, size, 0)
-            if not icon_info:
-                continue
-            icon_path = icon_info.get_filename()
-            try:
-                pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
-            except:
-                continue
-            return pixbuf
-        return self.get_icon_pixbuf()
+        for icon in self.get_icons():
+            pixbuf = icon.get_pixbuf(size)
+            if pixbuf is not None:
+                return pixbuf
+        return None
 
-    def get_icon_names(self):
+    def get_icons(self):
         """
-        Override this to determine the icon's icon names. These will only be 
-        used if L{get_icon_path} doesn't return a path to an icon or the icon
-        could not be loaded.
+        Override this to determine the icons that C{Item.get_icon} should try.
 
-        @return: The icon names.
+        @return: The list of L{IIconLoader}s.
         """
         return []
-
-    def get_icon_pixbuf(self):
-        """
-        Override this to determine the pixbuf to be used for the icon. This
-        will only be used if no icons could be found for the icon names
-        returned by L{get_icon_names()} and L{get_icon_path()} doesn't return
-        a path to an icon.
-        """
-        return None
-
-    def get_icon_path(self):
-        """
-        Override this to determine the path to a file from which the pixbuf 
-        will be loaded.
-        """
-        return None
 
     def get_emblem(self):
         """
