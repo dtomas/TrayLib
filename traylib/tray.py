@@ -159,7 +159,7 @@ class Tray(gobject.GObject):
         self.__boxes[box_id].pack_start(icon)
         self.__items[box_id][item_id] = item
         item.connect("destroyed", self.__item_destroyed, item_id)
-        self.emit("item-added", item)
+        self.emit("item-added", item_id, item)
 
     def __item_destroyed(self, item, item_id):
         for items in self.__items.itervalues():
@@ -168,7 +168,7 @@ class Tray(gobject.GObject):
             except KeyError:
                 continue
             break
-        self.emit("item-removed", item)
+        self.emit("item-removed", item_id, item)
 
     def remove_item(self, item_id):
         """
@@ -184,7 +184,7 @@ class Tray(gobject.GObject):
             else:
                 item.destroy()
                 del items[icon_id]
-        self.emit("item-removed", item)
+        self.emit("item-removed", item_id, item)
 
     def destroy(self):
         """
@@ -314,8 +314,10 @@ class Tray(gobject.GObject):
 
 gobject.type_register(Tray)
 gobject.signal_new(
-    "item-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (Item,)
+    "item-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+    (gobject.TYPE_PYOBJECT, Item,)
 )
 gobject.signal_new(
-    "item-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (Item,)
+    "item-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+    (gobject.TYPE_PYOBJECT, Item,)
 )
