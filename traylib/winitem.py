@@ -41,6 +41,9 @@ class WindowItem(Item):
         ]
         self.connect("destroyed", self.__destroyed)
 
+
+    # Signal callbacks:
+
     def __destroyed(self, item):
         for handler in self.__window_handlers:
             self.__window.disconnect(handler)
@@ -76,6 +79,9 @@ class WindowItem(Item):
         self.emit("is-visible-changed")
         self.emit("icon-changed")
 
+
+    # Item implementation:
+
     def get_name(self):
         name = self.get_base_name()
         if self.__window.is_minimized():
@@ -85,9 +91,6 @@ class WindowItem(Item):
         if self.__window.needs_attention():
             name = "!! " + name + " !!"
         return name.replace('_', '__')
-
-    def get_base_name(self):
-        return self.__window.get_name()
 
     def get_icons(self):
         return [PixbufIcon(self.__window.get_icon())]
@@ -172,21 +175,32 @@ class WindowItem(Item):
             xid = self.__window.get_xid()
             data.set(data.target, 8, apply(struct.pack, ['1i', xid]))
 
+
+    # Methods which may be overridden by subclasses:
+
+    def get_base_name(self):
+        return self.__window.get_name()
+
+
+    # Properties:
+
     @property
     def window(self):
         return self.__window
 
 
-class DirectoryWindowItem(WindowItem):
+class ADirectoryWindowItem(WindowItem):
 
-    def __init__(self, window, win_config, path_from_window_name):
+    def __init__(self, window, win_config):
         WindowItem.__init__(self, window, win_config)
-        self.__path_from_window_name = path_from_window_name
         self.__window_handlers = [
             window.connect("name-changed", self.__window_name_changed),
         ]
         self.connect("path-changed", self.__path_changed)
         self.connect("destroyed", self.__destroyed)
+
+
+    # Signal callbacks:
 
     def __destroyed(self, item):
         for handler in self.__window_handlers:
@@ -199,11 +213,8 @@ class DirectoryWindowItem(WindowItem):
     def __window_name_changed(self, window):
         self.emit("path-changed")
 
-    def get_path(self):
-        return self.__path_from_window_name(self.window.get_name())
 
-    def get_base_name(self):
-        return self.get_path()
+    # Item implementation:
 
     def get_icons(self):
         path = self.get_path()
@@ -241,11 +252,34 @@ class DirectoryWindowItem(WindowItem):
                 'file://%s' % pathname2url(os.path.expanduser(self.get_path()))
             ])
 
-gobject.type_register(DirectoryWindowItem)
+
+    # WindowItem implementation:
+
+    def get_base_name(self):
+        return self.get_path()
+
+
+    # Methods to be implemented by subclasses:
+
+    def get_path(self):
+        raise NotImplementedError
+
+gobject.type_register(ADirectoryWindowItem)
 gobject.signal_new(
-    "path-changed", DirectoryWindowItem, gobject.SIGNAL_RUN_FIRST,
+    "path-changed", ADirectoryWindowItem, gobject.SIGNAL_RUN_FIRST,
     gobject.TYPE_NONE, ()
 )
+
+
+class FilerDirectoryWindowItem(ADirectoryWindowItem):
+
+    def get_path(self):
+        name = self.window.get_name()
+        for i in range(1-len(name), 0):
+            if name[-i] == '(' or name[-i] == '+':
+                name = name[:-(i+1)]
+                break
+        return name
 
 
 def is_filer_window(window):
@@ -256,32 +290,19 @@ def is_filer_window(window):
     )
 
 
-def get_filer_window_path(name):
-    for i in range(1-len(name), 0):
-        if name[-i] == '(' or name[-i] == '+':
-            name = name[:-(i+1)]
-            break
-    return name
-
-
 def create_window_item(window, win_config):
     name = window.get_name()
     if is_filer_window(window):
-        return DirectoryWindowItem(
-            window, win_config, get_filer_window_path
-        )
+        return FilerDirectoryWindowItem(window, win_config)
     return WindowItem(window, win_config)
 
 
-class WindowsItem(Item):
+class AWindowsItem(Item):
 
-    def __init__(self, win_config, screen, name,
-                 create_window_item=create_window_item):
+    def __init__(self, win_config, screen):
         Item.__init__(self)
         self.__win_config = win_config
-        self.__name = name
         self.__screen = screen
-        self.__create_window_item = create_window_item
         self.__window_items = []
         self.__window_handlers = {}
         self.__screen_handlers = [
@@ -293,6 +314,9 @@ class WindowsItem(Item):
             win_config.connect("arrow-changed", self.__arrow_changed),
         ]
         self.connect("destroyed", self.__destroyed)
+
+
+    # Signal callbacks:
 
     def __destroyed(self, item):
         for handler in self.__screen_handlers:
@@ -316,11 +340,35 @@ class WindowsItem(Item):
         if screen.get_active_window() is not None:
             self.emit("icon-changed")
 
+    def __window_visible_changed(self, window_item):
+        self.emit("is-visible-changed")
+        self.emit("has-arrow-changed")
+        self.emit("menu-left-changed")
+        self.emit("menu-right-changed")
+        self.emit("drag-source-changed")
+        self.emit("zoom-changed")
+        self.emit("name-changed")
+        self.emit("icon-changed")
+        self.emit("visible-window-items-changed")
+        self.emit("is-greyed-out-changed")
+
+    def __window_blinking_changed(self, window_item):
+        self.emit("is-blinking-changed")
+
+    def __window_greyed_out_changed(self, window_item):
+        self.emit("is-greyed-out-changed")
+
+    def __window_icon_changed(self, window_item):
+        self.emit("icon-changed")
+
+
+    # Public methods (don't override these):
+
     def add_window(self, window):
         for window_item in self.__window_items:
             if window_item.window is window:
                 return
-        window_item = self.__create_window_item(window, self.__win_config)
+        window_item = self.create_window_item(window)
         self.__window_handlers[window] = [
             window_item.connect(
                 "is-visible-changed", self.__window_visible_changed
@@ -346,27 +394,6 @@ class WindowsItem(Item):
         self.emit("visible-window-items-changed")
         self.emit("is-greyed-out-changed")
 
-    def __window_visible_changed(self, window_item):
-        self.emit("is-visible-changed")
-        self.emit("has-arrow-changed")
-        self.emit("menu-left-changed")
-        self.emit("menu-right-changed")
-        self.emit("drag-source-changed")
-        self.emit("zoom-changed")
-        self.emit("name-changed")
-        self.emit("icon-changed")
-        self.emit("visible-window-items-changed")
-        self.emit("is-greyed-out-changed")
-
-    def __window_blinking_changed(self, window_item):
-        self.emit("is-blinking-changed")
-
-    def __window_greyed_out_changed(self, window_item):
-        self.emit("is-greyed-out-changed")
-
-    def __window_icon_changed(self, window_item):
-        self.emit("icon-changed")
-
     def remove_window(self, window):
         try:
             handlers = self.__window_handlers.pop(window)
@@ -390,27 +417,6 @@ class WindowsItem(Item):
             self.emit("name-changed")
             self.emit("visible-window-items-changed")
             self.emit("is-greyed-out-changed")
-
-    def has_arrow(self):
-        return self.__win_config.arrow and len(self.visible_window_items) > 1
-
-    def get_menu_left(self):
-        visible_window_items = self.visible_window_items
-        if len(visible_window_items) <= 1:
-            return None
-        menu = gtk.Menu()
-        for item in visible_window_items:
-            menu.append(render_menu_item(item))
-        return menu
-
-    def get_menu_right(self):
-        visible_window_items = self.visible_window_items
-        if len(visible_window_items) == 1:
-            return visible_window_items[0].get_menu_right()
-        return WindowMenu(
-            visible_window_items, self.__screen, self.get_name(),
-            has_kill=self.__win_config.menu_has_kill,
-        )
 
     def activate_next_window(self, time=0L):
         """
@@ -452,6 +458,30 @@ class WindowsItem(Item):
         previous_window_item.click(time, force_activate=True)
         return True
 
+
+    # Item implementation:
+
+    def has_arrow(self):
+        return self.__win_config.arrow and len(self.visible_window_items) > 1
+
+    def get_menu_left(self):
+        visible_window_items = self.visible_window_items
+        if len(visible_window_items) <= 1:
+            return None
+        menu = gtk.Menu()
+        for item in visible_window_items:
+            menu.append(render_menu_item(item))
+        return menu
+
+    def get_menu_right(self):
+        visible_window_items = self.visible_window_items
+        if len(visible_window_items) == 1:
+            return visible_window_items[0].get_menu_right()
+        return WindowMenu(
+            visible_window_items, self.__screen, self.get_name(),
+            has_kill=self.__win_config.menu_has_kill,
+        )
+
     def mouse_wheel_up(self, time=0L):
         return self.activate_next_window(time)
 
@@ -485,15 +515,6 @@ class WindowsItem(Item):
             return 0.66
         return 1.0
 
-    def get_icons(self):
-        visible_window_items = self.visible_window_items
-        if len(visible_window_items) == 1:
-            return visible_window_items[0].get_icons()
-        for window_item in visible_window_items:
-            if window_item.window.is_active():
-                return window_item.get_icons()
-        return []
-
     def is_greyed_out(self):
         for window_item in self.visible_window_items:
             if not window_item.is_greyed_out():
@@ -503,8 +524,8 @@ class WindowsItem(Item):
     def get_name(self):
         visible_window_items = self.visible_window_items
         if len(visible_window_items) == 1:
-            return self.__name
-        return "%s (%d)" % (self.__name, len(visible_window_items))
+            return self.get_base_name()
+        return "%s (%d)" % (self.get_base_name(), len(visible_window_items))
 
     def get_drag_source_targets(self):
         visible_window_items = self.visible_window_items
@@ -521,14 +542,27 @@ class WindowsItem(Item):
     def drag_data_get(self, context, data, info, time):
         self.visible_window_items[0].drag_data_get(context, data, info, time)
 
-    @property
-    def name(self):
-        return self.__name
 
-    @name.setter
-    def name(self, name):
-        self.__name = name
-        self.emit("name-changed")
+    # Methods which may be overridden by subclasses:
+
+    def create_window_item(self, window):
+        return create_window_item(window, self.__win_config)
+
+
+    # Abstract methods to be implemented by subclasses:
+
+    def get_icons(self):
+        raise NotImplementedError
+
+    def get_base_name(self):
+        raise NotImplementedError
+
+
+    # Properties:
+
+    @property
+    def win_config(self):
+        return self.__win_config
 
     @property
     def window_items(self):
@@ -538,8 +572,8 @@ class WindowsItem(Item):
     def visible_window_items(self):
         return [item for item in self.__window_items if item.is_visible()]
 
-gobject.type_register(WindowsItem)
+gobject.type_register(AWindowsItem)
 gobject.signal_new(
-    "visible-window-items-changed", WindowsItem, gobject.SIGNAL_RUN_FIRST,
+    "visible-window-items-changed", AWindowsItem, gobject.SIGNAL_RUN_FIRST,
     gobject.TYPE_NONE, ()
 )
