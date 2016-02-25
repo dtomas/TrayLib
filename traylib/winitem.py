@@ -352,8 +352,6 @@ class AWindowsItem(Item):
 
     def __active_window_changed(self, screen, window=None):
         self.emit("zoom-changed")
-        if screen.get_active_window() is not None:
-            self.emit("icon-changed")
 
     def __window_visible_changed(self, window_item):
         self.emit("visible-window-items-changed")
