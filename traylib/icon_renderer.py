@@ -30,8 +30,6 @@ def render_icon(item, icon_config):
     ]
 
     class state:
-        menu_left = None
-        menu_right = None
         menu_visible = False
 
     def update_name(item):
@@ -68,12 +66,6 @@ def render_icon(item, icon_config):
             item.get_drag_source_actions()
         )
 
-    def update_menu_left(item):
-        state.menu_left = item.get_menu_left()
-
-    def update_menu_right(item):
-        state.menu_right = item.get_menu_right()
-
     def destroyed(item):
         icon.destroy()
 
@@ -86,8 +78,6 @@ def render_icon(item, icon_config):
         item.connect("is-blinking-changed", update_blinking),
         item.connect("is-greyed-out-changed", update_icon),
         item.connect("emblem-changed", update_emblem),
-        item.connect("menu-left-changed", update_menu_left),
-        item.connect("menu-right-changed", update_menu_right),
         item.connect("destroyed", destroyed),
     ]
 
@@ -96,9 +86,9 @@ def render_icon(item, icon_config):
     def on_button_press(icon, button, time):
         menu = None
         if button == 1:
-            menu = state.menu_left
+            menu = item.get_menu_left()
         elif button == 3:
-            menu = state.menu_right
+            menu = item.get_menu_right()
         if menu is not None:
             def menu_deactivate(menu):
                 state.menu_visible = False
@@ -152,7 +142,5 @@ def render_icon(item, icon_config):
     update_visibility(item)
     update_blinking(item)
     update_drag_source(item)
-    update_menu_left(item)
-    update_menu_right(item)
 
     return icon
