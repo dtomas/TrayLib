@@ -384,6 +384,9 @@ class AWindowsItem(Item):
             ),
         ]
         self.__window_items.append(window_item)
+        self.__window_items.sort(
+            key=lambda window_item: window_item.window.get_sort_order()
+        )
         self.emit("has-arrow-changed")
         self.emit("is-visible-changed")
         self.emit("menu-left-changed")
