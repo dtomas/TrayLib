@@ -314,6 +314,9 @@ class AWindowsItem(Item):
         self.__win_config_handlers = [
             win_config.connect("arrow-changed", self.__arrow_changed),
         ]
+        self.connect(
+            "visible-window-items-changed", self.__visible_window_items_changed
+        )
         self.connect("destroyed", self.__destroyed)
 
 
@@ -333,6 +336,17 @@ class AWindowsItem(Item):
         for window_item in self.__window_items:
             window_item.destroy()
 
+    def __visible_window_items_changed(self, item):
+        self.emit("is-visible-changed")
+        self.emit("has-arrow-changed")
+        self.emit("menu-left-changed")
+        self.emit("menu-right-changed")
+        self.emit("drag-source-changed")
+        self.emit("zoom-changed")
+        self.emit("name-changed")
+        self.emit("icon-changed")
+        self.emit("is-greyed-out-changed")
+
     def __arrow_changed(self, win_config):
         self.emit("has-arrow-changed")
 
@@ -342,16 +356,7 @@ class AWindowsItem(Item):
             self.emit("icon-changed")
 
     def __window_visible_changed(self, window_item):
-        self.emit("is-visible-changed")
-        self.emit("has-arrow-changed")
-        self.emit("menu-left-changed")
-        self.emit("menu-right-changed")
-        self.emit("drag-source-changed")
-        self.emit("zoom-changed")
-        self.emit("name-changed")
-        self.emit("icon-changed")
         self.emit("visible-window-items-changed")
-        self.emit("is-greyed-out-changed")
 
     def __window_blinking_changed(self, window_item):
         self.emit("is-blinking-changed")
@@ -388,15 +393,7 @@ class AWindowsItem(Item):
         self.__window_items.sort(
             key=lambda window_item: window_item.window.get_sort_order()
         )
-        self.emit("has-arrow-changed")
-        self.emit("is-visible-changed")
-        self.emit("menu-left-changed")
-        self.emit("menu-right-changed")
-        self.emit("drag-source-changed")
-        self.emit("zoom-changed")
-        self.emit("name-changed")
         self.emit("visible-window-items-changed")
-        self.emit("is-greyed-out-changed")
 
     def remove_window(self, window):
         try:
@@ -412,15 +409,7 @@ class AWindowsItem(Item):
                 item for item in self.__window_items
                 if item.window is not window
             ]
-            self.emit("has-arrow-changed")
-            self.emit("is-visible-changed")
-            self.emit("menu-left-changed")
-            self.emit("menu-right-changed")
-            self.emit("drag-source-changed")
-            self.emit("zoom-changed")
-            self.emit("name-changed")
             self.emit("visible-window-items-changed")
-            self.emit("is-greyed-out-changed")
 
     def activate_next_window(self, time=0L):
         """
