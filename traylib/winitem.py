@@ -370,7 +370,8 @@ class WindowsItem(Item):
                     for handler in handlers:
                         window_item.disconnect(handler)
             self.__window_items = [
-                item for item in self.__window_items if item.window != window
+                item for item in self.__window_items
+                if item.window is not window
             ]
             self.emit("has-arrow-changed")
             self.emit("is-visible-changed")
