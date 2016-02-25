@@ -14,11 +14,10 @@ from traylib.icons import FileIcon, ThemedIcon, PixbufIcon
 
 class WindowItem(Item):
 
-    def __init__(self, window, win_config, menu_has_kill=True):
+    def __init__(self, window, win_config):
         Item.__init__(self)
         self.__window = window
         self.__win_config = win_config
-        self.__menu_has_kill = menu_has_kill
         self.__window_handlers = [
             window.connect("name-changed", self.__window_name_changed),
             window.connect("state-changed", self.__window_state_changed),
@@ -137,7 +136,9 @@ class WindowItem(Item):
         self.__window.minimize()
 
     def get_menu_right(self):
-        return WindowActionMenu(self.__window, has_kill=self.__menu_has_kill)
+        return WindowActionMenu(
+            self.__window, has_kill=self.__win_config.menu_has_kill
+        )
 
     def is_visible(self):
         window = self.__window
@@ -168,16 +169,11 @@ class WindowItem(Item):
     def window(self):
         return self.__window
 
-    @property
-    def menu_has_kill(self):
-        return self.__menu_has_kill
-
 
 class DirectoryWindowItem(WindowItem):
 
-    def __init__(self, window, win_config, path_from_window_name,
-                 menu_has_kill=True):
-        WindowItem.__init__(self, window, win_config, menu_has_kill)
+    def __init__(self, window, win_config, path_from_window_name):
+        WindowItem.__init__(self, window, win_config)
         self.__path_from_window_name = path_from_window_name
         self.__window_handlers = [
             window.connect("name-changed", self.__window_name_changed),
@@ -261,24 +257,23 @@ def get_filer_window_path(name):
     return name
 
 
-def create_window_item(window, win_config, menu_has_kill):
+def create_window_item(window, win_config):
     name = window.get_name()
     if is_filer_window(window):
         return DirectoryWindowItem(
-            window, win_config, get_filer_window_path, menu_has_kill
+            window, win_config, get_filer_window_path
         )
-    return WindowItem(window, win_config, menu_has_kill)
+    return WindowItem(window, win_config)
 
 
 class WindowsItem(Item):
 
-    def __init__(self, win_config, screen, name, menu_has_kill=True,
+    def __init__(self, win_config, screen, name,
                  create_window_item=create_window_item):
         Item.__init__(self)
         self.__win_config = win_config
         self.__name = name
         self.__screen = screen
-        self.__menu_has_kill = menu_has_kill
         self.__create_window_item = create_window_item
         self.__window_items = []
         self.__window_handlers = {}
@@ -318,9 +313,7 @@ class WindowsItem(Item):
         for window_item in self.__window_items:
             if window_item.window is window:
                 return
-        window_item = self.__create_window_item(
-            window, self.__win_config, self.__menu_has_kill
-        )
+        window_item = self.__create_window_item(window, self.__win_config)
         self.__window_handlers[window] = [
             window_item.connect(
                 "is-visible-changed", self.__window_visible_changed
@@ -409,7 +402,7 @@ class WindowsItem(Item):
             return visible_window_items[0].get_menu_right()
         return WindowMenu(
             visible_window_items, self.__screen, self.get_name(),
-            has_kill=self.__menu_has_kill,
+            has_kill=self.__win_config.menu_has_kill,
         )
 
     def activate_next_window(self, time=0L):

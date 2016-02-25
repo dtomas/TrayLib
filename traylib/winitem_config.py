@@ -13,3 +13,8 @@ class WinItemConfig(Config):
     C{True}, if the L{WinIcon}s associated with the C{WinIconConfig} should
     have an arrow on them when they have more than one visible window.
     """
+
+    menu_has_kill = Attribute(default=True)
+    """
+    C{True} if there should be an option to kill a process in a window's menu.
+    """
