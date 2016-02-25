@@ -272,14 +272,8 @@ class ItemWrapper(Item):
     def get_name(self):
         return self.__item.get_name()
 
-    def get_icon_names(self):
-        return self.__item.get_icon_names()
-
-    def get_icon_pixbuf(self):
-        return self.__item.get_icon_pixbuf()
-
-    def get_icon_path(self):
-        return self.__item.get_icon_path()
+    def get_icons(self):
+        return self.__item.get_icons()
 
     def get_emblem(self):
         return self.__item.get_emblem()
