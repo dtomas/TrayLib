@@ -317,6 +317,8 @@ class AWindowsItem(Item):
         self.connect(
             "visible-window-items-changed", self.__visible_window_items_changed
         )
+        self.connect("name-changed", self.__name_changed)
+        self.connect("base-name-changed", self.__base_name_changed)
         self.connect("destroyed", self.__destroyed)
 
 
@@ -347,11 +349,23 @@ class AWindowsItem(Item):
         self.emit("icon-changed")
         self.emit("is-greyed-out-changed")
 
+    def __name_changed(self, item):
+        self.emit("menu-right-changed")
+
+    def __base_name_changed(self, item):
+        self.emit("name-changed")
+
     def __arrow_changed(self, win_config):
         self.emit("has-arrow-changed")
 
     def __active_window_changed(self, screen, window=None):
-        self.emit("zoom-changed")
+        windows = {
+            screen.get_active_window(), screen.get_previously_active_window()
+        }
+        for window_item in self.visible_window_items:
+            if window_item.window in windows:
+                self.emit("zoom-changed")
+                return
 
     def __window_visible_changed(self, window_item):
         self.emit("visible-window-items-changed")
@@ -361,9 +375,6 @@ class AWindowsItem(Item):
 
     def __window_greyed_out_changed(self, window_item):
         self.emit("is-greyed-out-changed")
-
-    def __window_icon_changed(self, window_item):
-        self.emit("icon-changed")
 
 
     # Public methods (don't override these):
@@ -379,9 +390,6 @@ class AWindowsItem(Item):
             ),
             window_item.connect(
                 "is-blinking-changed", self.__window_blinking_changed
-            ),
-            window_item.connect(
-                "icon-changed", self.__window_icon_changed
             ),
             window_item.connect(
                 "is-greyed-out-changed", self.__window_greyed_out_changed
@@ -452,6 +460,18 @@ class AWindowsItem(Item):
 
     # Item implementation:
 
+    def mouse_wheel_up(self, time=0L):
+        return self.activate_next_window(time)
+
+    def mouse_wheel_down(self, time=0L):
+        return self.activate_previous_window(time)
+
+    def click(self, time=0L):
+        return self.visible_window_items[0].click(time)
+
+    def spring_open(self, time=0L):
+        self.mouse_wheel_up(time)
+
     def has_arrow(self):
         return self.__win_config.arrow and len(self.visible_window_items) > 1
 
@@ -472,18 +492,6 @@ class AWindowsItem(Item):
             visible_window_items, self.__screen, self.get_name(),
             has_kill=self.__win_config.menu_has_kill,
         )
-
-    def mouse_wheel_up(self, time=0L):
-        return self.activate_next_window(time)
-
-    def mouse_wheel_down(self, time=0L):
-        return self.activate_previous_window(time)
-
-    def click(self, time=0L):
-        return self.visible_window_items[0].click(time)
-
-    def spring_open(self, time=0L):
-        self.mouse_wheel_up(time)
 
     def is_visible(self):
         return len(self.visible_window_items) > 0
@@ -563,5 +571,9 @@ class AWindowsItem(Item):
 gobject.type_register(AWindowsItem)
 gobject.signal_new(
     "visible-window-items-changed", AWindowsItem, gobject.SIGNAL_RUN_FIRST,
+    gobject.TYPE_NONE, ()
+)
+gobject.signal_new(
+    "base-name-changed", AWindowsItem, gobject.SIGNAL_RUN_FIRST,
     gobject.TYPE_NONE, ()
 )
