@@ -69,12 +69,10 @@ class MainItem(Item):
         menu.show_all()
         return menu
 
-    @property
-    def tray(self):
-        return self.__tray
+    tray = property(lambda self: self.__tray)
 
 
-    # Methods to be implemented by subclasses
+    # Methods which may be overridden by subclasses:
 
     def get_custom_menu_items(self):
         """Override this to return custom items for the main menu."""

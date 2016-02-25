@@ -66,6 +66,7 @@ class TrayContainer(object):
         @return: The maximum icon size.
         """
         return self.__size
-    
+
     is_vertical = property(lambda self: self.__vertical)
+
     tray = property(lambda self: self.__tray)

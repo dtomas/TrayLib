@@ -264,6 +264,7 @@ class ADirectoryWindowItem(WindowItem):
     def get_path(self):
         raise NotImplementedError
 
+
 gobject.type_register(ADirectoryWindowItem)
 gobject.signal_new(
     "path-changed", ADirectoryWindowItem, gobject.SIGNAL_RUN_FIRST,
@@ -563,17 +564,14 @@ class AWindowsItem(Item):
 
     # Properties:
 
-    @property
-    def win_config(self):
-        return self.__win_config
+    win_config = property(lambda self: self.__win_config)
 
-    @property
-    def window_items(self):
-        return self.__window_items
+    window_items = property(lambda self: self.__window_items)
 
     @property
     def visible_window_items(self):
         return [item for item in self.__window_items if item.is_visible()]
+
 
 gobject.type_register(AWindowsItem)
 gobject.signal_new(
