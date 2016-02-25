@@ -56,6 +56,14 @@ class Item(gobject.GObject):
                 return pixbuf
         return None
 
+    def find_icon_name(self):
+        for icon in self.get_icons():
+            if hasattr(icon, "icon_name"):
+                icon_info = ICON_THEME.lookup_icon(icon.icon_name, 48, 0)
+                if icon_info is not None:
+                    return icon.icon_name
+        return ""
+
     def get_icons(self):
         """
         Override this to determine the icons that C{Item.get_icon} should try.
