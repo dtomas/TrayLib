@@ -211,22 +211,17 @@ class ItemWrapper(Item):
     def __init__(self, item):
         Item.__init__(self)
         self.__item = item
-
-        self.__item_handlers = [
-            item.connect("is-visible-changed", self.__is_visible_changed),
-            item.connect("is-blinking-changed", self.__is_blinking_changed),
-            item.connect(
-                "is-greyed-out-changed", self.__is_greyed_out_changed
-            ),
-            item.connect("name-changed", self.__name_changed),
-            item.connect("icon-changed", self.__icon_changed),
-            item.connect("emblem-changed", self.__emblem_changed),
-            item.connect("zoom-changed", self.__zoom_changed),
-            item.connect("has-arrow-changed", self.__has_arrow_changed),
-            item.connect("menu-left-changed", self.__menu_left_changed),
-            item.connect("menu-right-changed", self.__menu_right_changed),
-            item.connect("drag-source-changed", self.__drag_source_changed),
-        ]
+        item.connect("is-visible-changed", self.__is_visible_changed)
+        item.connect("is-blinking-changed", self.__is_blinking_changed)
+        item.connect("is-greyed-out-changed", self.__is_greyed_out_changed)
+        item.connect("name-changed", self.__name_changed)
+        item.connect("icon-changed", self.__icon_changed)
+        item.connect("emblem-changed", self.__emblem_changed)
+        item.connect("zoom-changed", self.__zoom_changed)
+        item.connect("has-arrow-changed", self.__has_arrow_changed)
+        item.connect("menu-left-changed", self.__menu_left_changed)
+        item.connect("menu-right-changed", self.__menu_right_changed)
+        item.connect("drag-source-changed", self.__drag_source_changed)
 
     def destroy(self):
         self.__item.destroy()
