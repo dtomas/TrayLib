@@ -183,8 +183,8 @@ class WindowMenu(gtk.Menu):
         same_app = True
         self.__pids = []
         for window_item in window_items:
-            pid = window_item.window.get_application().get_pid()
-            if pid in self.__pids:
+            pid = window_item.window.get_pid()
+            if pid == 0 or pid in self.__pids:
                 continue
             self.__pids.append(pid)
         for window_item in window_items:
