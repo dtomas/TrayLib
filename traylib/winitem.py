@@ -14,10 +14,10 @@ from traylib.icons import FileIcon, ThemedIcon, PixbufIcon
 
 class WindowItem(Item):
 
-    def __init__(self, win_config, window, menu_has_kill=True):
+    def __init__(self, window, win_config, menu_has_kill=True):
         Item.__init__(self)
-        self.__win_config = win_config
         self.__window = window
+        self.__win_config = win_config
         self.__menu_has_kill = menu_has_kill
         self.__window_handlers = [
             window.connect("name-changed", self.__window_name_changed),
@@ -175,9 +175,9 @@ class WindowItem(Item):
 
 class DirectoryWindowItem(WindowItem):
 
-    def __init__(self, win_config, window, path_from_window_name,
+    def __init__(self, window, win_config, path_from_window_name,
                  menu_has_kill=True):
-        WindowItem.__init__(self, win_config, window, menu_has_kill)
+        WindowItem.__init__(self, window, win_config, menu_has_kill)
         self.__path_from_window_name = path_from_window_name
         self.__path = path_from_window_name(window.get_name())
         self.__window_handlers = [
@@ -253,13 +253,13 @@ def get_filer_window_path(name):
     return name
 
 
-def create_window_item(win_config, window, menu_has_kill):
+def create_window_item(window, win_config, menu_has_kill):
     name = window.get_name()
     if is_filer_window(window):
         return DirectoryWindowItem(
-            win_config, window, get_filer_window_path, menu_has_kill
+            window, win_config, get_filer_window_path, menu_has_kill
         )
-    return WindowItem(win_config, window, menu_has_kill)
+    return WindowItem(window, win_config, menu_has_kill)
 
 
 class WindowsItem(Item):
@@ -311,7 +311,7 @@ class WindowsItem(Item):
             if window_item.window is window:
                 return
         window_item = self.__create_window_item(
-            self.__win_config, window, self.__menu_has_kill
+            window, self.__win_config, self.__menu_has_kill
         )
         self.__window_handlers[window] = [
             window_item.connect(
