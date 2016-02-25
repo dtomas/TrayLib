@@ -136,9 +136,16 @@ class WindowItem(Item):
         self.__window.minimize()
 
     def get_menu_right(self):
-        return WindowActionMenu(
-            self.__window, has_kill=self.__win_config.menu_has_kill
-        )
+        has_kill = self.__win_config.menu_has_kill
+        pid = self.__window.get_pid()
+        if pid != 0 and has_kill:
+            # Only show kill menu item if there are no other windows of the
+            # same process.
+            for window in self.__window.get_screen().get_windows():
+                if window != self.__window and window.get_pid() == pid:
+                    has_kill = False
+                    break
+        return WindowActionMenu(self.__window, has_kill=has_kill)
 
     def is_visible(self):
         window = self.__window
