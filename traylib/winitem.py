@@ -179,31 +179,37 @@ class DirectoryWindowItem(WindowItem):
                  menu_has_kill=True):
         WindowItem.__init__(self, window, win_config, menu_has_kill)
         self.__path_from_window_name = path_from_window_name
-        self.__path = path_from_window_name(window.get_name())
         self.__window_handlers = [
             window.connect("name-changed", self.__window_name_changed),
         ]
+        self.connect("path-changed", self.__path_changed)
         self.connect("destroyed", self.__destroyed)
 
     def __destroyed(self, item):
         for handler in self.__window_handlers:
             self.__window.disconnect(handler)
 
-    def __window_name_changed(self, window):
-        self.__path = self.__path_from_window_name(window.get_name())
+    def __path_changed(self, item):
         self.emit("name-changed")
         self.emit("icon-changed")
 
+    def __window_name_changed(self, window):
+        self.emit("path-changed")
+
+    def get_path(self):
+        return self.__path_from_window_name(self.window.get_name())
+
     def get_base_name(self):
-        return self.__path
+        return self.get_path()
 
     def get_icons(self):
+        path = self.get_path()
         icons = [
             FileIcon(
-                os.path.expanduser(os.path.join(self.__path, '.DirIcon'))
+                os.path.expanduser(os.path.join(path, '.DirIcon'))
             ),
         ]
-        if os.path.expanduser(self.__path) == os.path.expanduser('~'):
+        if os.path.expanduser(path) == os.path.expanduser('~'):
             icons += [ThemedIcon('user-home'), ThemedIcon('gnome-fs-home')]
         else:
             icons += [
@@ -228,13 +234,15 @@ class DirectoryWindowItem(WindowItem):
     def drag_data_get(self, context, data, info, time):
         WindowItem.drag_data_get(self, context, data, info, time)
         if info == TARGET_URI_LIST:
-            data.set_uris(
-                ['file://%s' % pathname2url(os.path.expanduser(self.__path))]
-            )
+            data.set_uris([
+                'file://%s' % pathname2url(os.path.expanduser(self.get_path()))
+            ])
 
-    @property
-    def path(self):
-        return self.__path
+gobject.type_register(DirectoryWindowItem)
+gobject.signal_new(
+    "path-changed", DirectoryWindowItem, gobject.SIGNAL_RUN_FIRST,
+    gobject.TYPE_NONE, ()
+)
 
 
 def is_filer_window(window):
