@@ -41,7 +41,10 @@ class WindowActionMenu(gtk.Menu):
     
         item = gtk.ImageMenuItem(_("Activate"))
         item.get_image().set_from_stock(gtk.STOCK_YES, gtk.ICON_SIZE_MENU)
-        item.connect("activate", self.__winaction2, wnck.Window.activate)
+        item.connect(
+            "activate",
+            lambda item: window.activate(gtk.get_current_event_time())
+        )
         self.append(item)
     
         self.append(gtk.SeparatorMenuItem())
@@ -53,21 +56,24 @@ class WindowActionMenu(gtk.Menu):
             item.get_image().set_from_stock(
                 gtk.STOCK_ZOOM_OUT, gtk.ICON_SIZE_MENU
             )
-            item.connect("activate", self.__winaction, wnck.Window.unmaximize)
+            item.connect("activate", lambda item: window.unmaximize())
             item.set_sensitive(wnck.WINDOW_ACTION_UNMAXIMIZE & actions)
         else:
             item = gtk.ImageMenuItem(_("Maximize"))
             item.get_image().set_from_stock(
                 gtk.STOCK_ZOOM_100, gtk.ICON_SIZE_MENU
             )
-            item.connect("activate", self.__winaction, wnck.Window.maximize)
+            item.connect("activate", lambda item: window.maximize())
             item.set_sensitive(wnck.WINDOW_ACTION_MAXIMIZE & actions)
         self.append(item)
     
         if window.is_minimized():
             item = gtk.ImageMenuItem(_("Show"))
             item.get_image().set_from_stock(gtk.STOCK_REDO, gtk.ICON_SIZE_MENU)
-            item.connect("activate", self.__winaction2, wnck.Window.unminimize)
+            item.connect(
+                "activate",
+                lambda item: window.unminimize(gtk.get_current_event_time())
+            )
         else:
             item = gtk.ImageMenuItem(_("Hide"))
             item.get_image().set_from_stock(gtk.STOCK_UNDO, gtk.ICON_SIZE_MENU)
@@ -79,14 +85,14 @@ class WindowActionMenu(gtk.Menu):
             item.get_image().set_from_stock(
                 gtk.STOCK_GOTO_BOTTOM, gtk.ICON_SIZE_MENU
             )
-            item.connect("activate", self.__winaction, wnck.Window.unshade)
+            item.connect("activate", lambda item: window.unshade())
             item.set_sensitive(wnck.WINDOW_ACTION_UNSHADE & actions)
         else:
             item = gtk.ImageMenuItem(_("Shade"))
             item.get_image().set_from_stock(
                 gtk.STOCK_GOTO_TOP, gtk.ICON_SIZE_MENU
             )
-            item.connect("activate", self.__winaction, wnck.Window.shade)
+            item.connect("activate", lambda item: window.shade())
             item.set_sensitive(wnck.WINDOW_ACTION_SHADE & actions)
         self.append(item)
     
@@ -97,14 +103,14 @@ class WindowActionMenu(gtk.Menu):
             item.get_image().set_from_stock(
                 gtk.STOCK_REMOVE, gtk.ICON_SIZE_MENU
             )
-            item.connect("activate", self.__winaction, wnck.Window.unstick)
-            item.connect("activate", self.__winaction, wnck.Window.unpin)
+            item.connect("activate", lambda item: window.unstick())
+            item.connect("activate", lambda item: window.unpin())
             item.set_sensitive(wnck.WINDOW_ACTION_UNSTICK & actions)
         else:
             item = gtk.ImageMenuItem(_("Always on visible workspace"))
             item.get_image().set_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_MENU)
-            item.connect("activate", self.__winaction, wnck.Window.stick)
-            item.connect("activate", self.__winaction, wnck.Window.pin)
+            item.connect("activate", lambda item: window.stick())
+            item.connect("activate", lambda item: window.pin())
             item.set_sensitive(wnck.WINDOW_ACTION_STICK & actions)
         self.append(item)
     
@@ -139,15 +145,11 @@ class WindowActionMenu(gtk.Menu):
         self.append(gtk.SeparatorMenuItem())
 
         item = gtk.ImageMenuItem(gtk.STOCK_CLOSE)
-        item.connect("activate", self.__winaction2, wnck.Window.close)
+        item.connect(
+            "activate", lambda item: window.close(gtk.get_current_event_time())
+        )
         self.append(item)
-            
-    def __winaction(self, menu_item, func):
-        func(self.__window)
-    
-    def __winaction2(self, menu_item, func):
-        func(self.__window, gtk.get_current_event_time())
-    
+
     def __move_to_workspace(self, menu_item, workspace):
         self.__window.move_to_workspace(workspace)
     
