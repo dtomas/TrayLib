@@ -37,7 +37,7 @@ def render_icon(item, icon_config):
         icon.tooltip = item.get_name()
 
     def update_icon(item):
-        pixbuf = item.get_icon(icon_config.size)
+        pixbuf = item.get_icon(int(icon_config.size * 1.5))
         if pixbuf is not None:
             icon.pixbuf = pixbuf
             icon.alpha = 128 if item.is_greyed_out() else 255
