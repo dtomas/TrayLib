@@ -30,6 +30,7 @@ def render_icon(item, icon_config):
     ]
 
     class state:
+        menu = None
         menu_visible = False
 
     def update_name(item):
@@ -93,6 +94,7 @@ def render_icon(item, icon_config):
             def menu_deactivate(menu):
                 state.menu_visible = False
                 update_zoom(item)
+            state.menu = menu
             state.menu_visible = True
             update_zoom(item)
             menu.connect("deactivate", menu_deactivate)

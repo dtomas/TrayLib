@@ -52,8 +52,7 @@ class Icon(gtk.EventBox, object):
         self.__blink_event = 0
         self.__blink_state = gtk.STATE_NORMAL
         
-        # mouse/menu
-        self.__menu = None
+        # mouse
         self.__mouse_over = False
 
         # size
@@ -593,7 +592,7 @@ class Icon(gtk.EventBox, object):
         assert widget == self
         self.__is_dragged = True
         context.set_icon_pixbuf(self.__pixbuf, 0,0)
-        
+
     def __drag_end(self, widget, context):
         assert widget == self
         self.__is_dragged = False
@@ -604,7 +603,6 @@ class Icon(gtk.EventBox, object):
             return False
         if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY): 
             return False
-
         self.emit("button-press", event.button, event.time)
         return False
 
@@ -613,10 +611,9 @@ class Icon(gtk.EventBox, object):
             return False
         if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY):
             return False
-        if not self.__mouse_over or self.__menu:
+        if not self.__mouse_over:
             return False
-        if event.button == 1:
-            self.emit("button-release", event.button, event.time)
+        self.emit("button-release", event.button, event.time)
         self.__update_mouse_over()
         return False
 
