@@ -489,7 +489,7 @@ class AWindowsItem(Item):
         if len(visible_window_items) == 1:
             return visible_window_items[0].get_menu_right()
         return WindowMenu(
-            visible_window_items, self.__screen, self.get_name(),
+            visible_window_items, self.__screen, self.get_base_name(),
             has_kill=self.__win_config.menu_has_kill,
         )
 
