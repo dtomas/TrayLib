@@ -467,7 +467,10 @@ class AWindowsItem(Item):
         return self.activate_previous_window(time)
 
     def click(self, time=0L):
-        return self.visible_window_items[0].click(time)
+        visible_window_items = self.visible_window_items
+        if len(visible_window_items) == 0:
+            return False
+        return visible_window_items[0].click(time)
 
     def spring_open(self, time=0L):
         self.mouse_wheel_up(time)
@@ -486,6 +489,8 @@ class AWindowsItem(Item):
 
     def get_menu_right(self):
         visible_window_items = self.visible_window_items
+        if not visible_window_items:
+            return None
         if len(visible_window_items) == 1:
             return visible_window_items[0].get_menu_right()
         return WindowMenu(
@@ -539,6 +544,9 @@ class AWindowsItem(Item):
         return 0
 
     def drag_data_get(self, context, data, info, time):
+        visible_window_items = self.visible_window_items
+        if not visible_window_items:
+            return
         self.visible_window_items[0].drag_data_get(context, data, info, time)
 
 
