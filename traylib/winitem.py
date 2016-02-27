@@ -480,7 +480,7 @@ class AWindowsItem(Item):
 
     def get_menu_left(self):
         visible_window_items = self.visible_window_items
-        if len(visible_window_items) <= 1:
+        if not visible_window_items:
             return None
         menu = gtk.Menu()
         for item in visible_window_items:
@@ -547,7 +547,7 @@ class AWindowsItem(Item):
         visible_window_items = self.visible_window_items
         if not visible_window_items:
             return
-        self.visible_window_items[0].drag_data_get(context, data, info, time)
+        visible_window_items[0].drag_data_get(context, data, info, time)
 
 
     # Methods which may be overridden by subclasses:
