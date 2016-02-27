@@ -567,6 +567,7 @@ class Icon(gtk.EventBox, object):
         return True
 
     def __drag_leave(self, widget, context, time):
+        self.__update_mouse_over()
         if self.__spring_open_event == 0:
             return 
         gobject.source_remove(self.__spring_open_event)
