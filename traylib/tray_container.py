@@ -58,6 +58,10 @@ class TrayContainer(object):
         self.__min_size = min_size
         size = self.get_icon_size()
         self.__icon_config.size = max(min_size, min(size, max_size))
+        if self.__vertical:
+            self.set_size_request(int(self.__min_size * 1.5), -1)
+        else:
+            self.set_size_request(-1, int(self.__min_size * 1.5))
 
     def get_icon_size(self):
         """
