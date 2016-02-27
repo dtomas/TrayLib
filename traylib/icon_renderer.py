@@ -79,6 +79,7 @@ def render_icon(item, icon_config):
         item.connect("is-blinking-changed", update_blinking),
         item.connect("is-greyed-out-changed", update_icon),
         item.connect("emblem-changed", update_emblem),
+        item.connect("drag-source-changed", update_drag_source),
         item.connect("destroyed", destroyed),
     ]
 
