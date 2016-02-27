@@ -31,7 +31,7 @@ class Main(object):
         """
         Initializes options.
         """
-        self.__o_icon_size_min = Option("icon_size_min", 16)
+        self.__o_icon_size_min = Option("icon_size_min", 24)
         self.__o_icon_size_max = Option("icon_size_max", 32)
         self.__o_effects = Option("effects", True)
         self.__o_separator_left = Option("separator_left", False)
