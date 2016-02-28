@@ -33,6 +33,7 @@ class WindowItem(Item):
             window.get_screen().connect(
                 "active-workspace-changed", self.__active_workspace_changed
             ),
+            window.get_screen().connect("window-closed", self.__window_closed),
         ]
         self.__win_config_handlers = [
             win_config.connect(
@@ -78,6 +79,10 @@ class WindowItem(Item):
     def __active_workspace_changed(self, screen, workspace=None):
         self.emit("is-visible-changed")
         self.emit("icon-changed")
+
+    def __window_closed(self, screen, window):
+        if window is self.__window:
+            self.destroy()
 
 
     # Item implementation:
@@ -309,7 +314,7 @@ class AWindowsItem(Item):
         self.__screen_handlers = [
             self.__screen.connect(
                 "active-window-changed", self.__active_window_changed
-            )
+            ),
         ]
         self.__win_config_handlers = [
             win_config.connect("arrow-changed", self.__arrow_changed),
@@ -376,6 +381,9 @@ class AWindowsItem(Item):
     def __window_greyed_out_changed(self, window_item):
         self.emit("is-greyed-out-changed")
 
+    def __window_item_destroyed(self, window_item):
+        self.remove_window(window_item.window)
+
 
     # Public methods (don't override these):
 
@@ -394,6 +402,7 @@ class AWindowsItem(Item):
             window_item.connect(
                 "is-greyed-out-changed", self.__window_greyed_out_changed
             ),
+            window_item.connect("destroyed", self.__window_item_destroyed),
         ]
         self.__window_items.append(window_item)
         self.__window_items.sort(
@@ -411,6 +420,7 @@ class AWindowsItem(Item):
                 if window is window_item.window:
                     for handler in handlers:
                         window_item.disconnect(handler)
+                    window_item.destroy()
             self.__window_items = [
                 item for item in self.__window_items
                 if item.window is not window
