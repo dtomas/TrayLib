@@ -152,7 +152,6 @@ class Icon(gtk.EventBox, object):
 
     @emblem.setter
     def emblem(self, emblem):
-        """Updates the emblem by calling L{make_emblem()}"""
         old_emblem = self.__emblem_orig
         self.__emblem_orig = emblem
         if self.__emblem_orig is not None:
@@ -200,7 +199,6 @@ class Icon(gtk.EventBox, object):
 
     @has_arrow.setter
     def has_arrow(self, has_arrow):
-        """Updates the arrow by calling L{make_has_arrow()}"""
         old_has_arrow = self.__has_arrow
         self.__has_arrow = has_arrow
         self.__update_arrow_target_alpha()
