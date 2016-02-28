@@ -112,7 +112,7 @@ class Tray(gobject.GObject):
             self.__box.reorder_child(box, 0)
 
         self.__boxes[box_id] = box
-        self.__items[box_id] = {}
+        self.__items[box_id] = []
 
     def remove_box(self, box_id):
         """
@@ -145,9 +145,9 @@ class Tray(gobject.GObject):
         @param box_id: The box to be cleared.
         """
         for item_id in list(self.__items[box_id]):
-            self.remove_item(item_id)
+            self.remove_item(item)
 
-    def add_item(self, box_id, item_id, item):
+    def add_item(self, box_id, item):
         """
         Adds an C{Item} to the C{Tray}.
         
@@ -157,34 +157,25 @@ class Tray(gobject.GObject):
         """
         icon = render_icon(item, self.__icon_config)
         self.__boxes[box_id].pack_start(icon)
-        self.__items[box_id][item_id] = item
-        item.connect("destroyed", self.__item_destroyed, item_id)
-        self.emit("item-added", item_id, item)
+        self.__items[box_id].append(item)
+        item.connect("destroyed", self.remove_item)
+        self.emit("item-added", item)
 
-    def __item_destroyed(self, item, item_id):
-        for items in self.__items.itervalues():
-            try:
-                items.pop(item_id)
-            except KeyError:
-                continue
-            break
-        self.emit("item-removed", item_id, item)
-
-    def remove_item(self, item_id):
+    def remove_item(self, item):
         """
         Removes an item from the C{Tray}.
         
-        @param item_id: The identifier of the item.
+        @param item: The item to remove.
         """
         for items in self.__items.itervalues():
             try:
-                item = items[item_id]
-            except KeyError:
+                items.remove(item)
+            except ValueError:
                 pass
             else:
-                item.destroy()
-                del items[icon_id]
-        self.emit("item-removed", item_id, item)
+                break
+            item.destroy()
+        self.emit("item-removed", item)
 
     def destroy(self):
         """
@@ -203,19 +194,6 @@ class Tray(gobject.GObject):
         affecting the main menu has changed.
         """
         #self.__menu_icon.forget_menu()
-
-    def get_item(self, item_id):
-        """
-        Returns the C{Item} with the identifier C{item_id}
-        
-        @param id: The identifier of the C{Icon}
-        @return: The C{Icon} with the identifier C{item_id}. Returns C{None}
-            if the C{Tray} has no C{Item} with the identifier C{item_id}. 
-        """
-        for items in self.__items.itervalues():
-            item = items.get(item_id)
-            if item is not None:
-                return item
 
     def set_container(self, container):
         """
@@ -289,17 +267,10 @@ class Tray(gobject.GObject):
         """
         pass
 
-
-    @property
-    def item_ids(self):
-        for items in self.__items.itervalues():
-            for item_id in items.iterkeys():
-                yield item_id
-
     @property
     def items(self):
         for items in self.__items.itervalues():
-            for item in items.itervalues():
+            for item in items:
                 yield item
 
     icon_config = property(lambda self: self.__icon_config)
@@ -315,9 +286,9 @@ class Tray(gobject.GObject):
 gobject.type_register(Tray)
 gobject.signal_new(
     "item-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    (gobject.TYPE_PYOBJECT, Item,)
+    (Item,)
 )
 gobject.signal_new(
     "item-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    (gobject.TYPE_PYOBJECT, Item,)
+    (Item,)
 )
