@@ -632,9 +632,6 @@ class Icon(gtk.EventBox, object):
         self.__update_mouse_over(event)
         return False
 
-    is_drop_target = property(lambda self: self.__is_drop_target)
-    """C{True} if uris can be dropped on the C{Icon}."""
-
 gobject.type_register(Icon)
 gobject.signal_new(
     "uris-dropped", Icon, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,

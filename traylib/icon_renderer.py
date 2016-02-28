@@ -67,6 +67,9 @@ def render_icon(item, icon_config):
             item.get_drag_source_actions()
         )
 
+    def update_drop_target(item):
+        icon.is_drop_target = item.is_drop_target()
+
     def destroyed(item):
         icon.destroy()
 
@@ -80,6 +83,7 @@ def render_icon(item, icon_config):
         item.connect("is-greyed-out-changed", update_icon),
         item.connect("emblem-changed", update_emblem),
         item.connect("drag-source-changed", update_drag_source),
+        item.connect("is-drop-target-changed", update_drop_target),
         item.connect("destroyed", destroyed),
     ]
 
@@ -145,5 +149,6 @@ def render_icon(item, icon_config):
     update_visibility(item)
     update_blinking(item)
     update_drag_source(item)
+    update_drop_target(item)
 
     return icon

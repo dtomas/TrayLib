@@ -152,6 +152,9 @@ class Item(gobject.GObject):
         """
         return False
 
+    def is_drop_target(self):
+        return False
+
     def uris_dropped(self, uri_list, action):
         """
         Override this to react to URIs being dropped on the C{Icon}.
@@ -208,6 +211,10 @@ gobject.signal_new(
 gobject.signal_new(
     "drag-source-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
     ()
+)
+gobject.signal_new(
+    "is-drop-target-changed", Item, gobject.SIGNAL_RUN_FIRST,
+    gobject.TYPE_NONE, ()
 )
 gobject.signal_new(
     "destroyed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
