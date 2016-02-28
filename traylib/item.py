@@ -11,8 +11,12 @@ class Item(gobject.GObject):
         self.__icon_theme_changed_handler = ICON_THEME.connect(
             "changed", self.__theme_changed
         )
+        self.__is_destroyed = False
 
     def destroy(self):
+        if self.__is_destroyed:
+            return
+        self.__is_destroyed = True
         ICON_THEME.disconnect(self.__icon_theme_changed_handler)
         self.emit("destroyed")
 
