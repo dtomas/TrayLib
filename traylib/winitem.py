@@ -209,7 +209,7 @@ class ADirectoryWindowItem(WindowItem):
 
     def __destroyed(self, item):
         for handler in self.__window_handlers:
-            self.__window.disconnect(handler)
+            self.window.disconnect(handler)
 
     def __path_changed(self, item):
         self.emit("name-changed")
