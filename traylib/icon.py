@@ -62,6 +62,7 @@ class Icon(gtk.EventBox, object):
         self.__target_size = self.__size
         self.__current_size = 1
         self.__zoom_factor = 1.0
+        self.__zoom_factor_orig = 1.0
         self.__zoom_factor_base = 1.0
         self.__zoom_action = ZOOM_ACTION_NONE
         self.__zoom_event = 0
@@ -121,13 +122,23 @@ class Icon(gtk.EventBox, object):
             from blinking.
         @param time: The time between two blink states (in ms).
         """
+        self.__zoom_factor_orig = self.__zoom_factor_base
         def blink():
             running = (self.__blink_event != 0)
-            if not running or self.__blink_state == gtk.STATE_SELECTED:
-                self.__blink_state = gtk.STATE_NORMAL
+            #if not running or self.__blink_state == gtk.STATE_SELECTED:
+            #    self.__blink_state = gtk.STATE_NORMAL
+            #else:
+            #    self.__blink_state = gtk.STATE_SELECTED
+            #self.set_state(self.__blink_state)
+            if not running:
+                self.__zoom_factor_base = self.__zoom_factor_orig
             else:
-                self.__blink_state = gtk.STATE_SELECTED
-            self.set_state(self.__blink_state)
+                if self.__zoom_factor_base == 1.5:
+                    self.__zoom_factor_base = 1.0
+                else:
+                    self.__zoom_factor_base = 1.5
+            self.__update_zoom_factor()
+            self._refresh(True)
             return running
         if blinking:
             if self.__blink_event == 0:
@@ -211,7 +222,9 @@ class Icon(gtk.EventBox, object):
     @zoom_factor.setter
     def zoom_factor(self, zoom_factor):
         old_zoom_factor = self.__zoom_factor_base
-        self.__zoom_factor_base = max(0.0, min(zoom_factor, 1.5))
+        self.__zoom_factor_base = self.__zoom_factor_orig = (
+            max(0.0, min(zoom_factor, 1.5))
+        )
         if old_zoom_factor != self.__zoom_factor_base:
             self.__update_zoom_factor()
 
