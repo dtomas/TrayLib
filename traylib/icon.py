@@ -133,10 +133,10 @@ class Icon(gtk.EventBox, object):
             if not running:
                 self.__zoom_factor_base = self.__zoom_factor_orig
             else:
-                if self.__zoom_factor_base == self.__zoom_factor_orig:
+                if self.__zoom_factor_base == self.__zoom_factor_orig * 0.5:
                     self.__zoom_factor_base = self.__zoom_factor_orig * 1.5
                 else:
-                    self.__zoom_factor_base = self.__zoom_factor_orig
+                    self.__zoom_factor_base = self.__zoom_factor_orig * 0.5
             self.__update_zoom_factor()
             self._refresh(True)
             return running
