@@ -579,7 +579,7 @@ class Icon(gtk.EventBox, object):
             self.__spring_open_event = gobject.timeout_add(
                 1000, self.__spring_open, time
             )
-        if self.is_drop_target:
+        if self.is_drop_target and not self.__is_dragged:
             action = context.suggested_action
         else:
             action = 0
