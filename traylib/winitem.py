@@ -345,6 +345,7 @@ class AWindowsItem(Item):
 
     def __visible_window_items_changed(self, item):
         self.emit("is-visible-changed")
+        self.emit("is-blinking-changed")
         self.emit("has-arrow-changed")
         self.emit("menu-left-changed")
         self.emit("menu-right-changed")
