@@ -5,10 +5,8 @@ def render_item_box(item_box, icon_config, render_item):
 
     if icon_config.vertical:
         box = gtk.VBox()
-        separator = gtk.HSeparator()
     else:
         box = gtk.HBox()
-        separator = gtk.VSeparator()
 
     item_widgets = {}
 

@@ -5,10 +5,9 @@ from traylib.item import Item
 
 class ItemBox(gobject.GObject):
 
-    def __init__(self, box_id, has_separator=False):
+    def __init__(self, box_id):
         gobject.GObject.__init__(self)
         self.__box_id = box_id
-        self.__has_separator = has_separator
         self.__items = []
 
     def add_item(self, item):
@@ -26,8 +25,6 @@ class ItemBox(gobject.GObject):
         self.emit("destroyed")
 
     id = property(lambda self: self.__box_id)
-
-    has_separator = property(lambda self: self.__has_separator)
 
     items = property(lambda self: self.__items)
 
