@@ -99,8 +99,8 @@ class WindowItem(Item):
 
     def get_icons(self):
         return [
-            PixbufIcon(self.__window.get_icon()),
-            ThemedIcon(self.__window.get_icon_name())
+            ThemedIcon(self.__window.get_icon_name()),
+            PixbufIcon(self.__window.get_icon())
         ]
 
     def is_greyed_out(self):
