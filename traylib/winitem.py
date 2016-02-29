@@ -98,7 +98,10 @@ class WindowItem(Item):
         return name.replace('_', '__')
 
     def get_icons(self):
-        return [PixbufIcon(self.__window.get_icon())]
+        return [
+            PixbufIcon(self.__window.get_icon()),
+            ThemedIcon(self.__window.get_icon_name())
+        ]
 
     def is_greyed_out(self):
         return (
