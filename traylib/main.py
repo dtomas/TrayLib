@@ -8,6 +8,9 @@ from traylib.tray_window import TrayWindow
 from traylib.tray_applet import TrayApplet
 from traylib.icon_config import IconConfig
 from traylib.tray_config import TrayConfig
+from traylib.icon_renderer import render_icon
+from traylib.item_box_renderer import render_item_box
+from traylib.tray_renderer import render_tray
 
 
 class Main(object):
@@ -61,13 +64,11 @@ class Main(object):
             separators=separators,
         )
 
-    def mainloop(self, app_args, create_tray):
+    def mainloop(self, app_args):
         """
         Starts the main loop and returns when the tray app is quit.
         
         @param app_args: The arguments passed to the app.
-        @param create_tray: Callable to create the tray from an L{IconConfig}
-            and a L{TrayConfig}.
         """
         ICON_THEME.append_search_path(os.path.join(rox.app_dir, 'icons'))
         rox.app_options.add_notify(self.options_changed)
@@ -76,16 +77,33 @@ class Main(object):
                 app_args[1],
                 self.__o_icon_size_min.int_value,
                 self.__o_icon_size_max.int_value,
-                create_tray, self.__icon_config, self.__tray_config
+                self.create_tray, self.render_tray,
+                self.__icon_config, self.__tray_config
             )
         else:
             self.__main_window = TrayWindow(
                 self.__o_icon_size_min.int_value,
                 self.__o_icon_size_max.int_value,
-                create_tray, self.__icon_config, self.__tray_config
+                self.create_tray, self.render_tray,
+                self.__icon_config, self.__tray_config
             )
         self.__main_window.show()
         rox.mainloop()
+
+    def create_tray(self):
+        raise NotImplementedError
+
+    def render_tray(self, tray):
+        return render_tray(
+            tray, self.__icon_config, self.__tray_config,
+            self.render_item_box, self.render_item
+        )
+
+    def render_item_box(self, box):
+        return render_item_box(box, self.__icon_config, self.render_item)
+
+    def render_item(self, item):
+        return render_icon(item, self.__icon_config)
 
     def options_changed(self):
         """Called when the options have changed."""

@@ -9,22 +9,24 @@ from traylib.item import Item
 
 class MainItem(Item):
 
-    def __init__(self, tray):
+    def __init__(self, tray, tray_config, icon_config):
         Item.__init__(self)
         self.__tray = tray
+        self.__tray_config = tray_config
+        self.__icon_config = icon_config
 
     def click(self, time):
-        self.__tray.icon_config.hidden = not self.icon_config.hidden
+        self.__icon_config.hidden = not self.icon_config.hidden
 
     def mouse_wheel_up(self, time):
-        self.__tray.icon_config.hidden = False
+        self.__icon_config.hidden = False
 
     def mouse_wheel_down(self, time):
-        self.__tray.icon_config.hidden = True
+        self.__icon_config.hidden = True
 
     def __show_info(self, menu_item=None):
         """Shows information."""
-        InfoWin.infowin(self.__tray.tray_config.name)
+        InfoWin.infowin(self.__tray_config.name)
 
     def __show_help(self, menu_item=None):
         """Shows information."""
@@ -32,7 +34,7 @@ class MainItem(Item):
 
     def __show_options(self, menu_item=None):
         """Shows the options."""
-        if self.__tray.icon_config.vertical:
+        if self.__icon_config.vertical:
             options_xml = 'OptionsV.xml'
         else:
             options_xml = 'OptionsH.xml'
@@ -41,7 +43,7 @@ class MainItem(Item):
     def __quit(self, menu_item=None):
         """Quits the Tray."""
         if rox.confirm(
-                _("Really quit %s?") % self.__tray.tray_config.name,
+                _("Really quit %s?") % self.__tray_config.name,
                 gtk.STOCK_QUIT):
             self.__tray.destroy()
 

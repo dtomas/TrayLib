@@ -9,8 +9,8 @@ class TrayApplet(Applet, TrayContainer):
     An applet showing a L{Tray}.
     """
     
-    def __init__(self, xid, min_size, max_size, create_tray, icon_config, 
-                tray_config):
+    def __init__(self, xid, min_size, max_size, create_tray, render_tray,
+                 icon_config, tray_config):
         """
         Creates a new TrayApplet.
         
@@ -37,7 +37,7 @@ class TrayApplet(Applet, TrayContainer):
             self.set_size_request(-1, 8)
         TrayContainer.__init__(
             self, min_size, max_size, vertical,
-            create_tray, icon_config, tray_config
+            create_tray, render_tray, icon_config, tray_config
         )
 
     def get_icon_size(self):

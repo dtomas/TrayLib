@@ -8,8 +8,8 @@ class TrayContainer(object):
     subclass C{gtk.Container}.
     """
     
-    def __init__(self, min_size, max_size, vertical, create_tray, icon_config, 
-                tray_config):
+    def __init__(self, min_size, max_size, vertical, create_tray, render_tray,
+                 icon_config, tray_config):
         """
         Creates a new C{TrayContainer}.
         
@@ -23,6 +23,7 @@ class TrayContainer(object):
         """
         self.__tray = None
         self.__create_tray = create_tray
+        self.__render_tray = render_tray
         self.__icon_config = icon_config
         self.__tray_config = tray_config
         self.__size = 0
@@ -31,6 +32,9 @@ class TrayContainer(object):
         self.__vertical = vertical
         self.set_name(tray_config.name + "PanelApplet")
         self.connect('size-allocate', self.__size_allocate)
+
+    def __tray_widget_destroyed(self, widget):
+        self.destroy()
 
     def __size_allocate(self, widget, rectangle):
         if self.__vertical:
@@ -42,10 +46,10 @@ class TrayContainer(object):
         self.__size = size
         self.update_icon_size(self.__min_size, self.__max_size)
         if not self.__tray:
-            self.__tray = self.__create_tray(
-                self.__icon_config, self.__tray_config
-            )
-            self.__tray.set_container(self)
+            self.__tray = self.__create_tray()
+            tray_widget = self.__render_tray(self.__tray)
+            tray_widget.connect("destroy", self.__tray_widget_destroyed)
+            self.add(tray_widget)
 
     def update_icon_size(self, min_size, max_size):
         """
