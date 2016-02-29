@@ -15,7 +15,6 @@ def render_item_box(item_box, icon_config, render_item):
     def item_added(item_box, item):
         widget = item_widgets[item] = render_item(item)
         box.pack_start(widget)
-        widget.show()
 
     def item_removed(item_box, item):
         try:
