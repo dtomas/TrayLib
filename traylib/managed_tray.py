@@ -31,7 +31,7 @@ class ManagedTray(Tray):
             self.__blocked = False
         tasks.Task(_manage())
 
-    def quit(self):
+    def destroy(self):
         """Cleans up the tray. Calls all unmanage functions."""
         def _unmanage():
             while self.__blocked:
@@ -41,6 +41,7 @@ class ManagedTray(Tray):
                 for x in unmanage():
                     yield None
             self.__blocked = False
+            Tray.destroy(self)
         tasks.Task(_unmanage())
 
     def refresh(self):
