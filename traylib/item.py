@@ -37,6 +37,9 @@ class Item(gobject.GObject):
     def is_blinking(self):
         return False
 
+    def is_arrow_blinking(self):
+        return False
+
     def get_name(self):
         """
         Override this to determine the name.
@@ -186,6 +189,10 @@ gobject.signal_new(
 gobject.signal_new(
     "is-blinking-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
     ()
+)
+gobject.signal_new(
+    "is-arrow-blinking-changed", Item, gobject.SIGNAL_RUN_FIRST,
+    gobject.TYPE_NONE, ()
 )
 gobject.signal_new(
     "is-greyed-out-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,

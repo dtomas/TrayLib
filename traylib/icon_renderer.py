@@ -1,4 +1,5 @@
 import gtk
+import gobject
 
 from traylib.icon import Icon
 
@@ -32,6 +33,7 @@ def render_icon(item, icon_config):
     class state:
         menu = None
         menu_visible = False
+        arrow_blink_event = 0
 
     def update_name(item):
         icon.tooltip = item.get_name()
@@ -70,6 +72,19 @@ def render_icon(item, icon_config):
     def update_drop_target(item):
         icon.is_drop_target = item.is_drop_target()
 
+    def blink_arrow():
+        running = (state.arrow_blink_event != 0)
+        icon.has_arrow = not icon.has_arrow
+        if not running:
+            update_has_arrow(item)
+        return running
+
+    def update_arrow_blinking(item):
+        if item.is_arrow_blinking():
+            state.arrow_blink_event = gobject.timeout_add(500, blink_arrow)
+        else:
+            state.arrow_blink_event = 0
+
     def destroyed(item):
         icon.destroy()
 
@@ -84,6 +99,7 @@ def render_icon(item, icon_config):
         item.connect("emblem-changed", update_emblem),
         item.connect("drag-source-changed", update_drag_source),
         item.connect("is-drop-target-changed", update_drop_target),
+        item.connect("is-arrow-blinking-changed", update_arrow_blinking),
         item.connect("destroyed", destroyed),
     ]
 
@@ -150,5 +166,6 @@ def render_icon(item, icon_config):
     update_blinking(item)
     update_drag_source(item)
     update_drop_target(item)
+    update_arrow_blinking(item)
 
     return icon
