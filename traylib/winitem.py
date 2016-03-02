@@ -355,7 +355,6 @@ class AWindowsItem(Item):
         self.emit("drag-source-changed")
         self.emit("zoom-changed")
         self.emit("name-changed")
-        self.emit("icon-changed")
         self.emit("is-greyed-out-changed")
 
     def __name_changed(self, item):
