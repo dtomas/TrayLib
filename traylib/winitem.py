@@ -350,6 +350,8 @@ class AWindowsItem(Item):
         if "base-name" in props:
             changed_props.add("name")
             changed_props.add("has-arrow")
+        # Do not emit property changes again.
+        changed_props.difference_update(props)
         if changed_props:
             self.emit("changed", changed_props)
 
