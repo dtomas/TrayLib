@@ -120,23 +120,15 @@ class WindowItem(Item):
             return 0.66
         return 1.0
 
-    def click(self, time=0L, force_activate=False):
-        window = self.__window
-        if (not force_activate and
-                window.is_active() and not window.is_minimized()):
-            window.minimize()
-        else:
-            self.activate(time)
-        return True
-
-    def activate(self, time=0L):
+    def click(self, time=0L):
         window = self.__window
         window.get_workspace().activate(time)
         window.unminimize(time)
         window.activate(time)
+        return True
 
     def mouse_wheel_up(self, time=0L):
-        self.activate(time)
+        self.click(time)
 
     def mouse_wheel_down(self, time=0L):
         self.__window.minimize()
@@ -431,11 +423,11 @@ class AWindowsItem(Item):
         found = False
         for window_item in visible_window_items:
             if found:
-                window_item.click(time, force_activate=True)
+                window_item.click(time)
                 return True
             if window_item.window.is_active():
                 found = True
-        visible_window_items[0].click(time, force_activate=True)
+        visible_window_items[0].click(time)
         return True
 
     def activate_previous_window(self, time=0L):
@@ -455,7 +447,7 @@ class AWindowsItem(Item):
             if window_item.window.is_active():
                 break
             previous_window_item = window_item
-        previous_window_item.click(time, force_activate=True)
+        previous_window_item.click(time)
         return True
 
 
