@@ -373,6 +373,8 @@ class AWindowsItem(Item):
             changed_props.add("is-blinking")
         if "is-greyed-out" in props:
             changed_props.add("is-greyed-out")
+        if "zoom" in props:
+            changed_props.add("zoom")
         if changed_props:
             self.emit("changed", changed_props)
 
