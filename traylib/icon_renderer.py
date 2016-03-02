@@ -85,21 +85,31 @@ def render_icon(item, icon_config):
         else:
             state.arrow_blink_event = 0
 
+    def changed(item, props):
+        if "icon" in props or "is-greyed-out" in props:
+            update_icon(item)
+        if "zoom" in props:
+            update_zoom(item)
+        if "has-arrow" in props:
+            update_has_arrow(item)
+        if "is-visible" in props:
+            update_visibility(item)
+        if "is-blinking" in props:
+            update_blinking(item)
+        if "emblem" in props:
+            update_emblem(item)
+        if "drag-source" in props:
+            update_drag_source(item)
+        if "drop-target" in props:
+            update_drop_target(item)
+        if "is-arrow-blinking" in props:
+            update_arrow_blinking(item)
+
     def destroyed(item):
         icon.destroy()
 
     item_handlers = [
-        item.connect("name-changed", update_name),
-        item.connect("icon-changed", update_icon),
-        item.connect("zoom-changed", update_zoom),
-        item.connect("has-arrow-changed", update_has_arrow),
-        item.connect("is-visible-changed", update_visibility),
-        item.connect("is-blinking-changed", update_blinking),
-        item.connect("is-greyed-out-changed", update_icon),
-        item.connect("emblem-changed", update_emblem),
-        item.connect("drag-source-changed", update_drag_source),
-        item.connect("is-drop-target-changed", update_drop_target),
-        item.connect("is-arrow-blinking-changed", update_arrow_blinking),
+        item.connect("changed", changed),
         item.connect("destroyed", destroyed),
     ]
 

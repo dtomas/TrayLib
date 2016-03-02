@@ -55,30 +55,25 @@ class WindowItem(Item):
             self.__win_config.disconnect(handler)
 
     def __all_workspaces_changed(self, win_config):
-        self.emit("is-visible-changed")
+        self.changed("is-visible")
 
     def __window_state_changed(self, window, changed_mask, new_state):
-        self.emit("name-changed")
-        self.emit("zoom-changed")
-        self.emit("is-visible-changed")
-        self.emit("is-blinking-changed")
+        self.changed("name", "zoom", "is-visible", "is-blinking")
 
     def __window_workspace_changed(self, window):
-        self.emit("is-visible-changed")
-        self.emit("icon-changed")
+        self.changed("icon", "is-visible")
 
     def __window_icon_changed(self, window):
-        self.emit("icon-changed")
+        self.changed("icon")
 
     def __window_name_changed(self, window):
-        self.emit("name-changed")
+        self.changed("name")
 
     def __active_window_changed(self, screen, window=None):
-        self.emit("zoom-changed")
+        self.changed("zoom")
 
     def __active_workspace_changed(self, screen, workspace=None):
-        self.emit("is-visible-changed")
-        self.emit("icon-changed")
+        self.changed("is-visible", "icon")
 
     def __window_closed(self, screen, window):
         if window is self.__window:
@@ -204,7 +199,7 @@ class ADirectoryWindowItem(WindowItem):
         self.__window_handlers = [
             window.connect("name-changed", self.__window_name_changed),
         ]
-        self.connect("path-changed", self.__path_changed)
+        self.connect("changed", self.__changed)
         self.connect("destroyed", self.__destroyed)
 
 
@@ -214,12 +209,12 @@ class ADirectoryWindowItem(WindowItem):
         for handler in self.__window_handlers:
             self.window.disconnect(handler)
 
-    def __path_changed(self, item):
-        self.emit("name-changed")
-        self.emit("icon-changed")
+    def __changed(self, item, props):
+        if "path" in props:
+            self.changed("name", "icon")
 
     def __window_name_changed(self, window):
-        self.emit("path-changed")
+        self.changed("path")
 
 
     # Item implementation:
@@ -274,10 +269,6 @@ class ADirectoryWindowItem(WindowItem):
 
 
 gobject.type_register(ADirectoryWindowItem)
-gobject.signal_new(
-    "path-changed", ADirectoryWindowItem, gobject.SIGNAL_RUN_FIRST,
-    gobject.TYPE_NONE, ()
-)
 
 
 class FilerDirectoryWindowItem(ADirectoryWindowItem):
@@ -322,11 +313,7 @@ class AWindowsItem(Item):
         self.__win_config_handlers = [
             win_config.connect("arrow-changed", self.__arrow_changed),
         ]
-        self.connect(
-            "visible-window-items-changed", self.__visible_window_items_changed
-        )
-        self.connect("name-changed", self.__name_changed)
-        self.connect("base-name-changed", self.__base_name_changed)
+        self.connect("changed", self.__changed)
         self.connect("destroyed", self.__destroyed)
 
 
@@ -346,25 +333,28 @@ class AWindowsItem(Item):
         for window_item in self.__window_items:
             window_item.destroy()
 
-    def __visible_window_items_changed(self, item):
-        self.emit("is-visible-changed")
-        self.emit("is-blinking-changed")
-        self.emit("has-arrow-changed")
-        self.emit("menu-left-changed")
-        self.emit("menu-right-changed")
-        self.emit("drag-source-changed")
-        self.emit("zoom-changed")
-        self.emit("name-changed")
-        self.emit("is-greyed-out-changed")
-
-    def __name_changed(self, item):
-        self.emit("menu-right-changed")
-
-    def __base_name_changed(self, item):
-        self.emit("name-changed")
+    def __changed(self, item, props):
+        changed_props = set()
+        if "visible-window-items" in props:
+            changed_props.add("is-visible")
+            changed_props.add("is-blinking")
+            changed_props.add("has-arrow")
+            changed_props.add("menu-left")
+            changed_props.add("menu-right")
+            changed_props.add("drag-source")
+            changed_props.add("zoom")
+            changed_props.add("name")
+            changed_props.add("is-greyed-out")
+        if "name" in props:
+            changed_props.add("menu-right")
+        if "base-name" in props:
+            changed_props.add("name")
+            changed_props.add("has-arrow")
+        if changed_props:
+            self.emit("changed", changed_props)
 
     def __arrow_changed(self, win_config):
-        self.emit("has-arrow-changed")
+        self.changed("has-arrow")
 
     def __active_window_changed(self, screen, window=None):
         windows = {
@@ -372,17 +362,19 @@ class AWindowsItem(Item):
         }
         for window_item in self.visible_window_items:
             if window_item.window in windows:
-                self.emit("zoom-changed")
+                self.changed("zoom-changed")
                 return
 
-    def __window_visible_changed(self, window_item):
-        self.emit("visible-window-items-changed")
-
-    def __window_blinking_changed(self, window_item):
-        self.emit("is-blinking-changed")
-
-    def __window_greyed_out_changed(self, window_item):
-        self.emit("is-greyed-out-changed")
+    def __window_item_changed(self, window_item, props):
+        changed_props = set()
+        if "is-visible" in props:
+            changed_props.add("visible-window-items")
+        if "is-blinking" in props:
+            changed_props.add("is-blinking")
+        if "is-greyed-out" in props:
+            changed_props.add("is-greyed-out")
+        if changed_props:
+            self.emit("changed", changed_props)
 
     def __window_item_destroyed(self, window_item):
         self.remove_window(window_item.window)
@@ -396,22 +388,14 @@ class AWindowsItem(Item):
                 return
         window_item = self.create_window_item(window)
         self.__window_handlers[window] = [
-            window_item.connect(
-                "is-visible-changed", self.__window_visible_changed
-            ),
-            window_item.connect(
-                "is-blinking-changed", self.__window_blinking_changed
-            ),
-            window_item.connect(
-                "is-greyed-out-changed", self.__window_greyed_out_changed
-            ),
+            window_item.connect("changed", self.__window_item_changed),
             window_item.connect("destroyed", self.__window_item_destroyed),
         ]
         self.__window_items.append(window_item)
         self.__window_items.sort(
             key=lambda window_item: window_item.window.get_sort_order()
         )
-        self.emit("visible-window-items-changed")
+        self.changed("visible-window-items")
 
     def remove_window(self, window):
         try:
@@ -428,7 +412,7 @@ class AWindowsItem(Item):
                 item for item in self.__window_items
                 if item.window is not window
             ]
-            self.emit("visible-window-items-changed")
+            self.changed("visible-window-items")
 
     def activate_next_window(self, time=0L):
         """
@@ -590,11 +574,3 @@ class AWindowsItem(Item):
 
 
 gobject.type_register(AWindowsItem)
-gobject.signal_new(
-    "visible-window-items-changed", AWindowsItem, gobject.SIGNAL_RUN_FIRST,
-    gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "base-name-changed", AWindowsItem, gobject.SIGNAL_RUN_FIRST,
-    gobject.TYPE_NONE, ()
-)

@@ -13,6 +13,9 @@ class Item(gobject.GObject):
         )
         self.__is_destroyed = False
 
+    def changed(self, *props):
+        self.emit("changed", set(props))
+
     def destroy(self):
         if self.__is_destroyed:
             return
@@ -21,7 +24,7 @@ class Item(gobject.GObject):
         self.emit("destroyed")
 
     def __theme_changed(self, icon_theme):
-        self.emit("icon-changed")
+        self.changed("icon")
 
     def is_visible(self):
         """
@@ -184,48 +187,8 @@ class Item(gobject.GObject):
 
 gobject.type_register(Item)
 gobject.signal_new(
-    "is-visible-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "is-blinking-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    ()
-)
-gobject.signal_new(
-    "is-arrow-blinking-changed", Item, gobject.SIGNAL_RUN_FIRST,
-    gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "is-greyed-out-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    ()
-)
-gobject.signal_new(
-    "name-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "icon-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "emblem-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "zoom-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "has-arrow-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "menu-left-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "menu-right-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
-)
-gobject.signal_new(
-    "drag-source-changed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    ()
-)
-gobject.signal_new(
-    "is-drop-target-changed", Item, gobject.SIGNAL_RUN_FIRST,
-    gobject.TYPE_NONE, ()
+    "changed", Item, gobject.SIGNAL_RUN_FIRST,
+    gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,)
 )
 gobject.signal_new(
     "destroyed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()

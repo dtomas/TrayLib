@@ -41,16 +41,21 @@ def render_menu_item(item, has_submenu=False, size=24):
             item.get_drag_source_actions()
         )
 
+    def changed(item, props):
+        if "name" in props:
+            update_label(item)
+        if "icon" in props or "is-greyed-out" in props or "zoom" in props:
+            update_pixbuf(item)
+        if "menu-right" in props:
+            update_submenu(item)
+        if "drag-source" in props:
+            update_drag_source(item)
+
     def destroyed(item):
         menu_item.destroy()
 
     item_handlers = [
-        item.connect("name-changed", update_label),
-        item.connect("icon-changed", update_pixbuf),
-        item.connect("zoom-changed", update_pixbuf),
-        item.connect("menu-right-changed", update_submenu),
-        item.connect("drag-source-changed", update_drag_source),
-        item.connect("is-greyed-out-changed", update_pixbuf),
+        item.connect("changed", changed),
         item.connect("destroyed", destroyed),
     ]
 
