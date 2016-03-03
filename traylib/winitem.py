@@ -305,7 +305,7 @@ class AWindowsItem(Item):
         self.__win_config_handlers = [
             win_config.connect("arrow-changed", self.__arrow_changed),
         ]
-        self.connect("changed", self.__changed)
+        self.connect("changed", lambda item, props: self._changed(props))
         self.connect("destroyed", self.__destroyed)
 
 
@@ -325,27 +325,27 @@ class AWindowsItem(Item):
         for window_item in self.__window_items:
             window_item.destroy()
 
-    def __changed(self, item, props):
-        changed_props = set()
+    def _changed(self, props, props_to_emit=None):
+        props_to_emit = set() if props_to_emit is None else props_to_emit
         if "visible-window-items" in props:
-            changed_props.add("is-visible")
-            changed_props.add("is-blinking")
-            changed_props.add("has-arrow")
-            changed_props.add("menu-left")
-            changed_props.add("menu-right")
-            changed_props.add("drag-source")
-            changed_props.add("zoom")
-            changed_props.add("name")
-            changed_props.add("is-greyed-out")
+            props_to_emit.add("is-visible")
+            props_to_emit.add("is-blinking")
+            props_to_emit.add("has-arrow")
+            props_to_emit.add("menu-left")
+            props_to_emit.add("menu-right")
+            props_to_emit.add("drag-source")
+            props_to_emit.add("zoom")
+            props_to_emit.add("name")
+            props_to_emit.add("is-greyed-out")
         if "name" in props:
-            changed_props.add("menu-right")
+            props_to_emit.add("menu-right")
         if "base-name" in props:
-            changed_props.add("name")
-            changed_props.add("has-arrow")
+            props_to_emit.add("name")
+            props_to_emit.add("has-arrow")
         # Do not emit property changes again.
-        changed_props.difference_update(props)
-        if changed_props:
-            self.emit("changed", changed_props)
+        props_to_emit.difference_update(props)
+        if props_to_emit:
+            self.emit("changed", props_to_emit)
 
     def __arrow_changed(self, win_config):
         self.changed("has-arrow")
