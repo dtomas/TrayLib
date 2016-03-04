@@ -576,7 +576,6 @@ class Icon(gtk.EventBox, object):
             return False
         target = widget.drag_dest_find_target(context, _targets)
         widget.drag_get_data(context, target, time)
-        traylib.drag_source_widget = None
         return True
 
     def __drag_leave(self, widget, context, time):
@@ -585,7 +584,6 @@ class Icon(gtk.EventBox, object):
             return 
         gobject.source_remove(self.__spring_open_event)
         self.__spring_open_event = 0
-        traylib.drag_source_widget = None
 
     def __drag_motion(self, widget, context, x, y, time):
         self.__update_mouse_over()
@@ -617,6 +615,7 @@ class Icon(gtk.EventBox, object):
 
     def __drag_end(self, widget, context):
         assert widget == self
+        traylib.drag_source_widget = None
         self.__is_dragged = False
         self.__update_zoom_factor()
 
