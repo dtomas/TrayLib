@@ -19,6 +19,11 @@ class ItemBox(gobject.GObject):
         self.__items.remove(item)
         self.emit("item-removed", item)
 
+    def reorder_item(self, item, position):
+        self.__items.remove(item)
+        self.__items.insert(position, item)
+        self.emit("item-reordered", item, position)
+
     def destroy(self):
         for item in self.items:
             item.destroy()
@@ -37,6 +42,10 @@ gobject.signal_new(
 gobject.signal_new(
     "item-removed", ItemBox, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
     (Item,)
+)
+gobject.signal_new(
+    "item-reordered", ItemBox, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+    (Item, gobject.TYPE_INT)
 )
 gobject.signal_new(
     "destroyed", ItemBox, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()

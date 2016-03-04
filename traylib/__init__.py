@@ -6,7 +6,6 @@ import rox
 
 from traylib import pixmaps
 
-
 _ = rox.i18n.translation(
     os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Messages')
 )

@@ -586,6 +586,8 @@ class Icon(gtk.EventBox, object):
 
     def __drag_motion(self, widget, context, x, y, time):
         self.__update_mouse_over()
+        if context.get_source_widget() is not None:
+            return False
         if self.__spring_open_event == 0:
             self.__spring_open_event = gobject.timeout_add(
                 1000, self.__spring_open, time
