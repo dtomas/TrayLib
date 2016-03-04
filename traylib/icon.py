@@ -1,6 +1,7 @@
 import gtk
 import gobject
 
+import traylib
 from traylib import (
     LEFT, RIGHT, TOP, BOTTOM, TOOLTIPS, ICON_THEME, TARGET_URI_LIST,
     TARGET_MOZ_URL, pixmaps
@@ -575,6 +576,7 @@ class Icon(gtk.EventBox, object):
             return False
         target = widget.drag_dest_find_target(context, _targets)
         widget.drag_get_data(context, target, time)
+        traylib.drag_source_widget = None
         return True
 
     def __drag_leave(self, widget, context, time):
@@ -583,10 +585,14 @@ class Icon(gtk.EventBox, object):
             return 
         gobject.source_remove(self.__spring_open_event)
         self.__spring_open_event = 0
+        traylib.drag_source_widget = None
 
     def __drag_motion(self, widget, context, x, y, time):
         self.__update_mouse_over()
-        if context.get_source_widget() is not None:
+        source_widget = context.get_source_widget()
+        if source_widget is None:
+            source_widget = traylib.drag_source_widget
+        if source_widget is not None:
             return False
         if self.__spring_open_event == 0:
             self.__spring_open_event = gobject.timeout_add(
@@ -605,6 +611,7 @@ class Icon(gtk.EventBox, object):
         
     def __drag_begin(self, widget, context):
         assert widget == self
+        traylib.drag_source_widget = widget
         self.__is_dragged = True
         context.set_icon_pixbuf(scale_pixbuf_to_size(self.__pixbuf, 48), 0,0)
 

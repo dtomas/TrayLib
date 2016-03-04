@@ -1,5 +1,7 @@
 import gtk
 
+import traylib
+
 
 def render_item_box(item_box, icon_config, render_item):
 
@@ -15,6 +17,8 @@ def render_item_box(item_box, icon_config, render_item):
 
         def drag_motion(widget, context, x, y, time):
             source_widget = context.get_source_widget()
+            if source_widget is None:
+                source_widget = traylib.drag_source_widget
             if source_widget is widget:
                 return False
             for source_item in item_box.items:

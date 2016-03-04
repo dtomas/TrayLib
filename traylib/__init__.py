@@ -47,3 +47,9 @@ if not APPDIRPATH:
             '/opt']
 else:
     APPDIRPATH = APPDIRPATH.split(os.pathsep)
+
+
+# HACK: When running as an applet, gtk.gdk.DragContext.get_source_widget()
+# always returns None.
+# This property is set by traylib.Icon's DND callbacks.
+drag_source_widget = None
