@@ -4,6 +4,7 @@
 
 2.0.0 (unreleased)
 ~~~~~
+- Reorderable items.
 - Refactored Tray into Tray, ItemBox, render_tray() and render_item_box().
 - Replaced Item.get_icon_* methods with Item.get_icons() returning IIconLoaders.
 - Greying out items.
