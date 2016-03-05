@@ -8,10 +8,10 @@ class TrayContainer(object):
     subclass C{gtk.Container}.
     """
     
-    def __init__(self, min_size, max_size, vertical, create_tray, render_tray,
+    def __init__(self, min_size, max_size, vertical, tray, render_tray,
                  icon_config, tray_config):
         """
-        Creates a new C{TrayContainer}.
+        Initialize a C{TrayContainer}.
         
         @param min_size: The minimum size of the icons.
         @param max_size: The maximum size of the icons.
@@ -21,8 +21,6 @@ class TrayContainer(object):
         @param icon_config: The L{IconConfig}.
         @param tray_config: The L{TrayConfig}.
         """
-        self.__tray = None
-        self.__create_tray = create_tray
         self.__render_tray = render_tray
         self.__icon_config = icon_config
         self.__tray_config = tray_config
@@ -30,6 +28,10 @@ class TrayContainer(object):
         self.__max_size = max_size
         self.__min_size = min_size
         self.__vertical = vertical
+        self.__tray = tray
+        tray_widget = self.__render_tray(self.__tray)
+        tray_widget.connect("destroy", self.__tray_widget_destroyed)
+        self.add(tray_widget)
         self.set_name(tray_config.name + "PanelApplet")
         self.connect('size-allocate', self.__size_allocate)
 
@@ -45,15 +47,10 @@ class TrayContainer(object):
             return
         self.__size = size
         self.update_icon_size(self.__min_size, self.__max_size)
-        if not self.__tray:
-            self.__tray = self.__create_tray()
-            tray_widget = self.__render_tray(self.__tray)
-            tray_widget.connect("destroy", self.__tray_widget_destroyed)
-            self.add(tray_widget)
 
     def update_icon_size(self, min_size, max_size):
         """
-        Updates the size of the tray's icons and sets the maximum icon size.
+        Update the size of the tray's icons and set the maximum icon size.
         
         @param min_size: The minimum icon size.
         @param max_size: The maximum icon size.
@@ -76,5 +73,7 @@ class TrayContainer(object):
         return self.__size
 
     is_vertical = property(lambda self: self.__vertical)
+    """C{True} if the container is vertical."""
 
     tray = property(lambda self: self.__tray)
+    """The container's L{Tray}."""
