@@ -16,6 +16,8 @@ def render_item_box(item_box, icon_config, render_item):
         widget = item_widgets[item] = render_item(item)
 
         def drag_motion(widget, context, x, y, time):
+            if icon_config.locked:
+                return
             source_widget = context.get_source_widget()
             if source_widget is None:
                 source_widget = traylib.drag_source_widget

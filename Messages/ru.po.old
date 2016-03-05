@@ -6,97 +6,70 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TrayLib 0.1\n"
-"POT-Creation-Date: 2008-02-28 21:31+CET\n"
+"POT-Creation-Date: 2016-03-05 10:02+CET\n"
 "PO-Revision-Date: 2007-07-02 20:04+EEST\n"
 "Last-Translator: Konstantin Korikov <lostclus@ua.fm>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: python/traylib/menu_icon.py:70
-msgid "Really quit %s?"
-msgstr "Действительно закрыть %s?"
+#~ msgid "Really quit %s?"
+#~ msgstr "Действительно закрыть %s?"
 
-#: python/traylib/winmenu.py:36
-msgid "Really force %s to quit?"
-msgstr "Действительно закрыть %s?"
+#~ msgid "Really force %s to quit?"
+#~ msgstr "Действительно закрыть %s?"
 
-#: python/traylib/winmenu.py:37 python/traylib/winmenu.py:168
-#: python/traylib/winmenu.py:370
-msgid "Force quit"
-msgstr ""
+#~ msgid "Activate"
+#~ msgstr "Активизировать"
 
-#: python/traylib/winmenu.py:82
-msgid "Activate"
-msgstr "Активизировать"
+#~ msgid "Unmaximize"
+#~ msgstr "Восстановить прежний размер"
 
-#: python/traylib/winmenu.py:92
-msgid "Unmaximize"
-msgstr "Восстановить прежний размер"
+#~ msgid "Maximize"
+#~ msgstr "Развернуть на весь экран"
 
-#: python/traylib/winmenu.py:98
-msgid "Maximize"
-msgstr "Развернуть на весь экран"
+#~ msgid "Show"
+#~ msgstr "Развернуть"
 
-#: python/traylib/winmenu.py:106
-msgid "Show"
-msgstr "Развернуть"
+#~ msgid "Hide"
+#~ msgstr "Свернуть"
 
-#: python/traylib/winmenu.py:110
-msgid "Hide"
-msgstr "Свернуть"
+#~ msgid "Unshade"
+#~ msgstr "Раскрутить"
 
-#: python/traylib/winmenu.py:116
-msgid "Unshade"
-msgstr "Раскрутить"
+#~ msgid "Shade"
+#~ msgstr "Скрутить"
 
-#: python/traylib/winmenu.py:122
-msgid "Shade"
-msgstr "Скрутить"
+#~ msgid "Only on this workspace"
+#~ msgstr "Только на этом рабочем месте"
 
-#: python/traylib/winmenu.py:132
-msgid "Only on this workspace"
-msgstr "Только на этом рабочем месте"
+#~ msgid "Always on visible workspace"
+#~ msgstr "Всегда на видимом рабочем месте"
 
-#: python/traylib/winmenu.py:139
-msgid "Always on visible workspace"
-msgstr "Всегда на видимом рабочем месте"
+#~ msgid "Move to workspace"
+#~ msgstr "Переместить на другое рабочее место"
 
-#: python/traylib/winmenu.py:147
-msgid "Move to workspace"
-msgstr "Переместить на другое рабочее место"
+#~ msgid "Close subdirectories"
+#~ msgstr "Закрыть подкаталоги"
 
-#: python/traylib/winmenu.py:176
-msgid "Close subdirectories"
-msgstr "Закрыть подкаталоги"
+#~ msgid "There are no windows showing subdirectories of %s"
+#~ msgstr "Нет окон показывающих подкаталоги %s"
 
-#: python/traylib/winmenu.py:193
-msgid "There are no windows showing subdirectories of %s"
-msgstr "Нет окон показывающих подкаталоги %s"
+#~ msgid "Close all %d subdirectories of %s?"
+#~ msgstr "Закрыть все %d подкаталогов %s?"
 
-#: python/traylib/winmenu.py:197
-msgid "Close all %d subdirectories of %s?"
-msgstr "Закрыть все %d подкаталогов %s?"
+#~ msgid "Show all"
+#~ msgstr "Развернуть все"
 
-#: python/traylib/winmenu.py:358
-msgid "Show all"
-msgstr "Развернуть все"
+#~ msgid "Hide all"
+#~ msgstr "Свернуть все"
 
-#: python/traylib/winmenu.py:363
-msgid "Hide all"
-msgstr "Свернуть все"
+#~ msgid "Close all"
+#~ msgstr "Закрыть все"
 
-#: python/traylib/winmenu.py:376 python/traylib/winmenu.py:404
-msgid "Close all"
-msgstr "Закрыть все"
-
-#: python/traylib/winmenu.py:399
-msgid "%s hasn't got any open windows anymore."
-msgstr ""
-
-#: python/traylib/winmenu.py:402
 #, fuzzy
-msgid "Close all %d windows of %s?"
-msgstr "Закрыть все %d подкаталогов %s?"
+#~ msgid "Close all %d windows of %s?"
+#~ msgstr "Закрыть все %d подкаталогов %s?"

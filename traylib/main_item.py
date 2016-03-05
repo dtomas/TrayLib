@@ -4,6 +4,7 @@ import gtk
 import rox
 from rox import filer, InfoWin
 
+from traylib import _
 from traylib.item import Item
 
 
@@ -47,6 +48,9 @@ class MainItem(Item):
                 gtk.STOCK_QUIT):
             self.__tray.destroy()
 
+    def __toggle_lock_icons(self, menu_item):
+        self.__icon_config.locked = not self.__icon_config.locked
+
     def get_menu_right(self):
         menu = gtk.Menu()
         item = gtk.ImageMenuItem(gtk.STOCK_HELP)
@@ -63,6 +67,11 @@ class MainItem(Item):
             menu.add(gtk.SeparatorMenuItem())
         item = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
         item.connect("activate", self.__show_options)
+        menu.add(item)
+        menu.add(gtk.SeparatorMenuItem())
+        item = gtk.CheckMenuItem(_("Lock icons"))
+        item.set_active(self.__icon_config.locked)
+        item.connect("toggled", self.__toggle_lock_icons)
         menu.add(item)
         menu.add(gtk.SeparatorMenuItem())
         item = gtk.ImageMenuItem(gtk.STOCK_QUIT)

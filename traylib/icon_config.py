@@ -26,6 +26,9 @@ class IconConfig(Config):
 
     pos_func = Attribute(default=None)
     """The function for positioning the menu (may be None)."""
+
+    locked = Attribute(default=False)
+    """If C{True}, the icons cannot be moved within their box."""
     
     vertical = property(lambda self: self.edge in (LEFT, RIGHT))
     """
