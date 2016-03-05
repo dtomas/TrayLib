@@ -369,6 +369,8 @@ class AWindowsItem(Item):
             changed_props.add("is-greyed-out")
         if "zoom" in props:
             changed_props.add("zoom")
+        if "name" in props:
+            changed_props.add("name")
         if changed_props:
             self.emit("changed", changed_props)
 
@@ -469,7 +471,7 @@ class AWindowsItem(Item):
         self.mouse_wheel_up(time)
 
     def has_arrow(self):
-        return self.__win_config.arrow and len(self.visible_window_items) > 1
+        return self.__win_config.arrow and self.visible_window_items
 
     def get_menu_left(self):
         visible_window_items = self.visible_window_items
@@ -521,7 +523,7 @@ class AWindowsItem(Item):
     def get_name(self):
         visible_window_items = self.visible_window_items
         if len(visible_window_items) == 1:
-            return self.get_base_name()
+            return visible_window_items[0].get_name()
         return "%s (%d)" % (self.get_base_name(), len(visible_window_items))
 
     def get_drag_source_targets(self):
