@@ -5,15 +5,24 @@ from traylib import ICON_THEME
 
 
 class IIconLoader(object):
+    """Interface for icon loaders."""
 
     def get_pixbuf(self, size):
+        """@return: a gtk.gdk.Pixbuf of the given size."""
         raise NotImplementedError
 
 
 class ThemedIcon(IIconLoader):
+    """Loads themed icons."""
 
     def __init__(self, icon_name):
+        """
+        Initialize ThemedIcon.
+
+        @param icon_name: The name of the icon.
+        """
         self.icon_name = icon_name
+        """The name of the icon."""
 
     def get_pixbuf(self, size):
         icon_info = ICON_THEME.lookup_icon(self.icon_name, size, 0)
@@ -27,8 +36,14 @@ class ThemedIcon(IIconLoader):
 
 
 class PixbufIcon(IIconLoader):
+    """Wraps an already existing gtk.gdk.Pixbuf."""
 
     def __init__(self, pixbuf):
+        """
+        Initialize PixbufIcon.
+
+        @param pixbuf: The gtk.gdk.Pixbuf get_pixbuf() will return.
+        """
         self.pixbuf = pixbuf
 
     def get_pixbuf(self, size):
@@ -36,8 +51,14 @@ class PixbufIcon(IIconLoader):
 
 
 class FileIcon(IIconLoader):
+    """Loads an icon from a path."""
 
     def __init__(self, path):
+        """
+        Initialize FileIcon.
+
+        @param path: The path to load the icon from.
+        """
         self.path = path
 
     def get_pixbuf(self, size):

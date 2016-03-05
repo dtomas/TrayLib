@@ -18,10 +18,10 @@ class Tray(gobject.GObject):
 
     def __init__(self, create_main_item):
         """
-        Creates a new C{Tray}.
+        Initialize a Tray.
 
-        @param create_main_item: Callable creating a L{MainItem}
-            from a L{Tray}.
+        @param create_main_item: Callable creating a L{MainItem} from a
+            L{Tray}.
         """
         gobject.GObject.__init__(self)
         self.__boxes = []
@@ -54,6 +54,7 @@ class Tray(gobject.GObject):
     """The L{MainItem} used for the C{Tray}'s menu."""
 
     boxes = property(lambda self: self.__boxes)
+    """The tray's L{ItemBox}es."""
 
 
 gobject.type_register(Tray)

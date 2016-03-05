@@ -4,6 +4,15 @@ import traylib
 
 
 def render_item_box(item_box, icon_config, render_item):
+    """
+    Render an item box to a C{gtk.Box}.
+
+    @param item_box: The L{ItemBox} to render.
+    @param icon_config: The L{IconConfig} configuring the icons.
+    @param render_item: Callable called with an L{Item} to render it.
+
+    @return: The managed C{gtk.Box}.
+    """
 
     if icon_config.vertical:
         box = gtk.VBox()

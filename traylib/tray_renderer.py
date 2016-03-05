@@ -4,6 +4,17 @@ from traylib import LEFT, RIGHT
 
 
 def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
+    """
+    Render a L{Tray} to a C{gtk.Box}.
+    
+    @param tray: The L{Tray} to render.
+    @param icon_config: The L{IconConfig} configuring the icons.
+    @param tray_config: The L{TrayConfig} configuring the tray.
+    @param render_item_box: Callable rendering an L{ItemBox}.
+    @param render_item: Callable rendering an L{Item}.
+
+    @return: A managed C{gtk.Box}.
+    """
 
     boxes = {}
     box_separators = {}

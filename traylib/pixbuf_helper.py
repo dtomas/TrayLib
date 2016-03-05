@@ -3,11 +3,13 @@ import gtk
 
 def scale_pixbuf_to_size(pixbuf, size, scale_up=True):
     """
-    Returns a pixbuf scaled to the given size. 
+    Scale a pixbuf to the given size. 
     
+    @param pixbuf: The C{gtk.gdk.Pixbuf} to scale.
     @param size: The size of the scaled pixbuf.
     @param scale_up: If False, it is only scaled down if too large and not 
         scaled up.
+
     @return: A pixbuf scaled to the given size.
     """
     size = int(size)

@@ -32,9 +32,7 @@ ZOOM_ACTION_DESTROY = 3
 class Icon(gtk.EventBox, object):
 
     def __init__(self):
-        """
-        Creates a new C{Icon}.
-        """
+        """Initialize an Icon."""
 
         gtk.EventBox.__init__(self)
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
@@ -117,7 +115,7 @@ class Icon(gtk.EventBox, object):
 
     def set_blinking(self, blinking, time=500):
         """
-        Makes the C{Icon} blink or stops it from blinking.
+        Make the C{Icon} blink or stop it from blinking.
         
         @param blinking: If True, makes the C{Icon} blink, if False stops it
             from blinking.
@@ -359,8 +357,8 @@ class Icon(gtk.EventBox, object):
 
     def _refresh(self, force=False):
         """
-        Refreshes the C{Icon}.
-        
+        Refresh the C{Icon}.
+
         @param force: If True, forces refresh even if the icon has the right 
             size.
         """
@@ -522,7 +520,7 @@ class Icon(gtk.EventBox, object):
     # Methods inherited from gtk.EventBox
     
     def destroy(self):
-        """Zooms out the C{Icon} before destroying it."""
+        """Zoom out the C{Icon} before destroying it."""
         if not int(self.get_property('visible')):
             gtk.EventBox.destroy(self)
             return
@@ -531,7 +529,7 @@ class Icon(gtk.EventBox, object):
         self._refresh()
 
     def hide(self):
-        """Zooms out the C{Icon} before hiding it."""
+        """Zoom out the C{Icon} before hiding it."""
         if not int(self.get_property('visible')):
             return
         self.set_size_request(-1, -1)
@@ -539,7 +537,7 @@ class Icon(gtk.EventBox, object):
         self._refresh()
 
     def show(self):
-        """Zooms in the C{Icon} after showing it."""
+        """Zoom in the C{Icon} after showing it."""
         self.__zoom_action = ZOOM_ACTION_SHOW
         self.__update_arrow_target_alpha()
         self.__update_emblem_target_alpha()

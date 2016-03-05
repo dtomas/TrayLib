@@ -9,8 +9,16 @@ from traylib.item import Item
 
 
 class MainItem(Item):
+    """The main item of a L{Tray}."""
 
     def __init__(self, tray, tray_config, icon_config):
+        """
+        Initialize MainItem.
+
+        @param tray: The item's L{Tray}.
+        @param tray_config: The tray's configuration.
+        @param icon_config: The configuration of the tray's icons.
+        """
         Item.__init__(self)
         self.__tray = tray
         self.__tray_config = tray_config
@@ -26,15 +34,15 @@ class MainItem(Item):
         self.__icon_config.hidden = True
 
     def __show_info(self, menu_item=None):
-        """Shows information."""
+        """Show information."""
         InfoWin.infowin(self.__tray_config.name)
 
     def __show_help(self, menu_item=None):
-        """Shows information."""
+        """Show help."""
         filer.open_dir(os.path.join(rox.app_dir, 'Help'))
 
     def __show_options(self, menu_item=None):
-        """Shows the options."""
+        """Show the options."""
         if self.__icon_config.vertical:
             options_xml = 'OptionsV.xml'
         else:
@@ -42,7 +50,7 @@ class MainItem(Item):
         rox.edit_options(os.path.join(rox.app_dir, options_xml))
 
     def __quit(self, menu_item=None):
-        """Quits the Tray."""
+        """Quit the Tray."""
         if rox.confirm(
                 _("Really quit %s?") % self.__tray_config.name,
                 gtk.STOCK_QUIT):

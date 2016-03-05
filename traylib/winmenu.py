@@ -23,13 +23,11 @@ def _kill(menu_item, pids, name):
 
 
 class WindowActionMenu(gtk.Menu):
-    """
-    A menu that shows actions for a C{wnck.Window}.
-    """
+    """A menu that shows actions for a C{wnck.Window}."""
 
     def __init__(self, window, has_kill=False):
         """
-        Creates a new C{WindowActionMenu}.
+        Initialize a C{WindowActionMenu}.
         
         @param has_kill: If C{True}, the menu contains an entry to kill the 
             process the window belongs to.
@@ -159,15 +157,15 @@ class WindowActionMenu(gtk.Menu):
 
 
 class WindowMenu(gtk.Menu):
-    """
-    The menu for a list of windows.
-    """
+    """The menu for a list of windows."""
 
     def __init__(self, window_items, screen, group_name, has_kill=False):
         """
-        Creates a new WindowMenu.
-        
+        Initialize a WindowMenu.
+
         @param window_items: A list of C{WindowItem}s.
+        @param screen: The C{wnck.Screen}.
+        @param group_name: The name of the windows' group.
         @param has_kill: If C{True}, the menu contains a "kill" menu entry
             which kills the process the windows belong to. If the windows
             belong to different processes, each submenu has its own "kill"
