@@ -34,6 +34,7 @@ def render_icon(item, icon_config):
         menu = None
         menu_visible = False
         arrow_blink_event = 0
+        button_pressed = False
 
     def update_name(item):
         icon.tooltip = item.get_name()
@@ -116,6 +117,14 @@ def render_icon(item, icon_config):
     icon = Icon()
     
     def on_button_press(icon, button, time):
+        state.button_pressed = True
+
+    def on_button_release(icon, button, time):
+        if not state.button_pressed:
+            # When deactivating the menu, on_button_press() is not called.
+            # In that case we do not want to show the menu again.
+            return
+        state.button_pressed = False
         menu = None
         if button == 1:
             menu = item.get_menu_left()
@@ -131,9 +140,7 @@ def render_icon(item, icon_config):
             menu.connect("deactivate", menu_deactivate)
             menu.show_all()
             menu.popup(None, None, icon_config.pos_func, button, time)
-
-    def on_button_release(icon, button, time):
-        if button == 1 and not state.menu_visible:
+        elif button == 1:
             item.click(time)
 
     def on_scroll_event(icon, event):
