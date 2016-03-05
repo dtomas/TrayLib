@@ -11,7 +11,7 @@ def render_icon(item, icon_config):
     @param item: The L{Item} to be rendered.
     @param icon_config: The L{IconConfig} configuring the icon.
 
-    @return: a managed L{Icon}.
+    @return: A managed L{Icon}.
     """
 
     def update_edge(icon_config):
@@ -82,7 +82,8 @@ def render_icon(item, icon_config):
 
     def update_arrow_blinking(item):
         if item.is_arrow_blinking():
-            state.arrow_blink_event = gobject.timeout_add(500, blink_arrow)
+            if state.arrow_blink_event == 0:
+                state.arrow_blink_event = gobject.timeout_add(500, blink_arrow)
         else:
             state.arrow_blink_event = 0
 
