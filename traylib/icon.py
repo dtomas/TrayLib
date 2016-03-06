@@ -98,15 +98,9 @@ class Icon(gtk.EventBox, object):
         
         # dnd
         # to
-        self.__is_drop_target = False
-        self.drag_dest_set(gtk.DEST_DEFAULT_HIGHLIGHT, _targets, 
-                            gtk.gdk.ACTION_DEFAULT)
         self.connect("drag-motion", self.__drag_motion)
         self.connect("drag-leave", self.__drag_leave)
-        self.connect("drag-data-received", self.__drag_data_received)
-        self.connect("drag-drop", self.__drag_drop)
-        self.__spring_open_event = 0
-        
+
         # from
         self.drag_source_set(gtk.gdk.BUTTON1_MASK, [], 0)
         self.connect("drag-begin", self.__drag_begin)
@@ -185,14 +179,6 @@ class Icon(gtk.EventBox, object):
         if old_pixbuf is not self.__pixbuf:
             self.__pixbuf_current = None
         self._refresh(self.__pixbuf is not old_pixbuf)
-
-    @property
-    def is_drop_target(self):
-        return self.__is_drop_target
-
-    @is_drop_target.setter
-    def is_drop_target(self, is_drop_target):
-        self.__is_drop_target = is_drop_target
 
     @property
     def has_arrow(self):
@@ -554,68 +540,20 @@ class Icon(gtk.EventBox, object):
 
     # Signal callbacks
 
-    def __drag_data_received(self, widget, context, x, y, data, info, time):
-        if data.data == None:
-            context.drop_finish(False, time)
-            return
-        if self == context.get_source_widget():
-            return
-        uri_list = []
-        if info == TARGET_MOZ_URL:
-            uri_list = [
-                data.data.decode('utf-16').encode('utf-8').split('\n')[0]
-            ]
-        elif info == TARGET_URI_LIST:
-            uri_list = data.get_uris()
-        self.emit("uris-dropped", uri_list, context.action)
-        context.drop_finish(True, time)
-
-    def __drag_drop(self, widget, context, data, info, time):
-        """Callback for the 'drag-drop' signal."""
-        if not self.is_drop_target:
-            return False
-        target = widget.drag_dest_find_target(context, _targets)
-        widget.drag_get_data(context, target, time)
-        return True
-
     def __drag_leave(self, widget, context, time):
         self.__update_mouse_over()
-        if self.__spring_open_event == 0:
-            return 
-        gobject.source_remove(self.__spring_open_event)
-        self.__spring_open_event = 0
 
     def __drag_motion(self, widget, context, x, y, time):
         self.__update_mouse_over()
-        source_widget = context.get_source_widget()
-        if source_widget is None:
-            source_widget = traylib.drag_source_widget
-        if source_widget is not None:
-            return False
-        if self.__spring_open_event == 0:
-            self.__spring_open_event = gobject.timeout_add(
-                1000, self.__spring_open, time
-            )
-        if self.is_drop_target and not self.__is_dragged:
-            action = context.suggested_action
-        else:
-            action = 0
-        context.drag_status(action, time)
-        return True
-
-    def __spring_open(self, time):
-        self.emit("spring-open", time)
         return False
-        
+
     def __drag_begin(self, widget, context):
-        assert widget == self
-        traylib.drag_source_widget = widget
+        assert widget is self
         self.__is_dragged = True
         context.set_icon_pixbuf(scale_pixbuf_to_size(self.__pixbuf, 48), 0,0)
 
     def __drag_end(self, widget, context):
-        assert widget == self
-        traylib.drag_source_widget = None
+        assert widget is self
         self.__is_dragged = False
         self.__update_zoom_factor()
 
@@ -658,18 +596,10 @@ class Icon(gtk.EventBox, object):
 
 gobject.type_register(Icon)
 gobject.signal_new(
-    "uris-dropped", Icon, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    (gobject.TYPE_PYOBJECT, gobject.TYPE_INT)
-)
-gobject.signal_new(
     "button-press", Icon, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
     (gobject.TYPE_INT, gobject.TYPE_LONG)
 )
 gobject.signal_new(
     "button-release", Icon, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
     (gobject.TYPE_INT, gobject.TYPE_LONG)
-)
-gobject.signal_new(
-    "spring-open", Icon, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    (gobject.TYPE_LONG,)
 )

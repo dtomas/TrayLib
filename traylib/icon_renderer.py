@@ -70,9 +70,6 @@ def render_icon(item, icon_config):
             item.get_drag_source_actions()
         )
 
-    def update_drop_target(item):
-        icon.is_drop_target = item.is_drop_target()
-
     def blink_arrow():
         running = (state.arrow_blink_event != 0)
         icon.has_arrow = not icon.has_arrow
@@ -102,8 +99,6 @@ def render_icon(item, icon_config):
             update_emblem(item)
         if "drag-source" in props:
             update_drag_source(item)
-        if "drop-target" in props:
-            update_drop_target(item)
         if "is-arrow-blinking" in props:
             update_arrow_blinking(item)
 
@@ -150,12 +145,6 @@ def render_icon(item, icon_config):
         elif event.direction == gtk.gdk.SCROLL_DOWN:
             item.mouse_wheel_down(event.time)
 
-    def on_uris_dropped(icon, uri_list, action):
-        item.uris_dropped(uri_list, action)
-
-    def on_spring_open(icon, time):
-        item.spring_open(time)
-
     def on_drag_data_get(icon, context, data, info, time):
         item.drag_data_get(context, data, info, time)
 
@@ -168,8 +157,6 @@ def render_icon(item, icon_config):
     icon.connect("button-press", on_button_press)
     icon.connect("button-release", on_button_release)
     icon.connect("scroll-event", on_scroll_event)
-    icon.connect("uris-dropped", on_uris_dropped)
-    icon.connect("spring-open", on_spring_open)
     icon.connect("drag-data-get", on_drag_data_get)
     icon.connect("destroy", on_destroy)
 
@@ -183,7 +170,6 @@ def render_icon(item, icon_config):
     update_visibility(item)
     update_blinking(item)
     update_drag_source(item)
-    update_drop_target(item)
     update_arrow_blinking(item)
 
     return icon

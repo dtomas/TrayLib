@@ -469,6 +469,7 @@ class AWindowsItem(Item):
 
     def spring_open(self, time=0L):
         self.mouse_wheel_up(time)
+        return True
 
     def has_arrow(self):
         return self.__win_config.arrow and self.visible_window_items
