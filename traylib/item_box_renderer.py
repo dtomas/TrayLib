@@ -41,13 +41,20 @@ def render_item_box(item_box, icon_config, render_item):
             source_item_position = item_box.items.index(source_item)
             item_position = item_box.items.index(item)
             rect = widget.get_allocation()
-            center = rect.width / 2
-            if (source_item_position < item_position and x > center or
-                    source_item_position > item_position and x < center):
-                position = item_position
+            if icon_config.vertical:
+                center = rect.height / 2
+                if (source_item_position < item_position and y > center or
+                        source_item_position > item_position and y < center):
+                    item_box.reorder_item(source_item, item_position)
+                else:
+                    return False
             else:
-                return False
-            item_box.reorder_item(source_item, position)
+                center = rect.width / 2
+                if (source_item_position < item_position and x > center or
+                        source_item_position > item_position and x < center):
+                    item_box.reorder_item(source_item, item_position)
+                else:
+                    return False
             context.drag_status(0, time)
             return True
         widget.connect("drag-motion", drag_motion)
