@@ -603,7 +603,7 @@ class Icon(gtk.EventBox, object):
 
     def __spring_open(self, time):
         self.emit("spring-open", time)
-        return True
+        return False
         
     def __drag_begin(self, widget, context):
         assert widget == self
