@@ -1,7 +1,6 @@
 import gtk
 import gobject
 
-import traylib
 from traylib import (
     LEFT, RIGHT, TOP, BOTTOM, TOOLTIPS, ICON_THEME, TARGET_URI_LIST,
     TARGET_MOZ_URL, pixmaps
