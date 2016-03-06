@@ -113,6 +113,8 @@ class Icon(gtk.EventBox, object):
         self.connect("drag-end", self.__drag_end)
         self.__is_dragged = False
 
+        self.connect("expose-event", self.__expose)
+
     def set_blinking(self, blinking, time=500):
         """
         Make the C{Icon} blink or stop it from blinking.
@@ -648,6 +650,10 @@ class Icon(gtk.EventBox, object):
 
     def __motion(self, widget, event):
         self.__update_mouse_over(event)
+        return False
+
+    def __expose(self, widget, event):
+        self.__update_mouse_over()
         return False
 
 gobject.type_register(Icon)
