@@ -93,10 +93,15 @@ class Main(object):
         )
 
     def render_item_box(self, box):
-        return render_item_box(box, self.__icon_config, self.render_item)
+        return render_item_box(
+            box, self.__icon_config, self.render_item, self.item_from_uri
+        )
 
     def render_item(self, item):
         return render_icon(item, self.__icon_config)
+
+    def item_from_uri(self, uri):
+        return None
 
     def options_changed(self):
         """Called when the options have changed."""
