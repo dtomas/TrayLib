@@ -13,6 +13,7 @@ def manage_main_box(tray, tray_config, create_main_item=MainItem):
     """
 
     main_box = ItemBox("main")
+    main_box.add_item(create_main_item(tray))
 
     def reorder_main_box():
         if tray_config.menus == LEFT:
@@ -31,7 +32,6 @@ def manage_main_box(tray, tray_config, create_main_item=MainItem):
     tray_config_handlers = []
 
     def manage():
-        main_box.add_item(create_main_item(tray))
         tray.add_box(main_box)
         reorder_main_box()
         tray_handlers.append(tray.connect("box-added", box_added))
