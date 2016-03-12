@@ -1,12 +1,11 @@
 from rox import tasks
 
 from traylib.tray import Tray
-from traylib.main_item import MainItem
 
 
 class ManagedTray(Tray):
 
-    def __init__(self, managers, create_main_item=MainItem):
+    def __init__(self, managers):
         """
         Initialize the managed tray.
 
@@ -15,10 +14,8 @@ class ManagedTray(Tray):
         @param managers: List of callables, to be called with the tray as
             their argument and returning a tuple of generator functions
             to manage and unmanage the tray.
-        @param create_main_item: Callable creating a L{MainItem} from a
-            L{Tray}.
         """
-        Tray.__init__(self, create_main_item)
+        Tray.__init__(self)
         self.__managers = [manager(self) for manager in managers]
         self.__blocked = False
 

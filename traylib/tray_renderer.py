@@ -33,9 +33,6 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
         separator_left = gtk.VSeparator()
         separator_right = gtk.VSeparator()
 
-    main_icon = render_item(tray.main_item)
-    main_icon.show()
-
     main_box.pack_start(box_left)
     main_box.pack_start(box)
     main_box.pack_start(box_right)
@@ -64,24 +61,10 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
             if separator_right in box_right.get_children():
                 box_right.remove(separator_right)
 
-    def menus_changed(tray_config):
-        menus = tray_config.menus
-        old_box, new_box = (
-            (box_right, box_left) if menus == LEFT
-            else (box_left, box_right)
-        )
-
-        if main_icon in old_box.get_children():
-            old_box.remove(main_icon)
-        if main_icon not in new_box.get_children():
-            new_box.pack_end(main_icon)
-            main_icon.show_all()
-
     tray_config_handlers = [
         tray_config.connect(
             "separators-changed", separators_changed
         ),
-        tray_config.connect("menus-changed", menus_changed)
     ]
 
     box_widgets = {}
@@ -91,15 +74,20 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
         box.pack_start(widget)
 
     def box_removed(tray, item_box):
-        widget = box_wiggets.pop(item_box)
+        widget = box_widgets.pop(item_box)
         widget.destroy()
+
+    def box_reordered(tray, item_box, position):
+        widget = box_widgets[item_box]
+        box.reorder_child(widget, position)
 
     def destroyed(tray):
         main_box.destroy()
 
     tray_handlers = [
         tray.connect("box-added", box_added),
-        tray.connect("box-removed", box_added),
+        tray.connect("box-removed", box_removed),
+        tray.connect("box-reordered", box_reordered),
         tray.connect("destroyed", destroyed),
     ]
 
@@ -112,7 +100,7 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
     main_box.connect("destroy", main_box_destroyed)
 
     separators_changed(tray_config)
-    menus_changed(tray_config)
+    #menus_changed(tray_config)
 
     for item_box in tray.boxes:
         box_added(tray, item_box)
