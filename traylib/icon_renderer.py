@@ -169,6 +169,7 @@ def render_icon(item, icon_config):
     update_has_arrow(item)
     update_visibility(item)
     update_blinking(item)
+    update_emblem(item)
     update_drag_source(item)
     update_arrow_blinking(item)
 
