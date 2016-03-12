@@ -472,7 +472,7 @@ class AWindowsItem(Item):
 
     def get_menu_left(self):
         visible_window_items = self.visible_window_items
-        if not visible_window_items:
+        if len(visible_window_items) <= 1:
             return None
         menu = gtk.Menu()
         for item in visible_window_items:
