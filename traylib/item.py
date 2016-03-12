@@ -74,6 +74,13 @@ class Item(gobject.GObject):
                     return icon.icon_name
         return ""
 
+    def find_icon_path(self):
+        for icon in self.get_icons():
+            path = icon.get_path(48)
+            if path is not None:
+                return path
+        return None
+
     def get_icons(self):
         """
         Override this to determine the icons that C{Item.get_icon} should try.

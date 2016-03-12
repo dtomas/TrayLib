@@ -11,6 +11,9 @@ class IIconLoader(object):
         """@return: a gtk.gdk.Pixbuf of the given size."""
         raise NotImplementedError
 
+    def get_path(self, size):
+        """@return: the path of the icon or None."""
+
 
 class ThemedIcon(IIconLoader):
     """Loads themed icons."""
@@ -34,6 +37,12 @@ class ThemedIcon(IIconLoader):
         except gobject.GError:
             return None
 
+    def get_path(self, size):
+        icon_info = ICON_THEME.lookup_icon(self.icon_name, size, 0)
+        if not icon_info:
+            return None
+        return icon_info.get_filename()
+
 
 class PixbufIcon(IIconLoader):
     """Wraps an already existing gtk.gdk.Pixbuf."""
@@ -48,6 +57,9 @@ class PixbufIcon(IIconLoader):
 
     def get_pixbuf(self, size):
         return self.pixbuf
+
+    def get_path(self, size):
+        return None
 
 
 class FileIcon(IIconLoader):
@@ -66,3 +78,6 @@ class FileIcon(IIconLoader):
             return gtk.gdk.pixbuf_new_from_file(self.path)
         except gobject.GError:
             return None
+
+    def get_path(self, size):
+        return self.path
