@@ -508,6 +508,8 @@ class AWindowsItem(Item):
         for window_item in visible_window_items:
             if window_item.window.is_active():
                 return 1.5
+        if not visible_window_items:
+            return 1.0
         for window_item in visible_window_items:
             if not window_item.window.is_minimized():
                 break
@@ -516,7 +518,10 @@ class AWindowsItem(Item):
         return 1.0
 
     def is_greyed_out(self):
-        for window_item in self.visible_window_items:
+        visible_window_items = self.visible_window_items
+        if not visible_window_items:
+            return False
+        for window_item in visible_window_items:
             if not window_item.is_greyed_out():
                 return False
         return True
