@@ -25,7 +25,7 @@ class Tray(gobject.GObject):
 
     def add_box(self, box):
         self.__boxes.append(box)
-        self.__box_handlers = [
+        self.__box_handlers[box] = [
             box.connect("item-added", self.__box_item_added),
             box.connect("item-removed", self.__box_item_removed),
             box.connect("destroyed", self.remove_box),
