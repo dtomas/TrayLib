@@ -398,7 +398,6 @@ class AWindowsItem(Item):
         else:
             for handler in handlers:
                 window_item.disconnect(handler)
-            window_item.destroy()
             self.__window_items.remove(window_item)
             self.changed("visible-window-items")
 
