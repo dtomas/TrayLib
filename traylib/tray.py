@@ -21,14 +21,27 @@ class Tray(gobject.GObject):
         """
         gobject.GObject.__init__(self)
         self.__boxes = []
+        self.__box_handlers = {}
 
     def add_box(self, box):
         self.__boxes.append(box)
-        box.connect("destroyed", self.remove_box)
+        self.__box_handlers = [
+            box.connect("item-added", self.__box_item_added),
+            box.connect("item-removed", self.__box_item_removed),
+            box.connect("destroyed", self.remove_box),
+        ]
         self.emit("box-added", box)
+
+    def __box_item_added(self, box, item):
+        self.emit("item-added", box, item)
+
+    def __box_item_removed(self, box, item):
+        self.emit("item-removed", box, item)
 
     def remove_box(self, box):
         self.__boxes.remove(box)
+        for handler in self.__box_handlers.pop(box):
+            box.disconnect(handler)
         self.emit("box-removed", box)
 
     def reorder_box(self, box, position):
@@ -66,6 +79,14 @@ gobject.signal_new(
 gobject.signal_new(
     "box-reordered", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
     (ItemBox, gobject.TYPE_INT)
+)
+gobject.signal_new(
+    "item-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+    (ItemBox, Item)
+)
+gobject.signal_new(
+    "item-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+    (ItemBox, Item)
 )
 gobject.signal_new(
     "destroyed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
