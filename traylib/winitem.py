@@ -316,12 +316,9 @@ class AWindowsItem(Item):
             self.__screen.disconnect(handler)
         for handler in self.__win_config_handlers:
             self.__win_config.disconnect(handler)
-        for window, handlers in self.__window_handlers.iteritems():
-            for window_item in self.__window_items:
-                if window is window_item.window:
-                    for handler in handlers:
-                        window_item.disconnect(handler)
-                    break
+        for window_item, handlers in self.__window_handlers.iteritems():
+            for handler in handlers:
+                window_item.disconnect(handler)
         for window_item in self.__window_items:
             window_item.destroy()
 
@@ -375,17 +372,15 @@ class AWindowsItem(Item):
             self.emit("changed", changed_props)
 
     def __window_item_destroyed(self, window_item):
-        self.remove_window(window_item.window)
+        self.remove_window_item(window_item)
 
 
     # Public methods (don't override these):
 
-    def add_window(self, window):
-        for window_item in self.__window_items:
-            if window_item.window is window:
-                return
-        window_item = self.create_window_item(window)
-        self.__window_handlers[window] = [
+    def add_window_item(self, window_item):
+        if window_item in self.__window_items:
+            return
+        self.__window_handlers[window_item] = [
             window_item.connect("changed", self.__window_item_changed),
             window_item.connect("destroyed", self.__window_item_destroyed),
         ]
@@ -395,22 +390,23 @@ class AWindowsItem(Item):
         )
         self.changed("visible-window-items")
 
-    def remove_window(self, window):
+    def remove_window_item(self, window_item):
         try:
-            handlers = self.__window_handlers.pop(window)
+            handlers = self.__window_handlers.pop(window_item)
         except KeyError:
             return
         else:
-            for window_item in self.__window_items:
-                if window is window_item.window:
-                    for handler in handlers:
-                        window_item.disconnect(handler)
-                    window_item.destroy()
-            self.__window_items = [
-                item for item in self.__window_items
-                if item.window is not window
-            ]
+            for handler in handlers:
+                window_item.disconnect(handler)
+            window_item.destroy()
+            self.__window_items.remove(window_item)
             self.changed("visible-window-items")
+
+    def get_window_item(self, window):
+        for window_item in self.__window_items:
+            if window is window_item.window:
+                return window_item
+        return None
 
     def activate_next_window(self, time=0L):
         """
@@ -549,12 +545,6 @@ class AWindowsItem(Item):
         if not visible_window_items:
             return
         visible_window_items[0].drag_data_get(context, data, info, time)
-
-
-    # Methods which may be overridden by subclasses:
-
-    def create_window_item(self, window):
-        return create_window_item(window, self.__win_config)
 
 
     # Abstract methods to be implemented by subclasses:
