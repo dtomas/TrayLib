@@ -251,7 +251,10 @@ class ADirectoryWindowItem(WindowItem):
     # WindowItem implementation:
 
     def get_base_name(self):
-        return self.get_path()
+        path = self.get_path()
+        if path is None:
+            return WindowItem.get_base_name(self)
+        return path
 
 
     # Methods to be implemented by subclasses:
