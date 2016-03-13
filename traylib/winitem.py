@@ -274,6 +274,19 @@ class FilerDirectoryWindowItem(ADirectoryWindowItem):
         return name
 
 
+class TerminalWindowItem(ADirectoryWindowItem):
+
+    def get_path(self):
+        name = self.window.get_name()
+        tmp = name.split(':', 1)
+        if len(tmp) == 1:
+            return None
+        return os.path.expanduser(tmp[1][1:])
+
+    def get_icons(self):
+        return WindowItem.get_icons(self)
+
+
 def is_filer_window(window):
     name = window.get_name()
     return (
@@ -282,10 +295,19 @@ def is_filer_window(window):
     )
 
 
+def is_terminal_window(window):
+    class_group = window.get_class_group()
+    return class_group.get_res_class() in {
+        'Roxterm', 'Xfce4-terminal', 'XTerm'
+    }
+
+
 def create_window_item(window, win_config):
     name = window.get_name()
     if is_filer_window(window):
         return FilerDirectoryWindowItem(window, win_config)
+    if is_terminal_window(window):
+        return TerminalWindowItem(window, win_config)
     return WindowItem(window, win_config)
 
 
@@ -560,6 +582,8 @@ class AWindowsItem(Item):
     win_config = property(lambda self: self.__win_config)
 
     window_items = property(lambda self: self.__window_items)
+
+    screen = property(lambda self: self.__screen)
 
     @property
     def visible_window_items(self):
