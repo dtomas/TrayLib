@@ -550,6 +550,8 @@ class AWindowsItem(Item):
         visible_window_items = self.visible_window_items
         if len(visible_window_items) == 1:
             return visible_window_items[0].get_name()
+        if len(visible_window_items) == 0:
+            return self.get_base_name()
         return "%s (%d)" % (self.get_base_name(), len(visible_window_items))
 
     def get_drag_source_targets(self):
