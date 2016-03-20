@@ -549,7 +549,6 @@ class Icon(gtk.EventBox, object):
     def __drag_begin(self, widget, context):
         assert widget is self
         self.__is_dragged = True
-        context.set_icon_pixbuf(scale_pixbuf_to_size(self.__pixbuf, 48), 0,0)
 
     def __drag_end(self, widget, context):
         assert widget is self

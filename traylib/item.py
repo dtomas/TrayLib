@@ -1,7 +1,7 @@
 import gtk
 import gobject
 
-from traylib import ICON_THEME
+from traylib import ICON_THEME, pixbuf_helper
 
 
 class Item(gobject.GObject):
@@ -63,7 +63,7 @@ class Item(gobject.GObject):
         for icon in self.get_icons():
             pixbuf = icon.get_pixbuf(size)
             if pixbuf is not None:
-                return pixbuf
+                return pixbuf_helper.scale_pixbuf_to_size(pixbuf, size)
         return None
 
     def find_icon_name(self):
