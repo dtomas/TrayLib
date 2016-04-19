@@ -24,8 +24,10 @@ class ManagedTray(Tray):
                 yield None
             self.__blocked = True
             for manage, _unmanage in self.__managers:
-                for x in manage():
-                    yield None
+                m = manage()
+                if m is not None:
+                    for x in m:
+                        yield None
             self.__blocked = False
         tasks.Task(_manage())
 
@@ -36,8 +38,10 @@ class ManagedTray(Tray):
                 yield None
             self.__blocked = True
             for _manage, unmanage in self.__managers:
-                for x in unmanage():
-                    yield None
+                um = unmanage()
+                if um is not None:
+                    for x in um:
+                        yield None
             self.__blocked = False
             Tray.destroy(self)
         tasks.Task(_unmanage())
@@ -49,9 +53,13 @@ class ManagedTray(Tray):
                 yield None
             self.__blocked = True
             for manage, unmanage in self.__managers:
-                for x in unmanage():
-                    yield None
-                for x in manage():
-                    yield None
+                um = unmanage()
+                if um is not None:
+                    for x in um:
+                        yield None
+                m = manage()
+                if m is not None:
+                    for x in m:
+                        yield None
             self.__blocked = False
         tasks.Task(_refresh())
