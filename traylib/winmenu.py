@@ -237,52 +237,15 @@ class WindowMenuItem(gtk.ImageMenuItem):
         
         @param window: The C{wnck.Window} the menu item represents. 
         """
-        pixbuf = None
         self.__window = window
+        self.__icon = icon
+        self.__root = root
+        self.__root_icon = root_icon
         screen = window.get_screen()
         self.__path = get_filer_window_path(window)
-        if self.__path:
-            name = self.__path
-            if root:
-                root_dirname = os.path.dirname(root)
-                if root_dirname == '/':
-                    l = 1
-                else:
-                    l = len(root_dirname) + 1
-                if name != '/':
-                    name = os.path.expanduser(name)[l:]
-                    name = name.replace(os.path.expanduser('~'), '~')
-        else:
-            name = window.get_name()
-        size = 22
-        if window.is_minimized():
-            name = "[ " + name + " ]"
-        if window.is_shaded():
-            name = "= " + name + " ="
-        if window.needs_attention():
-            name = "!! " + name + " !!"
-        if window == screen.get_active_window():
-            size = 32
-        gtk.ImageMenuItem.__init__(self, name.replace('_', '__'))
-        if self.__path:
-            icon_path = os.path.expanduser(os.path.join(self.__path, 
-                                                        '.DirIcon'))
-            if os.access(icon_path, os.F_OK):
-                pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
-            elif self.__path != root:
-                if os.path.expanduser(self.__path) == os.path.expanduser('~'):
-                    pixbuf = home_icon
-                else:
-                    pixbuf = dir_icon
-            elif self.__path == root and root_icon:
-                pixbuf = root_icon
-        if not pixbuf:
-            if icon:
-                pixbuf = icon
-            else:
-                pixbuf = window.get_icon()
-        pixbuf = scale_pixbuf_to_size(pixbuf, size)
-        self.get_image().set_from_pixbuf(pixbuf)
+        gtk.ImageMenuItem.__init__(self, "")
+        self.update_name()
+        self.update_size()
 
         targets = [("application/x-wnck-window-id", 0, TARGET_WNCK_WINDOW_ID)]
         if self.__path:
@@ -291,19 +254,92 @@ class WindowMenuItem(gtk.ImageMenuItem):
             gtk.gdk.BUTTON1_MASK, targets, 
             gtk.gdk.ACTION_MOVE | gtk.gdk.ACTION_COPY | gtk.gdk.ACTION_LINK
         )
-        self.connect("drag-begin", self.__drag_begin, pixbuf)
+        self.connect("drag-begin", self.__drag_begin)
         self.connect("drag-data-get", self.__drag_data_get)
+        self.connect("destroy", self.__destroy)
+        self.__window_handlers = [
+            window.connect("state_changed", self.__window_state_changed),
+        ]
+        self.__screen_handlers = [
+            screen.connect(
+                "active-window-changed", self.__active_window_changed
+            ),
+        ]
 
-    def __drag_begin(self, widget, context, pixbuf):
+    def update_pixbuf(self):
+        pixbuf = None
+        if self.__path:
+            icon_path = os.path.expanduser(
+                os.path.join(self.__path, '.DirIcon')
+            )
+            if os.access(icon_path, os.F_OK):
+                pixbuf = gtk.gdk.pixbuf_new_from_file(icon_path)
+            elif self.__path != self.__root:
+                if os.path.expanduser(self.__path) == os.path.expanduser('~'):
+                    pixbuf = home_icon
+                else:
+                    pixbuf = dir_icon
+            elif self.__path == self.__root and self.__root_icon:
+                pixbuf = self.__root_icon
+        if not pixbuf:
+            if self.__icon:
+                pixbuf = icon
+            else:
+                pixbuf = self.__window.get_icon()
+        self.__pixbuf = scale_pixbuf_to_size(pixbuf, self.__size)
+        self.get_image().set_from_pixbuf(self.__pixbuf)
+
+    def update_size(self):
+        screen = self.__window.get_screen()
+        self.__size = 32 if self.__window is screen.get_active_window() else 22
+        self.update_pixbuf()
+
+    def update_name(self):
+        if self.__path:
+            name = self.__path
+            if self.__root:
+                root_dirname = os.path.dirname(self.__root)
+                if root_dirname == '/':
+                    l = 1
+                else:
+                    l = len(root_dirname) + 1
+                if name != '/':
+                    name = os.path.expanduser(name)[l:]
+                    name = name.replace(os.path.expanduser('~'), '~')
+        else:
+            name = self.__window.get_name()
+        if self.__window.is_minimized():
+            name = "[ " + name + " ]"
+        if self.__window.is_shaded():
+            name = "= " + name + " ="
+        if self.__window.needs_attention():
+            name = "!! " + name + " !!"
+        self.set_label(name.replace('_', '__'))
+
+    def __destroy(self):
+        for handler in self.__window_handlers:
+            self.__window.disconnect(handler)
+        for handler in self.__screen_handlers:
+            self.__window.get_screen().disconnect(handler)
+
+    def __active_window_changed(self, screen, window=None):
+        self.update_size()
+
+    def __window_state_changed(self, window, changed_mask, new_state):
+        self.update_name()
+
+    def __drag_begin(self, widget, context):
         assert widget == self
-        context.set_icon_pixbuf(pixbuf, 0,0)
+        context.set_icon_pixbuf(self.__pixbuf, 0,0)
     
     def __drag_data_get(self, widget, context, data, info, time):
         if info == TARGET_WNCK_WINDOW_ID:
             xid = self.__window.get_xid()
             data.set(data.target, 8, apply(struct.pack, ['1i', xid]))
         else:
-            data.set_uris(['file://%s' % pathname2url(self.__path)])
+            data.set_uris(
+                ['file://%s' % pathname2url(os.path.expanduser(self.__path))]
+            )
 
     def get_path(self):
         return self.__path
