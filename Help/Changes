@@ -4,6 +4,7 @@
 
 0.6 (unreleased)
 ~~~
+- Fixed WinIcon bugs when screen is None.
 - Allow ordinary functions as managing functions.
 - Dropped config update methods, use signals instead.
 - Changed signature of create_menu_icon().

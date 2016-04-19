@@ -45,7 +45,7 @@ class WinIcon(Icon):
             screen.connect(
                 "active-workspace-changed", self.__active_workspace_changed
             )
-        ]
+        ] if screen is not None else []
 
         self.connect("destroy", self.__destroy)
 
@@ -98,7 +98,7 @@ class WinIcon(Icon):
         windows. If not, the first visible window of the C{WinIcon} is 
         activated.
         """
-        if not self.__screen or not self.__visible_windows:
+        if self.__screen is None or not self.__visible_windows:
             return False
         active_window = self.__screen.get_active_window()
         found = False
@@ -118,7 +118,7 @@ class WinIcon(Icon):
         windows. If not, the first visible window of the C{WinIcon} is 
         activated.
         """
-        if not self.__screen or not self.__visible_windows:
+        if self.__screen is None or not self.__visible_windows:
             return False
         active_window = self.__screen.get_active_window()
         found = False
@@ -188,7 +188,7 @@ class WinIcon(Icon):
         """
         @return: C{True} if the window should show up in the C{WinIcon}'s menu.
         """
-        if not self.__screen:
+        if self.__screen is None:
             return False
         return (
             window in self.__windows and
@@ -318,6 +318,8 @@ class WinIcon(Icon):
             where a window can be selected to be activated. Else, returns 
             C{None}.
         """
+        if self.__screen is None:
+            return None
         if len(self.__visible_windows) <= 1:
             return None
         if self.has_themed_icon:
@@ -338,6 +340,8 @@ class WinIcon(Icon):
             for that window.
             Else, returns C{None}.
         """
+        if self.__screen is None:
+            return None
         if not self.__visible_windows:
             return None
         if len(self.__visible_windows) > 1:
@@ -429,7 +433,7 @@ class WinIcon(Icon):
     
     has_active_window = property(
         lambda self : (
-            self.__screen != None and
+            self.__screen is not None and
             self.__screen.get_active_window() in self.__windows
         )
     )
