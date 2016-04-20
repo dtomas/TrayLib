@@ -93,14 +93,16 @@ class Main(object):
         )
 
     def render_item_box(self, box):
+        def item_from_uri(uri):
+            return self.item_from_uri(box, uri)
         return render_item_box(
-            box, self.__icon_config, self.render_item, self.item_from_uri
+            box, self.__icon_config, self.render_item, item_from_uri
         )
 
     def render_item(self, item):
         return render_icon(item, self.__icon_config)
 
-    def item_from_uri(self, uri):
+    def item_from_uri(self, item_box, uri):
         return None
 
     def options_changed(self):

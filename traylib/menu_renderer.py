@@ -69,7 +69,7 @@ def render_menu_item(item, has_submenu=False, size=24):
         item.click(gtk.get_current_event_time())
 
     def on_drag_begin(menu_item, context):
-        context.set_icon_pixbuf(item.get_icon(size), 0,0)
+        context.set_icon_pixbuf(item.get_icon(48), 0,0)
 
     def on_drag_data_get(menu_item, context, data, info, time):
         item.drag_data_get(context, data, info, time)

@@ -148,6 +148,9 @@ def render_icon(item, icon_config):
     def on_drag_data_get(icon, context, data, info, time):
         item.drag_data_get(context, data, info, time)
 
+    def on_drag_begin(icon, context):
+        context.set_icon_pixbuf(item.get_icon(48), 0,0)
+
     def on_destroy(icon):
         for handler in icon_config_handlers:
             icon_config.disconnect(handler)
@@ -158,6 +161,7 @@ def render_icon(item, icon_config):
     icon.connect("button-release", on_button_release)
     icon.connect("scroll-event", on_scroll_event)
     icon.connect("drag-data-get", on_drag_data_get)
+    icon.connect("drag-begin", on_drag_begin)
     icon.connect("destroy", on_destroy)
 
     update_edge(icon_config)
