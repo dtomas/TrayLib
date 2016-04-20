@@ -326,7 +326,7 @@ class AWindowsItem(Item):
             self.__screen.connect(
                 "active-window-changed", self.__active_window_changed
             ),
-        ]
+        ] if self.__screen is not None else []
         self.__win_config_handlers = [
             win_config.connect("arrow-changed", self.__arrow_changed),
         ]
@@ -440,7 +440,7 @@ class AWindowsItem(Item):
         activated.
         """
         visible_window_items = self.visible_window_items
-        if not self.__screen or not visible_window_items:
+        if self.__screen is None or not visible_window_items:
             return False
         found = False
         for window_item in visible_window_items:
@@ -460,7 +460,7 @@ class AWindowsItem(Item):
         activated.
         """
         visible_window_items = self.visible_window_items
-        if not self.__screen or not visible_window_items:
+        if self.__screen is None or not visible_window_items:
             return False
         found = False
         last = len(visible_window_items) - 1
@@ -495,6 +495,8 @@ class AWindowsItem(Item):
         return self.__win_config.arrow and self.visible_window_items
 
     def get_menu_left(self):
+        if self.__screen is None:
+            return None
         visible_window_items = self.visible_window_items
         if len(visible_window_items) <= 1:
             return None
@@ -504,6 +506,8 @@ class AWindowsItem(Item):
         return menu
 
     def get_menu_right(self):
+        if self.__screen is None:
+            return None
         visible_window_items = self.visible_window_items
         if not visible_window_items:
             return None
