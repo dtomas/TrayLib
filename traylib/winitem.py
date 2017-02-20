@@ -168,7 +168,7 @@ class WindowItem(Item):
     def drag_data_get(self, context, data, info, time):
         if info == TARGET_WNCK_WINDOW_ID:
             xid = self.__window.get_xid()
-            data.set(data.target, 8, apply(struct.pack, ['1i', xid]))
+            data.set(data.target, 8, struct.pack('l', xid))
 
 
     # Methods which may be overridden by subclasses:
