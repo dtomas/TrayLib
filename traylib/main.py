@@ -8,14 +8,17 @@ from traylib.tray_window import TrayWindow
 from traylib.tray_applet import TrayApplet
 from traylib.icon_config import IconConfig
 from traylib.tray_config import TrayConfig
+from traylib.icon_renderer import render_icon
+from traylib.item_box_renderer import render_item_box
+from traylib.tray_renderer import render_tray
 
 
 class Main(object):
     
     def __init__(self, name):
         """
-        Creates a new C{Main} object.
-        
+        Initialize a C{Main} object.
+
         @param name: The name of the C{Main} object.
         """
 
@@ -28,10 +31,8 @@ class Main(object):
         self.init_config()
 
     def init_options(self):
-        """
-        Initializes options.
-        """
-        self.__o_icon_size_min = Option("icon_size_min", 16)
+        """Initialize options."""
+        self.__o_icon_size_min = Option("icon_size_min", 24)
         self.__o_icon_size_max = Option("icon_size_max", 32)
         self.__o_effects = Option("effects", True)
         self.__o_separator_left = Option("separator_left", False)
@@ -40,9 +41,7 @@ class Main(object):
         self.__o_hidden = Option("hidden", False)
         
     def init_config(self):
-        """
-        Initializes L{Main.icon_config} and L{Main.tray_config}.
-        """
+        """Initialize L{Main.icon_config} and L{Main.tray_config}."""
         separators = 0
         if self.__o_separator_left.int_value:
             separators |= LEFT
@@ -61,13 +60,11 @@ class Main(object):
             separators=separators,
         )
 
-    def mainloop(self, app_args, create_tray):
+    def mainloop(self, app_args):
         """
-        Starts the main loop and returns when the tray app is quit.
-        
+        Start the main loop and return when the tray app is quit.
+
         @param app_args: The arguments passed to the app.
-        @param create_tray: Callable to create the tray from an L{IconConfig}
-            and a L{TrayConfig}.
         """
         ICON_THEME.append_search_path(os.path.join(rox.app_dir, 'icons'))
         rox.app_options.add_notify(self.options_changed)
@@ -76,16 +73,37 @@ class Main(object):
                 app_args[1],
                 self.__o_icon_size_min.int_value,
                 self.__o_icon_size_max.int_value,
-                create_tray, self.__icon_config, self.__tray_config
+                self.create_tray(), self.render_tray,
+                self.__icon_config, self.__tray_config
             )
         else:
             self.__main_window = TrayWindow(
                 self.__o_icon_size_min.int_value,
                 self.__o_icon_size_max.int_value,
-                create_tray, self.__icon_config, self.__tray_config
+                self.create_tray(), self.render_tray,
+                self.__icon_config, self.__tray_config
             )
         self.__main_window.show()
         rox.mainloop()
+
+    def render_tray(self, tray):
+        return render_tray(
+            tray, self.__icon_config, self.__tray_config,
+            self.render_item_box, self.render_item
+        )
+
+    def render_item_box(self, box):
+        def item_from_uri(uri):
+            return self.item_from_uri(box, uri)
+        return render_item_box(
+            box, self.__icon_config, self.render_item, item_from_uri
+        )
+
+    def render_item(self, item):
+        return render_icon(item, self.__icon_config)
+
+    def item_from_uri(self, item_box, uri):
+        return None
 
     def options_changed(self):
         """Called when the options have changed."""
@@ -110,6 +128,15 @@ class Main(object):
 
         if self.__o_effects.has_changed:
             self.__icon_config.effects = self.__o_effects.int_value
+
+
+    # Methods to be implemented by subclasses:
+
+    def create_tray(self):
+        raise NotImplementedError
+
+
+    # Properties:
 
     icon_config = property(lambda self: self.__icon_config)
     """Icon configuration (L{IconConfig} instance)."""

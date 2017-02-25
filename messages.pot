@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-03-01 08:44+CET\n"
+"POT-Creation-Date: 2016-03-05 10:03+CET\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,88 +15,79 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: python/traylib/menu_icon.py:70
+#: traylib/main_item.py:46
 msgid "Really quit %s?"
 msgstr ""
 
-#: python/traylib/winmenu.py:36
+#: traylib/main_item.py:72
+msgid "Lock icons"
+msgstr ""
+
+#: traylib/winmenu.py:17
 msgid "Really force %s to quit?"
 msgstr ""
 
-#: python/traylib/winmenu.py:37 python/traylib/winmenu.py:168
-#: python/traylib/winmenu.py:370
+#: traylib/winmenu.py:18 traylib/winmenu.py:140 traylib/winmenu.py:209
 msgid "Force quit"
 msgstr ""
 
-#: python/traylib/winmenu.py:82
+#: traylib/winmenu.py:42
 msgid "Activate"
 msgstr ""
 
-#: python/traylib/winmenu.py:92
+#: traylib/winmenu.py:55
 msgid "Unmaximize"
 msgstr ""
 
-#: python/traylib/winmenu.py:98
+#: traylib/winmenu.py:62
 msgid "Maximize"
 msgstr ""
 
-#: python/traylib/winmenu.py:106
+#: traylib/winmenu.py:71
 msgid "Show"
 msgstr ""
 
-#: python/traylib/winmenu.py:110
+#: traylib/winmenu.py:78
 msgid "Hide"
 msgstr ""
 
-#: python/traylib/winmenu.py:116
+#: traylib/winmenu.py:84
 msgid "Unshade"
 msgstr ""
 
-#: python/traylib/winmenu.py:122
+#: traylib/winmenu.py:91
 msgid "Shade"
 msgstr ""
 
-#: python/traylib/winmenu.py:132
+#: traylib/winmenu.py:102
 msgid "Only on this workspace"
 msgstr ""
 
-#: python/traylib/winmenu.py:139
+#: traylib/winmenu.py:110
 msgid "Always on visible workspace"
 msgstr ""
 
-#: python/traylib/winmenu.py:147
+#: traylib/winmenu.py:118
 msgid "Move to workspace"
 msgstr ""
 
-#: python/traylib/winmenu.py:176
-msgid "Close subdirectories"
-msgstr ""
-
-#: python/traylib/winmenu.py:193
-msgid "There are no windows showing subdirectories of %s"
-msgstr ""
-
-#: python/traylib/winmenu.py:197
-msgid "Close all %d subdirectories of %s?"
-msgstr ""
-
-#: python/traylib/winmenu.py:358
+#: traylib/winmenu.py:197
 msgid "Show all"
 msgstr ""
 
-#: python/traylib/winmenu.py:363
+#: traylib/winmenu.py:202
 msgid "Hide all"
 msgstr ""
 
-#: python/traylib/winmenu.py:376 python/traylib/winmenu.py:404
+#: traylib/winmenu.py:216 traylib/winmenu.py:243
 msgid "Close all"
 msgstr ""
 
-#: python/traylib/winmenu.py:399
+#: traylib/winmenu.py:236
 msgid "%s hasn't got any open windows anymore."
 msgstr ""
 
-#: python/traylib/winmenu.py:402
+#: traylib/winmenu.py:241
 msgid "Close all %d windows of %s?"
 msgstr ""
 

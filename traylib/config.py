@@ -51,9 +51,7 @@ class Config(gobject.GObject):
     __metaclass__ = ConfigMeta
 
     def __init__(self, **attrs):
-        """
-        Creates a new C{Config}.
-        """
+        """Initialize a Config."""
         gobject.GObject.__init__(self)
         for key, value in attrs.iteritems():
             setattr(self, key, value)
