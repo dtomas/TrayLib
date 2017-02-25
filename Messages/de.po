@@ -6,10 +6,10 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: TrayLib 0.3.1\n"
+"Project-Id-Version: TrayLib 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 10:03+CET\n"
-"PO-Revision-Date: 2007-04-02 10:18+0200\n"
+"POT-Creation-Date: 2017-02-25 20:38+CET\n"
+"PO-Revision-Date: 2017-02-25 10:18+0200\n"
 "Last-Translator: Dennis Tomas <dtomas@users.berlios.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: traylib/main_item.py:46
+#: traylib/main_item.py:55
 msgid "Really quit %s?"
 msgstr "%s wirklich beenden?"
 
-#: traylib/main_item.py:72
+#: traylib/main_item.py:80
 msgid "Lock icons"
 msgstr "Symbole sperren"
 
@@ -29,75 +29,66 @@ msgstr "Symbole sperren"
 msgid "Really force %s to quit?"
 msgstr "Wirklich das Beenden von %s erzwingen?"
 
-#: traylib/winmenu.py:18 traylib/winmenu.py:140 traylib/winmenu.py:209
+#: traylib/winmenu.py:18 traylib/winmenu.py:138 traylib/winmenu.py:207
 msgid "Force quit"
 msgstr "Beenden erzwingen"
 
-#: traylib/winmenu.py:42
+#: traylib/winmenu.py:40
 msgid "Activate"
 msgstr "Aktivieren"
 
-#: traylib/winmenu.py:55
+#: traylib/winmenu.py:53
 msgid "Unmaximize"
 msgstr "Maximierung aufheben"
 
-#: traylib/winmenu.py:62
+#: traylib/winmenu.py:60
 msgid "Maximize"
 msgstr "Maximieren"
 
-#: traylib/winmenu.py:71
+#: traylib/winmenu.py:69
 msgid "Show"
 msgstr "Anzeigen"
 
-#: traylib/winmenu.py:78
+#: traylib/winmenu.py:76
 msgid "Hide"
 msgstr "Verstecken"
 
-#: traylib/winmenu.py:84
+#: traylib/winmenu.py:82
 msgid "Unshade"
 msgstr "Ausrollen"
 
-#: traylib/winmenu.py:91
+#: traylib/winmenu.py:89
 msgid "Shade"
 msgstr "Einrollen"
 
-#: traylib/winmenu.py:102
+#: traylib/winmenu.py:100
 msgid "Only on this workspace"
 msgstr "Nur auf dieser Arbeitsfläche"
 
-#: traylib/winmenu.py:110
+#: traylib/winmenu.py:108
 msgid "Always on visible workspace"
 msgstr "Immer auf der sichtbaren Arbeitsfläche"
 
-#: traylib/winmenu.py:118
+#: traylib/winmenu.py:116
 msgid "Move to workspace"
 msgstr "Auf andere Arbeitsfläche verschieben"
 
-#: traylib/winmenu.py:197
+#: traylib/winmenu.py:195
 msgid "Show all"
 msgstr "Alle anzeigen"
 
-#: traylib/winmenu.py:202
+#: traylib/winmenu.py:200
 msgid "Hide all"
 msgstr "Alle verstecken"
 
-#: traylib/winmenu.py:216 traylib/winmenu.py:243
+#: traylib/winmenu.py:214 traylib/winmenu.py:241
 msgid "Close all"
 msgstr "Alle schließen"
 
-#: traylib/winmenu.py:236
+#: traylib/winmenu.py:234
 msgid "%s hasn't got any open windows anymore."
 msgstr "%s hat keine offenen Fenster mehr."
 
-#: traylib/winmenu.py:241
+#: traylib/winmenu.py:239
 msgid "Close all %d windows of %s?"
 msgstr "Alle %d Fenster von %s schließen?"
-
-#~ msgid "Close subdirectories"
-#~ msgstr "Unterverzeichnisse schließen"
-
-#~ msgid "There are no windows showing subdirectories of %s"
-#~ msgstr "Es gibt keine Fenster, die Unterverzeichnisse von %s anzeigen."
-
-#~ msgid "Close all %d subdirectories of %s?"
-#~ msgstr "Alle %d Unterverzeichnisse von %s schließen?"
