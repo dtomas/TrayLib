@@ -40,9 +40,9 @@ class TrayContainer(object):
 
     def __size_allocate(self, widget, rectangle):
         if self.__vertical:
-            size = rectangle[2]
+            size = rectangle.width
         else:
-            size = rectangle[3]
+            size = rectangle.height
         if size == self.__size:
             return
         self.__size = size

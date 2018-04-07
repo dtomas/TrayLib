@@ -1,11 +1,11 @@
-import gtk
+from gi.repository import GdkPixbuf
 
 
 def scale_pixbuf_to_size(pixbuf, size, scale_up=True):
     """
     Scale a pixbuf to the given size. 
     
-    @param pixbuf: The C{gtk.gdk.Pixbuf} to scale.
+    @param pixbuf: The C{GdkPixbuf.Pixbuf} to scale.
     @param size: The size of the scaled pixbuf.
     @param scale_up: If False, it is only scaled down if too large and not 
         scaled up.
@@ -19,19 +19,19 @@ def scale_pixbuf_to_size(pixbuf, size, scale_up=True):
         ratio = float(height) / float(width)
         if width > size or (width < size and scale_up):
             pixbuf = pixbuf.scale_simple(
-                size, max(1, int(size*ratio)), gtk.gdk.INTERP_TILES
+                size, max(1, int(size*ratio)), GdkPixbuf.InterpType.TILES
             )
     else:
         ratio = float(width) / float(height)
         if height > size or (height < size and scale_up):
             pixbuf = pixbuf.scale_simple(
-                max(1, int(size*ratio)), size, gtk.gdk.INTERP_TILES
+                max(1, int(size*ratio)), size, GdkPixbuf.InterpType.TILES
             )
     return pixbuf
 
 
 def convert_to_greyscale(pixbuf):
-    dest_pixbuf = gtk.gdk.Pixbuf(
+    dest_pixbuf = GdkPixbuf.Pixbuf.new(
         pixbuf.get_colorspace(),
         pixbuf.get_has_alpha(),
         pixbuf.get_bits_per_sample(),
@@ -43,7 +43,7 @@ def convert_to_greyscale(pixbuf):
 
 
 def change_alpha(pixbuf, alpha):
-    dest_pixbuf = gtk.gdk.Pixbuf(
+    dest_pixbuf = GdkPixbuf.Pixbuf.new(
         pixbuf.get_colorspace(),
         pixbuf.get_has_alpha(),
         pixbuf.get_bits_per_sample(),
@@ -53,6 +53,6 @@ def change_alpha(pixbuf, alpha):
     dest_pixbuf.fill(0)
     pixbuf.composite(
         dest_pixbuf, 0, 0, pixbuf.get_width(), pixbuf.get_height(),
-        0, 0, 1, 1, gtk.gdk.INTERP_TILES, alpha
+        0, 0, 1, 1, GdkPixbuf.InterpType.TILES, alpha
     )
     return dest_pixbuf

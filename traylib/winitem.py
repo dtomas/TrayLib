@@ -1,9 +1,8 @@
 import struct
-from urllib import pathname2url
+from urllib.request import pathname2url
 import os
 
-import gobject
-import gtk
+from gi.repository import Gtk, Gdk
 
 from traylib import TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, ICON_THEME
 from traylib.item import Item
@@ -120,17 +119,17 @@ class WindowItem(Item):
             return 0.66
         return 1.0
 
-    def click(self, time=0L):
+    def click(self, time=0):
         window = self.__window
         window.get_workspace().activate(time)
         window.unminimize(time)
         window.activate(time)
         return True
 
-    def mouse_wheel_up(self, time=0L):
+    def mouse_wheel_up(self, time=0):
         self.click(time)
 
-    def mouse_wheel_down(self, time=0L):
+    def mouse_wheel_down(self, time=0):
         self.__window.minimize()
 
     def get_menu_right(self):
@@ -160,15 +159,19 @@ class WindowItem(Item):
         return self.__window.needs_attention()
 
     def get_drag_source_targets(self):
-        return [("application/x-wnck-window-id", 0, TARGET_WNCK_WINDOW_ID)]
+        return [
+            Gtk.TargetEntry.new(
+                "application/x-wnck-window-id", 0, TARGET_WNCK_WINDOW_ID
+            )
+        ]
 
     def get_drag_source_actions(self):
-        return gtk.gdk.ACTION_MOVE
+        return Gdk.DragAction.MOVE
 
     def drag_data_get(self, context, data, info, time):
         if info == TARGET_WNCK_WINDOW_ID:
             xid = self.__window.get_xid()
-            data.set(data.target, 8, struct.pack('l', xid))
+            data.set(data.get_target(), 8, struct.pack('l', xid))
 
 
     # Methods which may be overridden by subclasses:
@@ -231,13 +234,13 @@ class ADirectoryWindowItem(WindowItem):
 
     def get_drag_source_targets(self):
         return WindowItem.get_drag_source_targets(self) + [
-            ("text/uri-list", 0, TARGET_URI_LIST)
+            Gtk.TargetEntry.new("text/uri-list", 0, TARGET_URI_LIST)
         ]
 
     def get_drag_source_actions(self):
         return (
             WindowItem.get_drag_source_actions(self) |
-            gtk.gdk.ACTION_COPY | gtk.gdk.ACTION_LINK
+            Gdk.DragAction.COPY | Gdk.DragAction.LINK
         )
 
     def drag_data_get(self, context, data, info, time):
@@ -261,9 +264,6 @@ class ADirectoryWindowItem(WindowItem):
 
     def get_path(self):
         raise NotImplementedError
-
-
-gobject.type_register(ADirectoryWindowItem)
 
 
 class FilerDirectoryWindowItem(ADirectoryWindowItem):
@@ -341,7 +341,7 @@ class AWindowsItem(Item):
             self.__screen.disconnect(handler)
         for handler in self.__win_config_handlers:
             self.__win_config.disconnect(handler)
-        for window_item, handlers in self.__window_handlers.iteritems():
+        for window_item, handlers in self.__window_handlers.items():
             for handler in handlers:
                 window_item.disconnect(handler)
         for window_item in self.__window_items:
@@ -432,7 +432,7 @@ class AWindowsItem(Item):
                 return window_item
         return None
 
-    def activate_next_window(self, time=0L):
+    def activate_next_window(self, time=0):
         """
         If the active window is in the C{WindowsItem}'s list of windows, 
         activates the window after the active window in the list of visible 
@@ -452,7 +452,7 @@ class AWindowsItem(Item):
         visible_window_items[0].click(time)
         return True
 
-    def activate_previous_window(self, time=0L):
+    def activate_previous_window(self, time=0):
         """
         If the active window is in the C{WindowsItem}'s list of windows, 
         activates the window before the active window in the list of visible 
@@ -475,19 +475,19 @@ class AWindowsItem(Item):
 
     # Item implementation:
 
-    def mouse_wheel_up(self, time=0L):
+    def mouse_wheel_up(self, time=0):
         return self.activate_next_window(time)
 
-    def mouse_wheel_down(self, time=0L):
+    def mouse_wheel_down(self, time=0):
         return self.activate_previous_window(time)
 
-    def click(self, time=0L):
+    def click(self, time=0):
         visible_window_items = self.visible_window_items
         if len(visible_window_items) == 0:
             return False
         return visible_window_items[0].click(time)
 
-    def spring_open(self, time=0L):
+    def spring_open(self, time=0):
         self.mouse_wheel_up(time)
         return True
 
@@ -500,7 +500,7 @@ class AWindowsItem(Item):
         visible_window_items = self.visible_window_items
         if len(visible_window_items) <= 1:
             return None
-        menu = gtk.Menu()
+        menu = Gtk.Menu()
         for item in visible_window_items:
             menu.append(render_menu_item(item))
         return menu
@@ -568,7 +568,7 @@ class AWindowsItem(Item):
         visible_window_items = self.visible_window_items
         if len(visible_window_items) > 0:
             return visible_window_items[0].get_drag_source_actions()
-        return 0
+        return Gdk.DragAction.DEFAULT
 
     def drag_data_get(self, context, data, info, time):
         visible_window_items = self.visible_window_items
@@ -597,6 +597,3 @@ class AWindowsItem(Item):
     @property
     def visible_window_items(self):
         return [item for item in self.__window_items if item.is_visible()]
-
-
-gobject.type_register(AWindowsItem)

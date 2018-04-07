@@ -1,7 +1,7 @@
 import os
 
-import gobject
-import gtk
+from gi.repository import GObject
+
 import rox
 
 import traylib
@@ -13,13 +13,13 @@ from traylib.tray_config import TrayConfig
 from traylib.item_box import ItemBox
 
 
-class Tray(gobject.GObject):
+class Tray(GObject.Object):
 
     def __init__(self):
         """
         Initialize a Tray.
         """
-        gobject.GObject.__init__(self)
+        GObject.Object.__init__(self)
         self.__boxes = []
         self.__box_handlers = {}
 
@@ -67,27 +67,27 @@ class Tray(gobject.GObject):
     """The tray's L{ItemBox}es."""
 
 
-gobject.type_register(Tray)
-gobject.signal_new(
-    "box-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+GObject.type_register(Tray)
+GObject.signal_new(
+    "box-added", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox,)
 )
-gobject.signal_new(
-    "box-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+GObject.signal_new(
+    "box-removed", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox,)
 )
-gobject.signal_new(
-    "box-reordered", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    (ItemBox, gobject.TYPE_INT)
+GObject.signal_new(
+    "box-reordered", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    (ItemBox, GObject.TYPE_INT)
 )
-gobject.signal_new(
-    "item-added", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+GObject.signal_new(
+    "item-added", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox, Item)
 )
-gobject.signal_new(
-    "item-removed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+GObject.signal_new(
+    "item-removed", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox, Item)
 )
-gobject.signal_new(
-    "destroyed", Tray, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
+GObject.signal_new(
+    "destroyed", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()
 )

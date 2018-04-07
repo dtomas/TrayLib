@@ -17,7 +17,7 @@ class TrayApplet(Applet, TrayContainer):
         @param xid: The XID of a gtk.Socket widget.
         """
         Applet.__init__(self, xid)
-        orientation = self.get_panel_orientation()
+        orientation, __ = self.get_panel_menu_pos()
         if orientation == 'Top':
             edge = TOP
         elif orientation == 'Bottom':
@@ -27,7 +27,7 @@ class TrayApplet(Applet, TrayContainer):
         elif orientation == 'Right':
             edge = RIGHT
         else:
-	    edge = 0
+            edge = 0
         icon_config.edge = edge
         icon_config.pos_func = self.position_menu
         vertical = orientation in ('Left', 'Right')

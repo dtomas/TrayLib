@@ -1,4 +1,5 @@
-import gobject
+from gi.repository import GObject
+from gi.types import GObjectMeta
 
 
 class Attribute(object):
@@ -25,36 +26,34 @@ class Attribute(object):
         obj.emit(self._signal_name)
 
 
-class ConfigMeta(gobject.GObjectMeta):
+class ConfigMeta(GObjectMeta):
 
     def __init__(self, name, bases, attrs):
-        gobject.GObjectMeta.__init__(self, name, bases, attrs)
-        for key, attr in attrs.iteritems():
+        GObjectMeta.__init__(self, name, bases, attrs)
+        for key, attr in attrs.items():
             if not isinstance(attr, Attribute):
                 continue
             attr._attr = key
             attr._internal_attr = '_Attribute__' + key
             attr._signal_name = '%s-changed' % key.replace('_', '-')
-            gobject.signal_new(
-                attr._signal_name, self, gobject.SIGNAL_RUN_FIRST,
-                gobject.TYPE_NONE, ()
+            GObject.signal_new(
+                attr._signal_name, self, GObject.SIGNAL_RUN_FIRST,
+                GObject.TYPE_NONE, ()
             )
 
 
-class Config(gobject.GObject):
+class Config(GObject.Object, metaclass=ConfigMeta):
     """
     A C{Config} is an object containing attributes. They can be added using the 
     L{Attribute} descriptor.
     If an attribute is changed, a signal "<attribute>-changed" is emitted.
     """
 
-    __metaclass__ = ConfigMeta
-
     def __init__(self, **attrs):
         """Initialize a Config."""
-        gobject.GObject.__init__(self)
-        for key, value in attrs.iteritems():
+        GObject.Object.__init__(self)
+        for key, value in attrs.items():
             setattr(self, key, value)
 
 
-gobject.type_register(Config)
+GObject.type_register(Config)

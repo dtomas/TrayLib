@@ -1,6 +1,6 @@
 import os
 
-import gtk
+from gi.repository import Gtk
 
 import rox
 
@@ -11,15 +11,14 @@ _ = rox.i18n.translation(
 )
 
 
-version = (2, 0, 0)
+version = (3, 0, 0)
 
 try:
-    import wnck
+    from gi.repository import Wnck
 except ImportError:
-    wnck = None
+    Wnck = None
 
-TOOLTIPS = gtk.Tooltips()
-ICON_THEME = gtk.icon_theme_get_default()
+ICON_THEME = Gtk.IconTheme.get_default()
 
 TARGET_URI_LIST = 0
 TARGET_MOZ_URL = 1

@@ -1,17 +1,16 @@
-import gtk
-import gobject
+from gi.repository import Gtk, Gdk, GObject
 
 from traylib import TARGET_MOZ_URL, TARGET_URI_LIST
 
 _targets = [
-    ("text/uri-list", 0, TARGET_URI_LIST),
-    ("text/x-moz-url", 0, TARGET_MOZ_URL),
+    Gtk.TargetEntry.new("text/uri-list", 0, TARGET_URI_LIST),
+    Gtk.TargetEntry.new("text/x-moz-url", 0, TARGET_MOZ_URL),
 ]
 
 
 def render_item_box(item_box, icon_config, render_item, item_from_uri):
     """
-    Render an item box to a C{gtk.Box}.
+    Render an item box to a C{Gtk.Box}.
 
     @param item_box: The L{ItemBox} to render.
     @param icon_config: The L{IconConfig} configuring the icons.
@@ -19,13 +18,13 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
     @param item_from_uri: Callable for creating an L{Item} from a URI dragged
         to the item box.
 
-    @return: The managed C{gtk.Box}.
+    @return: The managed C{Gtk.Box}.
     """
 
     if icon_config.vertical:
-        box = gtk.VBox()
+        box = Gtk.VBox()
     else:
-        box = gtk.HBox()
+        box = Gtk.HBox()
 
     item_widgets = {}
 
@@ -64,30 +63,31 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
 
         def drag_leave(widget, context, time):
             if state.spring_open_event != 0:
-                gobject.source_remove(state.spring_open_event)
+                GObject.source_remove(state.spring_open_event)
                 state.spring_open_event = 0
 
         def start_spring_open(context, time):
             if state.spring_open_event == 0:
-                state.spring_open_event = gobject.timeout_add(
+                state.spring_open_event = GObject.timeout_add(
                     1000, spring_open, time
                 )
             if item.is_drop_target():
                 action = context.suggested_action
             else:
                 action = 0
-            context.drag_status(action, time)
+            Gdk.drag_status(context, action, time)
 
         def drag_data_received(widget, context, x, y, data, info, time):
-            if data.data is None:
+            if data.get_data() is None:
                 context.drop_finish(False, time)
                 return
-            if context.get_source_widget() is widget:
+            if Gtk.drag_get_source_widget(context) is widget:
                 return
             state.dropped_uris = []
             if info == TARGET_MOZ_URL:
                 state.dropped_uris = [
-                    data.data.decode('utf-16').encode('utf-8').split('\n')[0]
+                    data.get_data().decode('utf-16')
+                    .encode('utf-8').split('\n')[0]
                 ]
             elif info == TARGET_URI_LIST:
                 state.dropped_uris = data.get_uris()
@@ -97,7 +97,7 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
                     item_box.add_item(new_item)
                     state.drag_source_item = new_item
                     state.has_new_item = True
-                    context.drag_status(0, time)
+                    Gdk.drag_status(context, 0, time)
                     #drag_motion(widget, context, x, y, time)
                     break
             else:
@@ -113,7 +113,9 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
                 if state.dropped_uris:
                     start_spring_open(context, time)
                 else:
-                    target = widget.drag_dest_find_target(context, _targets)
+                    target = widget.drag_dest_find_target(
+                        context, Gtk.TargetList.new(_targets)
+                    )
                     widget.drag_get_data(context, target, time)
                 return True
             else:
@@ -144,7 +146,7 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
                         )
                     else:
                         return False
-                context.drag_status(0, time)
+                Gdk.drag_status(context, 0, time)
                 return True
             return False
 
@@ -153,7 +155,7 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
             state.has_new_item = False
             state.dropped_uris = None
         widget.drag_dest_set(
-            gtk.DEST_DEFAULT_HIGHLIGHT, _targets, gtk.gdk.ACTION_DEFAULT
+            Gtk.DestDefaults.HIGHLIGHT, _targets, Gdk.DragAction.DEFAULT
         )
         widget.connect("drag-begin", drag_begin)
         widget.connect("drag-end", drag_end)
@@ -162,7 +164,7 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
         widget.connect("drag-drop", drag_drop)
         widget.connect("drag-data-received", drag_data_received)
         widget.connect("leave-notify-event", leave_notify_event)
-        box.pack_start(widget)
+        box.pack_start(widget, True, True, 0)
 
     def item_removed(item_box, item):
         try:

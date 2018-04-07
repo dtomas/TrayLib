@@ -1,13 +1,12 @@
-import gtk
-import gobject
+from gi.repository import GObject, Gdk
 
 from traylib import ICON_THEME, pixbuf_helper
 
 
-class Item(gobject.GObject):
+class Item(GObject.Object):
 
     def __init__(self):
-        gobject.GObject.__init__(self)
+        GObject.Object.__init__(self)
         self.__icon_theme_changed_handler = ICON_THEME.connect(
             "changed", self.__theme_changed
         )
@@ -53,7 +52,7 @@ class Item(gobject.GObject):
 
     def get_icon(self, size):
         """
-        This determines the C{gtk.gdk.Pixbuf} the C{Item} should have.
+        This determines the C{GdkPixbuf.Pixbuf} the C{Item} should have.
 
         This method tries to use the L{IIconLoader}s returned by
         L{Item.get_icons} to load the pixbuf.
@@ -132,7 +131,7 @@ class Item(gobject.GObject):
         """
         return None
 
-    def mouse_wheel_up(self, time=0L):
+    def mouse_wheel_up(self, time=0):
         """
         Override this to determine the action when the mouse wheel is scrolled 
         up.
@@ -141,7 +140,7 @@ class Item(gobject.GObject):
         """
         return False
 
-    def mouse_wheel_down(self, time=0L):
+    def mouse_wheel_down(self, time=0):
         """
         Override this to determine the action when the mouse wheel is scrolled 
         down.
@@ -150,7 +149,7 @@ class Item(gobject.GObject):
         """
         return False
 
-    def spring_open(self, time=0L):
+    def spring_open(self, time=0):
         """
         Override this to determine the action when the mouse pointer stays on
         an icon some time while dragging.
@@ -160,7 +159,7 @@ class Item(gobject.GObject):
         """
         return False
 
-    def click(self, time=0L):
+    def click(self, time=0):
         """
         Override this to determine the action when left-clicking the C{Icon}. 
         If an action was performed, return C{True}, else return C{False}.
@@ -177,8 +176,8 @@ class Item(gobject.GObject):
         Override this to react to URIs being dropped on the C{Icon}.
         
         @param uris: A list of URIs.
-        @param action: One of C{gtk.gdk.ACTION_COPY}, C{gtk.gdk.ACTION_MOVE}
-            or C{gtk.gdk.ACTION_LINK}.
+        @param action: One of C{Gdk.DragAction.COPY}, C{Gdk.DragAction.MOVE}
+            or C{Gdk.DragAction.LINK}.
         """
         pass
 
@@ -186,17 +185,17 @@ class Item(gobject.GObject):
         return []
 
     def get_drag_source_actions(self):
-        return 0
+        return Gdk.DragAction.DEFAULT
 
     def drag_data_get(self, context, data, info, time):
         pass
 
 
-gobject.type_register(Item)
-gobject.signal_new(
-    "changed", Item, gobject.SIGNAL_RUN_FIRST,
-    gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,)
+GObject.type_register(Item)
+GObject.signal_new(
+    "changed", Item, GObject.SIGNAL_RUN_FIRST,
+    GObject.TYPE_NONE, (GObject.TYPE_PYOBJECT,)
 )
-gobject.signal_new(
-    "destroyed", Item, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
+GObject.signal_new(
+    "destroyed", Item, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()
 )

@@ -1,13 +1,13 @@
-import gobject
+from gi.repository import GObject
 
 from traylib.item import Item
 
 
-class ItemBox(gobject.GObject):
+class ItemBox(GObject.Object):
     """Logical representation of a box containing items."""
 
     def __init__(self, box_id):
-        gobject.GObject.__init__(self)
+        GObject.Object.__init__(self)
         self.__box_id = box_id
         self.__items = []
 
@@ -60,19 +60,19 @@ class ItemBox(gobject.GObject):
     """The L{Item}s in the box."""
 
 
-gobject.type_register(ItemBox)
-gobject.signal_new(
-    "item-added", ItemBox, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+GObject.type_register(ItemBox)
+GObject.signal_new(
+    "item-added", ItemBox, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
     (Item,)
 )
-gobject.signal_new(
-    "item-removed", ItemBox, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
+GObject.signal_new(
+    "item-removed", ItemBox, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
     (Item,)
 )
-gobject.signal_new(
-    "item-reordered", ItemBox, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE,
-    (Item, gobject.TYPE_INT)
+GObject.signal_new(
+    "item-reordered", ItemBox, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    (Item, GObject.TYPE_INT)
 )
-gobject.signal_new(
-    "destroyed", ItemBox, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ()
+GObject.signal_new(
+    "destroyed", ItemBox, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()
 )

@@ -1,11 +1,11 @@
-import gtk
+from gi.repository import Gtk
 
 from traylib import LEFT, RIGHT
 
 
 def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
     """
-    Render a L{Tray} to a C{gtk.Box}.
+    Render a L{Tray} to a C{Gtk.Box}.
     
     @param tray: The L{Tray} to render.
     @param icon_config: The L{IconConfig} configuring the icons.
@@ -13,29 +13,29 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
     @param render_item_box: Callable rendering an L{ItemBox}.
     @param render_item: Callable rendering an L{Item}.
 
-    @return: A managed C{gtk.Box}.
+    @return: A managed C{Gtk.Box}.
     """
 
     boxes = {}
     box_separators = {}
     if icon_config.vertical:
-        main_box = gtk.VBox()
-        box_left = gtk.VBox()
-        box = gtk.VBox()
-        box_right = gtk.VBox()
-        separator_left = gtk.HSeparator()
-        separator_right = gtk.HSeparator()
+        main_box = Gtk.VBox()
+        box_left = Gtk.VBox()
+        box = Gtk.VBox()
+        box_right = Gtk.VBox()
+        separator_left = Gtk.HSeparator()
+        separator_right = Gtk.HSeparator()
     else:
-        main_box = gtk.HBox()
-        box_left = gtk.HBox()
-        box = gtk.HBox()
-        box_right = gtk.HBox()
-        separator_left = gtk.VSeparator()
-        separator_right = gtk.VSeparator()
+        main_box = Gtk.HBox()
+        box_left = Gtk.HBox()
+        box = Gtk.HBox()
+        box_right = Gtk.HBox()
+        separator_left = Gtk.VSeparator()
+        separator_right = Gtk.VSeparator()
 
-    main_box.pack_start(box_left)
-    main_box.pack_start(box)
-    main_box.pack_start(box_right)
+    main_box.pack_start(box_left, True, True, 0)
+    main_box.pack_start(box, True, True, 0)
+    main_box.pack_start(box_right, True, True, 0)
 
     main_box.show()
     box_left.show()
@@ -47,7 +47,7 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
         vertical = icon_config.vertical
         if separators & LEFT:
             if separator_left not in box_left.get_children():
-                box_left.pack_start(separator_left)
+                box_left.pack_start(separator_left, True, True, 0)
                 separator_left.show()
         else:
             if separator_left in box_left.get_children():
@@ -55,7 +55,7 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
 
         if separators & RIGHT:
             if separator_right not in box_right.get_children():
-                box_right.pack_end(separator_right)
+                box_right.pack_end(separator_right, True, True, 0)
                 separator_right.show()
         else:
             if separator_right in box_right.get_children():
@@ -71,7 +71,7 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
 
     def box_added(tray, item_box):
         widget = box_widgets[item_box] = render_item_box(item_box)
-        box.pack_start(widget)
+        box.pack_start(widget, True, True, 0)
 
     def box_removed(tray, item_box):
         widget = box_widgets.pop(item_box)

@@ -1,4 +1,4 @@
-import gtk
+from gi.repository import Gtk, Gdk
 
 from traylib.pixbuf_helper import scale_pixbuf_to_size, change_alpha
 
@@ -12,23 +12,27 @@ def render_menu_item(item, has_submenu=False, size=24):
         right-click menu as submenu.
     @param size: The size of the menu item's image.
 
-    @return: a managed gtk.ImageMenuItem.
+    @return: a managed Gtk.ImageMenuItem.
     """
 
-    menu_item = gtk.ImageMenuItem("")
+    menu_item = Gtk.MenuItem()
+    image = Gtk.Image()
+    label = Gtk.Label()
+    box = Gtk.HBox()
+    box.pack_start(image, False, False, 0)
+    box.pack_start(label, False, False, 0)
+    menu_item.add(box)
 
     def update_pixbuf(item):
-        image = menu_item.get_image()
-        if image is not None:
-            pixbuf = scale_pixbuf_to_size(
-                item.get_icon(size), int(item.get_zoom() * size)
-            )
-            if item.is_greyed_out():
-                pixbuf = change_alpha(pixbuf, 128)
-            image.set_from_pixbuf(pixbuf)
+        pixbuf = scale_pixbuf_to_size(
+            item.get_icon(size), int(item.get_zoom() * size)
+        )
+        if item.is_greyed_out():
+            pixbuf = change_alpha(pixbuf, 128)
+        image.set_from_pixbuf(pixbuf)
 
     def update_label(item):
-        menu_item.set_label(item.get_name())
+        label.set_text(item.get_name())
     
     def update_submenu(item):
         if has_submenu:
@@ -36,7 +40,7 @@ def render_menu_item(item, has_submenu=False, size=24):
 
     def update_drag_source(item):
         menu_item.drag_source_set(
-            gtk.gdk.BUTTON1_MASK,
+            Gdk.ModifierType.BUTTON1_MASK,
             item.get_drag_source_targets(),
             item.get_drag_source_actions()
         )
@@ -60,16 +64,16 @@ def render_menu_item(item, has_submenu=False, size=24):
     ]
 
     def on_scroll_event(menu_item, event):
-        if event.direction == gtk.gdk.SCROLL_UP:
+        if event.direction == Gdk.ScrollDirection.UP:
             item.mouse_wheel_up(event.time)
-        elif event.direction == gtk.gdk.SCROLL_DOWN:
+        elif event.direction == Gdk.ScrollDirection.DOWN:
             item.mouse_wheel_down(event.time)
 
     def on_activate(menu_item):
-        item.click(gtk.get_current_event_time())
+        item.click(Gtk.get_current_event_time())
 
     def on_drag_begin(menu_item, context):
-        context.set_icon_pixbuf(item.get_icon(48), 0,0)
+        Gtk.drag_set_icon_pixbuf(context, item.get_icon(48), 0, 0)
 
     def on_drag_data_get(menu_item, context, data, info, time):
         item.drag_data_get(context, data, info, time)
@@ -78,6 +82,7 @@ def render_menu_item(item, has_submenu=False, size=24):
         for handler in item_handlers:
             item.disconnect(handler)
 
+    menu_item.add_events(Gdk.EventMask.SCROLL_MASK)
     menu_item.connect("drag-begin", on_drag_begin)
     menu_item.connect("drag-data-get", on_drag_data_get)
     menu_item.connect("scroll-event", on_scroll_event)

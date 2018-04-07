@@ -1,6 +1,7 @@
 import os
 
-import gtk
+from gi.repository import Gtk
+
 import rox
 from rox import filer, InfoWin
 
@@ -53,36 +54,36 @@ class MainItem(Item):
         """Quit the Tray."""
         if rox.confirm(
                 _("Really quit %s?") % self.__tray_config.name,
-                gtk.STOCK_QUIT):
+                Gtk.STOCK_QUIT):
             self.__tray.destroy()
 
     def __toggle_lock_icons(self, menu_item):
         self.__icon_config.locked = not self.__icon_config.locked
 
     def get_menu_right(self):
-        menu = gtk.Menu()
-        item = gtk.ImageMenuItem(gtk.STOCK_HELP)
+        menu = Gtk.Menu()
+        item = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_HELP, None)
         item.connect("activate", self.__show_help)
         menu.add(item)
-        item = gtk.ImageMenuItem(gtk.STOCK_DIALOG_INFO)
+        item = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_DIALOG_INFO, None)
         item.connect("activate", self.__show_info)
         menu.add(item)    
-        menu.add(gtk.SeparatorMenuItem())
+        menu.add(Gtk.SeparatorMenuItem())
         custom_menu_items = self.get_custom_menu_items()
         for item in custom_menu_items:
             menu.add(item)
         if custom_menu_items:
-            menu.add(gtk.SeparatorMenuItem())
-        item = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
+            menu.add(Gtk.SeparatorMenuItem())
+        item = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_PREFERENCES, None)
         item.connect("activate", self.__show_options)
         menu.add(item)
-        menu.add(gtk.SeparatorMenuItem())
-        item = gtk.CheckMenuItem(_("Lock icons"))
+        menu.add(Gtk.SeparatorMenuItem())
+        item = Gtk.CheckMenuItem(_("Lock icons"))
         item.set_active(self.__icon_config.locked)
         item.connect("toggled", self.__toggle_lock_icons)
         menu.add(item)
-        menu.add(gtk.SeparatorMenuItem())
-        item = gtk.ImageMenuItem(gtk.STOCK_QUIT)
+        menu.add(Gtk.SeparatorMenuItem())
+        item = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_QUIT, None)
         item.connect("activate", self.__quit)
         menu.add(item)
         menu.show_all()

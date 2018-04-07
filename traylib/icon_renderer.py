@@ -1,5 +1,4 @@
-import gtk
-import gobject
+from gi.repository import Gtk, Gdk, GObject
 
 from traylib.icon import Icon
 
@@ -65,7 +64,7 @@ def render_icon(item, icon_config):
 
     def update_drag_source(item):
         icon.drag_source_set(
-            gtk.gdk.BUTTON1_MASK,
+            Gdk.ModifierType.BUTTON1_MASK,
             item.get_drag_source_targets(),
             item.get_drag_source_actions()
         )
@@ -80,7 +79,7 @@ def render_icon(item, icon_config):
     def update_arrow_blinking(item):
         if item.is_arrow_blinking():
             if state.arrow_blink_event == 0:
-                state.arrow_blink_event = gobject.timeout_add(500, blink_arrow)
+                state.arrow_blink_event = GObject.timeout_add(500, blink_arrow)
         else:
             state.arrow_blink_event = 0
 
@@ -135,15 +134,18 @@ def render_icon(item, icon_config):
             update_zoom(item)
             menu.connect("deactivate", menu_deactivate)
             menu.show_all()
-            menu.popup(None, None, icon_config.pos_func, button, time)
+            menu.popup(None, None, icon_config.pos_func, None, button, time)
         elif button == 1:
             item.click(time)
 
     def on_scroll_event(icon, event):
-        if event.direction == gtk.gdk.SCROLL_UP:
+        if event.direction == Gdk.ScrollDirection.UP:
             item.mouse_wheel_up(event.time)
-        elif event.direction == gtk.gdk.SCROLL_DOWN:
+        elif event.direction == Gdk.ScrollDirection.DOWN:
             item.mouse_wheel_down(event.time)
+
+    def on_drag_begin(icon, context):
+        Gtk.drag_set_icon_pixbuf(context, item.get_icon(48), 0, 0)
 
     def on_drag_data_get(icon, context, data, info, time):
         item.drag_data_get(context, data, info, time)

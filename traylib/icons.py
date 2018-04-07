@@ -1,5 +1,4 @@
-import gobject
-import gtk
+from gi.repository import GObject, Gtk, GdkPixbuf
 
 from traylib import ICON_THEME
 
@@ -8,7 +7,7 @@ class IIconLoader(object):
     """Interface for icon loaders."""
 
     def get_pixbuf(self, size):
-        """@return: a gtk.gdk.Pixbuf of the given size."""
+        """@return: a GdkPixbuf.Pixbuf of the given size."""
         raise NotImplementedError
 
     def get_path(self, size):
@@ -33,8 +32,8 @@ class ThemedIcon(IIconLoader):
             return None
         icon_path = icon_info.get_filename()
         try:
-            return gtk.gdk.pixbuf_new_from_file(icon_path)
-        except gobject.GError:
+            return GdkPixbuf.Pixbuf.new_from_file(icon_path)
+        except GObject.GError:
             return None
 
     def get_path(self, size):
@@ -45,13 +44,13 @@ class ThemedIcon(IIconLoader):
 
 
 class PixbufIcon(IIconLoader):
-    """Wraps an already existing gtk.gdk.Pixbuf."""
+    """Wraps an already existing GdkPixbuf.Pixbuf."""
 
     def __init__(self, pixbuf):
         """
         Initialize PixbufIcon.
 
-        @param pixbuf: The gtk.gdk.Pixbuf get_pixbuf() will return.
+        @param pixbuf: The GdkPixbuf.Pixbuf get_pixbuf() will return.
         """
         self.pixbuf = pixbuf
 
@@ -75,8 +74,8 @@ class FileIcon(IIconLoader):
 
     def get_pixbuf(self, size):
         try:
-            return gtk.gdk.pixbuf_new_from_file(self.path)
-        except gobject.GError:
+            return GdkPixbuf.Pixbuf.new_from_file(self.path)
+        except GObject.GError:
             return None
 
     def get_path(self, size):
