@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='TrayLib',
-    version='2.0.0',
+    version='3.0.0',
     description='Library for tray-like ROX panel applets.',
     author='Dennis Tomas',
     author_email='den.t@gmx.de',

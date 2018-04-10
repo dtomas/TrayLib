@@ -2,6 +2,10 @@
 			Library for tray-like applets
 			by Dennis Tomas
 
+3.0.0
+~~~~~
+Ported to Python3 and Gtk3.
+
 2.0.0
 ~~~~~
 - Reorderable items.
