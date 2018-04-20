@@ -53,8 +53,8 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
             state.has_new_item = False
 
         def drag_drop(widget, context, data, info, time):
-            #target = widget.drag_dest_find_target(context, _targets)
-            #widget.drag_get_data(context, target, time)
+            # target = widget.drag_dest_find_target(context, _targets)
+            # widget.drag_get_data(context, target, time)
             if state.dropped_uris:
                 item.uris_dropped(state.dropped_uris, context.action)
                 context.drop_finish(True, time)
@@ -98,13 +98,13 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
                     state.drag_source_item = new_item
                     state.has_new_item = True
                     Gdk.drag_status(context, 0, time)
-                    #drag_motion(widget, context, x, y, time)
+                    # drag_motion(widget, context, x, y, time)
                     break
             else:
                 start_spring_open(context, time)
-                #return True
-            #item.uris_dropped(uri_list, context.action)
-            #context.drop_finish(True, time)
+                # return True
+            # item.uris_dropped(uri_list, context.action)
+            # context.drop_finish(True, time)
 
         def drag_motion(widget, context, x, y, time):
             if state.drag_source_item is item:

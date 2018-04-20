@@ -1,5 +1,3 @@
-from traylib.tray import Tray, TrayConfig 
-from traylib.icon import IconConfig
 
 
 class TrayContainer(object):
@@ -7,12 +5,12 @@ class TrayContainer(object):
     An object containing a L{Tray}. If you subclass this, you must also
     subclass C{gtk.Container}.
     """
-    
+
     def __init__(self, min_size, max_size, vertical, tray, render_tray,
                  icon_config, tray_config):
         """
         Initialize a C{TrayContainer}.
-        
+
         @param min_size: The minimum size of the icons.
         @param max_size: The maximum size of the icons.
         @param vertical: C{True} if the tray should be vertical.
@@ -51,7 +49,7 @@ class TrayContainer(object):
     def update_icon_size(self, min_size, max_size):
         """
         Update the size of the tray's icons and set the maximum icon size.
-        
+
         @param min_size: The minimum icon size.
         @param max_size: The maximum icon size.
         """
@@ -67,7 +65,7 @@ class TrayContainer(object):
     def get_icon_size(self):
         """
         Extend this to determine the maximum icon size.
-        
+
         @return: The maximum icon size.
         """
         return self.__size

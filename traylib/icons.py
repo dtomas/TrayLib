@@ -1,4 +1,4 @@
-from gi.repository import GObject, Gtk, GdkPixbuf
+from gi.repository import GObject, GdkPixbuf
 
 from traylib import ICON_THEME
 

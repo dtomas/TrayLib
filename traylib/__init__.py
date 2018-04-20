@@ -4,8 +4,6 @@ from gi.repository import Gtk
 
 import rox
 
-from traylib import pixmaps
-
 _ = rox.i18n.translation(
     os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Messages')
 )
@@ -38,13 +36,15 @@ if not XDG_CACHE_HOME:
 
 APPDIRPATH = os.getenv("APPDIRPATH")
 if not APPDIRPATH:
-    APPDIRPATH = [os.path.expanduser('~/Apps'),
-            '/usr/apps',
-            '/usr/lib/apps',
-            '/usr/share/apps',
-            '/usr/local/apps',
-            '/usr/local/lib/apps',
-            '/usr/local/share/apps',
-            '/opt']
+    APPDIRPATH = [
+        os.path.expanduser('~/Apps'),
+        '/usr/apps',
+        '/usr/lib/apps',
+        '/usr/share/apps',
+        '/usr/local/apps',
+        '/usr/local/lib/apps',
+        '/usr/local/share/apps',
+        '/opt',
+    ]
 else:
     APPDIRPATH = APPDIRPATH.split(os.pathsep)

@@ -28,7 +28,7 @@ class Item(GObject.Object):
     def is_visible(self):
         """
         Override this to determine the visibility.
-        
+
         @return: C{True} if the C{Item} should be visible.
         """
         return True
@@ -45,7 +45,7 @@ class Item(GObject.Object):
     def get_name(self):
         """
         Override this to determine the name.
-        
+
         @return: The new name.
         """
         return ""
@@ -90,9 +90,9 @@ class Item(GObject.Object):
 
     def get_emblem(self):
         """
-        Override this to determine the emblem to be shown in the upper left 
+        Override this to determine the emblem to be shown in the upper left
         corner.
-        
+
         @return: The new emblem.
         """
         return None
@@ -100,7 +100,7 @@ class Item(GObject.Object):
     def get_zoom(self):
         """
         Extend this to determine the zoom factor.
-        
+
         @return: The new zoom factor.
         """
         return 1.0
@@ -108,7 +108,7 @@ class Item(GObject.Object):
     def has_arrow(self):
         """
         Override this to determine whether the C{Icon} has an arrow or not.
-        
+
         @return: C{True} if the C{Icon} should have an arrow.
         """
         return False
@@ -133,18 +133,18 @@ class Item(GObject.Object):
 
     def mouse_wheel_up(self, time=0):
         """
-        Override this to determine the action when the mouse wheel is scrolled 
+        Override this to determine the action when the mouse wheel is scrolled
         up.
-        
+
         @param time: The time of the scroll event.
         """
         return False
 
     def mouse_wheel_down(self, time=0):
         """
-        Override this to determine the action when the mouse wheel is scrolled 
+        Override this to determine the action when the mouse wheel is scrolled
         down.
-        
+
         @param time: The time of the scroll event.
         """
         return False
@@ -153,17 +153,17 @@ class Item(GObject.Object):
         """
         Override this to determine the action when the mouse pointer stays on
         an icon some time while dragging.
-        
+
         @return: C{True} if C{spring_open()} should be called again in a
-            second. 
+            second.
         """
         return False
 
     def click(self, time=0):
         """
-        Override this to determine the action when left-clicking the C{Icon}. 
+        Override this to determine the action when left-clicking the C{Icon}.
         If an action was performed, return C{True}, else return C{False}.
-        
+
         @param time: The time of the click event.
         """
         return False
@@ -174,7 +174,7 @@ class Item(GObject.Object):
     def uris_dropped(self, uri_list, action):
         """
         Override this to react to URIs being dropped on the C{Icon}.
-        
+
         @param uris: A list of URIs.
         @param action: One of C{Gdk.DragAction.COPY}, C{Gdk.DragAction.MOVE}
             or C{Gdk.DragAction.LINK}.

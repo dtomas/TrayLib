@@ -67,7 +67,7 @@ class MainItem(Item):
         menu.add(item)
         item = Gtk.MenuItem.new_with_label(_("Information"))
         item.connect("activate", self.__show_info)
-        menu.add(item)    
+        menu.add(item)
         menu.add(Gtk.SeparatorMenuItem())
         custom_menu_items = self.get_custom_menu_items()
         for item in custom_menu_items:
@@ -90,7 +90,6 @@ class MainItem(Item):
         return menu
 
     tray = property(lambda self: self.__tray)
-
 
     # Methods which may be overridden by subclasses:
 

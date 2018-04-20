@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gdk, GObject, GLib
+from gi.repository import Gtk, Gdk, GLib
 
 from traylib.icon import Icon
 
@@ -110,7 +110,7 @@ def render_icon(item, icon_config):
     ]
 
     icon = Icon()
-    
+
     def on_button_press(icon, button, time):
         state.button_pressed = True
 
@@ -149,9 +149,6 @@ def render_icon(item, icon_config):
 
     def on_drag_data_get(icon, context, data, info, time):
         item.drag_data_get(context, data, info, time)
-
-    def on_drag_begin(icon, context):
-        context.set_icon_pixbuf(item.get_icon(48), 0,0)
 
     def on_destroy(icon):
         for handler in icon_config_handlers:

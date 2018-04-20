@@ -1,11 +1,11 @@
 from rox import Window
 
-from traylib.tray_container import TrayContainer 
+from traylib.tray_container import TrayContainer
 
 
 class TrayWindow(Window, TrayContainer):
     """A window showing a L{Tray}."""
-    
+
     def __init__(self, min_size, max_size, tray, render_tray, icon_config,
                  tray_config):
         """Initialize a C{TrayWindow}."""

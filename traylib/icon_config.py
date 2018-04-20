@@ -1,5 +1,3 @@
-import gtk
-
 from traylib import LEFT, RIGHT, TOP, BOTTOM
 from traylib.config import Config, Attribute
 
@@ -10,7 +8,7 @@ class IconConfig(Config):
     """
 
     size = Attribute(default=32)
-    """The size of the icons.""" 
+    """The size of the icons."""
 
     edge = Attribute(default=0)
     """
@@ -29,7 +27,7 @@ class IconConfig(Config):
 
     locked = Attribute(default=True)
     """If C{True}, the icons cannot be moved within their box."""
-    
+
     vertical = property(lambda self: self.edge in (LEFT, RIGHT))
     """
     C{True} if the icons are on a vertical panel, that is: the edge is either

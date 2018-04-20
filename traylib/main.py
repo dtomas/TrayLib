@@ -3,7 +3,7 @@ import os
 import rox
 from rox.options import Option
 
-from traylib import LEFT, RIGHT, TOP, BOTTOM, ICON_THEME
+from traylib import LEFT, RIGHT, ICON_THEME
 from traylib.tray_window import TrayWindow
 from traylib.tray_applet import TrayApplet
 from traylib.icon_config import IconConfig
@@ -14,7 +14,7 @@ from traylib.tray_renderer import render_tray
 
 
 class Main(object):
-    
+
     def __init__(self, name):
         """
         Initialize a C{Main} object.
@@ -27,7 +27,7 @@ class Main(object):
 
         self.init_options()
         rox.app_options.notify()
-        
+
         self.init_config()
 
     def init_options(self):
@@ -39,7 +39,7 @@ class Main(object):
         self.__o_separator_right = Option("separator_right", False)
         self.__o_menus = Option("menus", RIGHT)
         self.__o_hidden = Option("hidden", False)
-        
+
     def init_config(self):
         """Initialize L{Main.icon_config} and L{Main.tray_config}."""
         separators = 0
@@ -50,8 +50,8 @@ class Main(object):
         self.__icon_config = IconConfig(
             size=16,
             edge=0,
-            effects=self.__o_effects.int_value, 
-            pos_func=None, 
+            effects=self.__o_effects.int_value,
+            pos_func=None,
             hidden=self.__o_hidden.int_value
         )
         self.__tray_config = TrayConfig(
@@ -113,7 +113,7 @@ class Main(object):
                 self.__o_icon_size_min.int_value,
                 self.__o_icon_size_max.int_value
             )
-    
+
         if (self.__o_separator_left.has_changed or
                 self.__o_separator_right.has_changed):
             separators = 0
@@ -129,12 +129,10 @@ class Main(object):
         if self.__o_effects.has_changed:
             self.__icon_config.effects = self.__o_effects.int_value
 
-
     # Methods to be implemented by subclasses:
 
     def create_tray(self):
         raise NotImplementedError
-
 
     # Properties:
 

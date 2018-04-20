@@ -44,7 +44,7 @@ class ConfigMeta(GObjectMeta):
 
 class Config(GObject.Object, metaclass=ConfigMeta):
     """
-    A C{Config} is an object containing attributes. They can be added using the 
+    A C{Config} is an object containing attributes. They can be added using the
     L{Attribute} descriptor.
     If an attribute is changed, a signal "<attribute>-changed" is emitted.
     """

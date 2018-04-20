@@ -33,7 +33,7 @@ def render_menu_item(item, has_submenu=False, size=24):
 
     def update_label(item):
         label.set_text(item.get_name())
-    
+
     def update_submenu(item):
         if has_submenu:
             menu_item.set_submenu(item.get_menu_right())

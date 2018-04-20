@@ -4,7 +4,7 @@ import os
 
 from gi.repository import Gtk, Gdk
 
-from traylib import TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST, ICON_THEME
+from traylib import TARGET_WNCK_WINDOW_ID, TARGET_URI_LIST
 from traylib.item import Item
 from traylib.menu_renderer import render_menu_item
 from traylib.winmenu import WindowActionMenu, WindowMenu
@@ -41,7 +41,6 @@ class WindowItem(Item):
         ]
         self.connect("destroyed", self.__destroyed)
 
-
     # Signal callbacks:
 
     def __destroyed(self, item):
@@ -77,7 +76,6 @@ class WindowItem(Item):
     def __window_closed(self, screen, window):
         if window is self.__window:
             self.destroy()
-
 
     # Item implementation:
 
@@ -146,7 +144,6 @@ class WindowItem(Item):
 
     def is_visible(self):
         window = self.__window
-        screen = self.__window.get_screen()
         return (
             not window.is_skip_tasklist() and (
                 self.__win_config.all_workspaces or
@@ -173,12 +170,10 @@ class WindowItem(Item):
             xid = self.__window.get_xid()
             data.set(data.get_target(), 8, struct.pack('l', xid))
 
-
     # Methods which may be overridden by subclasses:
 
     def get_base_name(self):
         return self.__window.get_name()
-
 
     # Properties:
 
@@ -197,7 +192,6 @@ class ADirectoryWindowItem(WindowItem):
         self.connect("changed", self.__changed)
         self.connect("destroyed", self.__destroyed)
 
-
     # Signal callbacks:
 
     def __destroyed(self, item):
@@ -210,7 +204,6 @@ class ADirectoryWindowItem(WindowItem):
 
     def __window_name_changed(self, window):
         self.changed("path")
-
 
     # Item implementation:
 
@@ -250,7 +243,6 @@ class ADirectoryWindowItem(WindowItem):
                 'file://%s' % pathname2url(os.path.expanduser(self.get_path()))
             ])
 
-
     # WindowItem implementation:
 
     def get_base_name(self):
@@ -258,7 +250,6 @@ class ADirectoryWindowItem(WindowItem):
         if path is None:
             return WindowItem.get_base_name(self)
         return path
-
 
     # Methods to be implemented by subclasses:
 
@@ -270,9 +261,9 @@ class FilerDirectoryWindowItem(ADirectoryWindowItem):
 
     def get_path(self):
         name = self.window.get_name()
-        for i in range(1-len(name), 0):
+        for i in range(1 - len(name), 0):
             if name[-i] == '(' or name[-i] == '+':
-                name = name[:-(i+1)]
+                name = name[:-(i + 1)]
                 break
         return name
 
@@ -306,7 +297,6 @@ def is_terminal_window(window):
 
 
 def create_window_item(window, win_config):
-    name = window.get_name()
     if is_filer_window(window):
         return FilerDirectoryWindowItem(window, win_config)
     if is_terminal_window(window):
@@ -332,7 +322,6 @@ class AWindowsItem(Item):
         ]
         self.connect("changed", lambda item, props: self._changed(props))
         self.connect("destroyed", self.__destroyed)
-
 
     # Signal callbacks:
 
@@ -399,7 +388,6 @@ class AWindowsItem(Item):
     def __window_item_destroyed(self, window_item):
         self.remove_window_item(window_item)
 
-
     # Public methods (don't override these):
 
     def add_window_item(self, window_item):
@@ -434,9 +422,9 @@ class AWindowsItem(Item):
 
     def activate_next_window(self, time=0):
         """
-        If the active window is in the C{WindowsItem}'s list of windows, 
-        activates the window after the active window in the list of visible 
-        windows. If not, the first visible window of the C{WindowsItem} is 
+        If the active window is in the C{WindowsItem}'s list of windows,
+        activates the window after the active window in the list of visible
+        windows. If not, the first visible window of the C{WindowsItem} is
         activated.
         """
         visible_window_items = self.visible_window_items
@@ -454,15 +442,14 @@ class AWindowsItem(Item):
 
     def activate_previous_window(self, time=0):
         """
-        If the active window is in the C{WindowsItem}'s list of windows, 
-        activates the window before the active window in the list of visible 
-        windows. If not, the first visible window of the C{WindowsItem} is 
+        If the active window is in the C{WindowsItem}'s list of windows,
+        activates the window before the active window in the list of visible
+        windows. If not, the first visible window of the C{WindowsItem} is
         activated.
         """
         visible_window_items = self.visible_window_items
         if self.__screen is None or not visible_window_items:
             return False
-        found = False
         last = len(visible_window_items) - 1
         previous_window_item = visible_window_items[last]
         for window_item in visible_window_items:
@@ -471,7 +458,6 @@ class AWindowsItem(Item):
             previous_window_item = window_item
         previous_window_item.click(time)
         return True
-
 
     # Item implementation:
 
@@ -576,7 +562,6 @@ class AWindowsItem(Item):
             return
         visible_window_items[0].drag_data_get(context, data, info, time)
 
-
     # Abstract methods to be implemented by subclasses:
 
     def get_icons(self):
@@ -584,7 +569,6 @@ class AWindowsItem(Item):
 
     def get_base_name(self):
         raise NotImplementedError
-
 
     # Properties:
 

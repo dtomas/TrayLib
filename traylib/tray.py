@@ -1,15 +1,6 @@
-import os
-
 from gi.repository import GObject
 
-import rox
-
-import traylib
-from traylib import LEFT, RIGHT
-import traylib.pixmaps as pixmaps
-from traylib.config import Config
 from traylib.item import Item
-from traylib.tray_config import TrayConfig
 from traylib.item_box import ItemBox
 
 

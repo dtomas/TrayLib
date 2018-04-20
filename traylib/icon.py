@@ -1,10 +1,9 @@
 from gi.repository import Gtk, Gdk, GdkPixbuf, GObject, GLib
 
 from traylib import (
-    LEFT, RIGHT, TOP, BOTTOM, ICON_THEME, TARGET_URI_LIST, TARGET_MOZ_URL,
+    LEFT, RIGHT, TOP, BOTTOM, TARGET_URI_LIST, TARGET_MOZ_URL,
     pixmaps
 )
-from traylib.icon_config import IconConfig
 from traylib.pixbuf_helper import scale_pixbuf_to_size
 
 
@@ -14,12 +13,12 @@ _targets = [("text/uri-list", 0, TARGET_URI_LIST),
 
 MAX_SIZE = 128
 """
-A pixbuf larger than this size (either in height or width) will be scaled 
+A pixbuf larger than this size (either in height or width) will be scaled
 down in order to speed up later scaling.
 """
 
 
-# Action constants that are used to determine if an icon is in the process of 
+# Action constants that are used to determine if an icon is in the process of
 # being shown, hidden or destroyed.
 ZOOM_ACTION_NONE = 0
 ZOOM_ACTION_SHOW = 1
@@ -48,7 +47,7 @@ class Icon(Gtk.EventBox, object):
         # blink
         self.__blink_event = 0
         self.__blink_state = Gtk.StateType.NORMAL
-        
+
         # mouse
         self.__mouse_over = False
 
@@ -63,7 +62,7 @@ class Icon(Gtk.EventBox, object):
         self.__zoom_factor_base = 1.0
         self.__zoom_action = ZOOM_ACTION_NONE
         self.__zoom_event = 0
-        
+
         # edge
         self.__edge = 0
 
@@ -93,7 +92,7 @@ class Icon(Gtk.EventBox, object):
         self.connect("leave-notify-event", self.__leave_notify_event)
         self.connect("button-press-event", self.__button_press_event)
         self.connect("button-release-event", self.__button_release_event)
-        
+
         # dnd
         # to
         self.connect("drag-motion", self.__drag_motion)
@@ -105,24 +104,25 @@ class Icon(Gtk.EventBox, object):
         self.connect("drag-end", self.__drag_end)
         self.__is_dragged = False
 
-        #self.connect("expose-event", self.__expose)
+        # self.connect("expose-event", self.__expose)
 
     def set_blinking(self, blinking, time=500):
         """
         Make the C{Icon} blink or stop it from blinking.
-        
+
         @param blinking: If True, makes the C{Icon} blink, if False stops it
             from blinking.
         @param time: The time between two blink states (in ms).
         """
         self.__zoom_factor_orig = self.__zoom_factor_base
+
         def blink():
             running = (self.__blink_event != 0)
-            #if not running or self.__blink_state == gtk.STATE_SELECTED:
-            #    self.__blink_state = gtk.STATE_NORMAL
-            #else:
-            #    self.__blink_state = gtk.STATE_SELECTED
-            #self.set_state(self.__blink_state)
+            # if not running or self.__blink_state == gtk.STATE_SELECTED:
+            #     self.__blink_state = gtk.STATE_NORMAL
+            # else:
+            #     self.__blink_state = gtk.STATE_SELECTED
+            # self.set_state(self.__blink_state)
             if not running:
                 self.__zoom_factor_base = self.__zoom_factor_orig
             else:
@@ -149,7 +149,7 @@ class Icon(Gtk.EventBox, object):
         self.__emblem_orig = emblem
         if self.__emblem_orig is not None:
             self.__emblem_scaled = scale_pixbuf_to_size(
-                self.__emblem_orig, self.__max_size/3, scale_up=False
+                self.__emblem_orig, self.__max_size / 3, scale_up=False
             )
 
         self.__update_emblem_target_alpha()
@@ -184,7 +184,6 @@ class Icon(Gtk.EventBox, object):
 
     @has_arrow.setter
     def has_arrow(self, has_arrow):
-        old_has_arrow = self.__has_arrow
         self.__has_arrow = has_arrow
         self.__update_arrow_target_alpha()
         self._refresh()
@@ -230,7 +229,7 @@ class Icon(Gtk.EventBox, object):
             else:
                 fract = fract_x * fract_y
             fract = max(0.0, fract)
-            self.__zoom_factor = self.__zoom_factor_base * (1.0 + fract/2.0)
+            self.__zoom_factor = self.__zoom_factor_base * (1.0 + fract / 2.0)
         else:
             self.__zoom_factor = self.__zoom_factor_base
         self._refresh()
@@ -290,7 +289,7 @@ class Icon(Gtk.EventBox, object):
         self._refresh()
 
     def __update_arrow_target_alpha(self):
-        if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY): 
+        if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY):
             return
         if self.__has_arrow:
             self.__arrow_target_alpha = 255
@@ -318,17 +317,17 @@ class Icon(Gtk.EventBox, object):
         )
 
     def __update_emblem_target_alpha(self):
-        if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY): 
+        if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY):
             return
         if self.__emblem_orig:
             self.__emblem_target_alpha = 196
         else:
             self.__emblem_target_alpha = 0
-            
-    def __update_max_size(self):
-        self.__max_size = int(self.__size*1.5)
 
-    def __update_mouse_over(self, event = None):
+    def __update_max_size(self):
+        self.__max_size = int(self.__size * 1.5)
+
+    def __update_mouse_over(self, event=None):
         if event:
             px = event.x
             py = event.y
@@ -350,7 +349,7 @@ class Icon(Gtk.EventBox, object):
         """
         Refresh the C{Icon}.
 
-        @param force: If True, forces refresh even if the icon has the right 
+        @param force: If True, forces refresh even if the icon has the right
             size.
         """
         if not self.__pixbuf:
@@ -363,7 +362,7 @@ class Icon(Gtk.EventBox, object):
         if self.__zoom_action not in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY):
             self.__target_size = max(
                 1, min(
-                    int(self.__size * self.__zoom_factor), 
+                    int(self.__size * self.__zoom_factor),
                     self.__max_size - 2
                 )
             )
@@ -377,7 +376,7 @@ class Icon(Gtk.EventBox, object):
         if self.__zoom_event != 0:
             return
 
-        if effects:            
+        if effects:
             if self.__refresh():
                 self.__zoom_event = GLib.timeout_add(6, self.__refresh)
         else:
@@ -406,16 +405,16 @@ class Icon(Gtk.EventBox, object):
         canvas_height = self.__canvas.get_height()
         width = self.__pixbuf_current.get_width()
         height = self.__pixbuf_current.get_height()
-        x = int(round(float(canvas_width)/2.0) 
-                - round(float(width)/2.0))
-        y = int(round(float(canvas_height)/2.0) 
-                - round(float(height)/2.0))
+        x = int(round(float(canvas_width) / 2.0)
+                - round(float(width) / 2.0))
+        y = int(round(float(canvas_height) / 2.0)
+                - round(float(height) / 2.0))
         self.__pixbuf_current.composite(
             self.__canvas, x, y, width, height, x, y, 1.0, 1.0,
             GdkPixbuf.InterpType.TILES, self.__current_alpha
         )
         if self.__emblem_current_alpha > 0:
-            width = self.__max_size/3
+            width = self.__max_size / 3
             height = width
             self.__emblem_scaled.composite(
                 self.__canvas, 0, 0, width, height, 0, 0, 1.0, 1.0,
@@ -428,11 +427,11 @@ class Icon(Gtk.EventBox, object):
             x = 0
             y = 0
             if edge in (0, TOP, BOTTOM):
-                x = canvas_width/2 - width/2
+                x = canvas_width / 2 - width / 2
                 if edge == TOP:
-                    y = canvas_height - height 
+                    y = canvas_height - height
             if edge in (LEFT, RIGHT):
-                y = canvas_height/2 - height/2
+                y = canvas_height / 2 - height / 2
                 if edge == LEFT:
                     x = canvas_width - width
 
@@ -507,9 +506,8 @@ class Icon(Gtk.EventBox, object):
             )
         return True
 
-
     # Methods inherited from Gtk.EventBox
-    
+
     def destroy(self):
         """Zoom out the C{Icon} before destroying it."""
         if not int(self.get_property('visible')):
@@ -540,7 +538,6 @@ class Icon(Gtk.EventBox, object):
             Gtk.EventBox.show(self)
         self._refresh()
 
-
     # Signal callbacks
 
     def __drag_leave(self, widget, context, time):
@@ -562,7 +559,7 @@ class Icon(Gtk.EventBox, object):
     def __button_press_event(self, widget, event):
         if self.__is_dragged:
             return False
-        if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY): 
+        if self.__zoom_action in (ZOOM_ACTION_HIDE, ZOOM_ACTION_DESTROY):
             return False
         self.emit("button-press", event.button, event.time)
         return False
@@ -595,6 +592,7 @@ class Icon(Gtk.EventBox, object):
     def __expose(self, widget, event):
         self.__update_mouse_over()
         return False
+
 
 GObject.type_register(Icon)
 GObject.signal_new(

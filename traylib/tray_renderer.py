@@ -6,7 +6,7 @@ from traylib import LEFT, RIGHT
 def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
     """
     Render a L{Tray} to a C{Gtk.Box}.
-    
+
     @param tray: The L{Tray} to render.
     @param icon_config: The L{IconConfig} configuring the icons.
     @param tray_config: The L{TrayConfig} configuring the tray.
@@ -16,8 +16,6 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
     @return: A managed C{Gtk.Box}.
     """
 
-    boxes = {}
-    box_separators = {}
     if icon_config.vertical:
         main_box = Gtk.VBox()
         box_left = Gtk.VBox()
@@ -44,7 +42,6 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
 
     def separators_changed(tray_config):
         separators = tray_config.separators
-        vertical = icon_config.vertical
         if separators & LEFT:
             if separator_left not in box_left.get_children():
                 box_left.pack_start(separator_left, True, True, 0)
@@ -100,7 +97,7 @@ def render_tray(tray, icon_config, tray_config, render_item_box, render_item):
     main_box.connect("destroy", main_box_destroyed)
 
     separators_changed(tray_config)
-    #menus_changed(tray_config)
+    # menus_changed(tray_config)
 
     for item_box in tray.boxes:
         box_added(tray, item_box)

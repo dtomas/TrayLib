@@ -8,12 +8,12 @@ class TrayApplet(Applet, TrayContainer):
     """
     An applet showing a L{Tray}.
     """
-    
+
     def __init__(self, xid, min_size, max_size, tray, render_tray,
                  icon_config, tray_config):
         """
         Creates a new TrayApplet.
-        
+
         @param xid: The XID of a gtk.Socket widget.
         """
         Applet.__init__(self, xid)
@@ -42,7 +42,7 @@ class TrayApplet(Applet, TrayContainer):
 
     def get_icon_size(self):
         """
-        @return: 0.75 times the width (if vertical) or height of the panel. 
+        @return: 0.75 times the width (if vertical) or height of the panel.
         """
         size = TrayContainer.get_icon_size(self)
         size *= 0.75
@@ -52,8 +52,8 @@ class TrayApplet(Applet, TrayContainer):
     def get_panel_orientation(self):
         """@return: The panel orientation ('Top', 'Bottom', 'Left', 'Right')"""
         pos = self.socket.property_get('_ROX_PANEL_MENU_POS', 'STRING', False)
-        if pos: pos = pos[2]
         if pos:
+            pos = pos[2]
             side = pos.split(',')[0]
         else:
             side = None
