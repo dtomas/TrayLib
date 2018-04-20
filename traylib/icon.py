@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gdk, GdkPixbuf, GObject
+from gi.repository import Gtk, Gdk, GdkPixbuf, GObject, GLib
 
 from traylib import (
     LEFT, RIGHT, TOP, BOTTOM, ICON_THEME, TARGET_URI_LIST, TARGET_MOZ_URL,
@@ -135,7 +135,7 @@ class Icon(Gtk.EventBox, object):
             return running
         if blinking:
             if self.__blink_event == 0:
-                self.__blink_event = GObject.timeout_add(time, blink)
+                self.__blink_event = GLib.timeout_add(time, blink)
         else:
             self.__blink_event = 0
 
@@ -210,6 +210,11 @@ class Icon(Gtk.EventBox, object):
         )
         if old_zoom_factor != self.__zoom_factor_base:
             self.__update_zoom_factor()
+
+    def get_pointer(self):
+        client_pointer = Gdk.Display.get_default().get_default_seat().get_pointer()
+        __, px, py, __ = self.get_window().get_device_position(client_pointer)
+        return px, py
 
     def __update_zoom_factor(self):
         if self.__effects and self.__mouse_over:
@@ -374,7 +379,7 @@ class Icon(Gtk.EventBox, object):
 
         if effects:            
             if self.__refresh():
-                self.__zoom_event = GObject.timeout_add(6, self.__refresh)
+                self.__zoom_event = GLib.timeout_add(6, self.__refresh)
         else:
             self.__arrow_current_alpha = self.__arrow_target_alpha
             self.__emblem_current_alpha = self.__emblem_target_alpha
@@ -593,10 +598,10 @@ class Icon(Gtk.EventBox, object):
 
 GObject.type_register(Icon)
 GObject.signal_new(
-    "button-press", Icon, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "button-press", Icon, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (GObject.TYPE_INT, GObject.TYPE_LONG)
 )
 GObject.signal_new(
-    "button-release", Icon, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "button-release", Icon, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (GObject.TYPE_INT, GObject.TYPE_LONG)
 )

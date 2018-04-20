@@ -37,7 +37,7 @@ class ConfigMeta(GObjectMeta):
             attr._internal_attr = '_Attribute__' + key
             attr._signal_name = '%s-changed' % key.replace('_', '-')
             GObject.signal_new(
-                attr._signal_name, self, GObject.SIGNAL_RUN_FIRST,
+                attr._signal_name, self, GObject.SignalFlags.RUN_FIRST,
                 GObject.TYPE_NONE, ()
             )
 

@@ -14,6 +14,8 @@ _ = rox.i18n.translation(
 version = (3, 0, 0)
 
 try:
+    import gi
+    gi.require_version('Wnck', '3.0')
     from gi.repository import Wnck
 except ImportError:
     Wnck = None

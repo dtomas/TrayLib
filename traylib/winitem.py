@@ -300,7 +300,7 @@ def is_filer_window(window):
 
 def is_terminal_window(window):
     class_group = window.get_class_group()
-    return class_group.get_res_class() in {
+    return class_group.get_id() in {
         'Roxterm', 'Xfce4-terminal', 'XTerm'
     }
 

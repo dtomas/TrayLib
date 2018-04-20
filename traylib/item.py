@@ -193,9 +193,9 @@ class Item(GObject.Object):
 
 GObject.type_register(Item)
 GObject.signal_new(
-    "changed", Item, GObject.SIGNAL_RUN_FIRST,
+    "changed", Item, GObject.SignalFlags.RUN_FIRST,
     GObject.TYPE_NONE, (GObject.TYPE_PYOBJECT,)
 )
 GObject.signal_new(
-    "destroyed", Item, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()
+    "destroyed", Item, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()
 )

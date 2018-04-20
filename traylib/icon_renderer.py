@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gdk, GObject
+from gi.repository import Gtk, Gdk, GObject, GLib
 
 from traylib.icon import Icon
 
@@ -79,7 +79,7 @@ def render_icon(item, icon_config):
     def update_arrow_blinking(item):
         if item.is_arrow_blinking():
             if state.arrow_blink_event == 0:
-                state.arrow_blink_event = GObject.timeout_add(500, blink_arrow)
+                state.arrow_blink_event = GLib.timeout_add(500, blink_arrow)
         else:
             state.arrow_blink_event = 0
 

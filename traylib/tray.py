@@ -69,25 +69,25 @@ class Tray(GObject.Object):
 
 GObject.type_register(Tray)
 GObject.signal_new(
-    "box-added", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "box-added", Tray, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox,)
 )
 GObject.signal_new(
-    "box-removed", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "box-removed", Tray, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox,)
 )
 GObject.signal_new(
-    "box-reordered", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "box-reordered", Tray, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox, GObject.TYPE_INT)
 )
 GObject.signal_new(
-    "item-added", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "item-added", Tray, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox, Item)
 )
 GObject.signal_new(
-    "item-removed", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "item-removed", Tray, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (ItemBox, Item)
 )
 GObject.signal_new(
-    "destroyed", Tray, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()
+    "destroyed", Tray, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()
 )

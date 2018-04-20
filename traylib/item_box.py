@@ -62,17 +62,17 @@ class ItemBox(GObject.Object):
 
 GObject.type_register(ItemBox)
 GObject.signal_new(
-    "item-added", ItemBox, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "item-added", ItemBox, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (Item,)
 )
 GObject.signal_new(
-    "item-removed", ItemBox, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "item-removed", ItemBox, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (Item,)
 )
 GObject.signal_new(
-    "item-reordered", ItemBox, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE,
+    "item-reordered", ItemBox, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE,
     (Item, GObject.TYPE_INT)
 )
 GObject.signal_new(
-    "destroyed", ItemBox, GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, ()
+    "destroyed", ItemBox, GObject.SignalFlags.RUN_FIRST, GObject.TYPE_NONE, ()
 )

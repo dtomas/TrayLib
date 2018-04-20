@@ -12,7 +12,7 @@ def render_menu_item(item, has_submenu=False, size=24):
         right-click menu as submenu.
     @param size: The size of the menu item's image.
 
-    @return: a managed Gtk.ImageMenuItem.
+    @return: a managed Gtk.MenuItem.
     """
 
     menu_item = Gtk.MenuItem()

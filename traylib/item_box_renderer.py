@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gdk, GObject
+from gi.repository import Gtk, Gdk, GObject, GLib
 
 from traylib import TARGET_MOZ_URL, TARGET_URI_LIST
 
@@ -68,7 +68,7 @@ def render_item_box(item_box, icon_config, render_item, item_from_uri):
 
         def start_spring_open(context, time):
             if state.spring_open_event == 0:
-                state.spring_open_event = GObject.timeout_add(
+                state.spring_open_event = GLib.timeout_add(
                     1000, spring_open, time
                 )
             if item.is_drop_target():
