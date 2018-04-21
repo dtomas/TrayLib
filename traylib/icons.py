@@ -80,3 +80,24 @@ class FileIcon(IIconLoader):
 
     def get_path(self, size):
         return self.path
+
+
+class GioIcon(IIconLoader):
+    """Loads an icon from a Gio.Icon."""
+
+    def __init__(self, gio_icon):
+        self.gio_icon = gio_icon
+
+    def get_pixbuf(self, size):
+        icon_info = ICON_THEME.lookup_by_gicon(self.gio_icon, size, 0)
+        try:
+            return icon_info.load_icon()
+        except GObject.GError:
+            return None
+
+    def get_path(self, size):
+        icon_info = ICON_THEME.lookup_by_gicon(self.gio_icon, size, 0)
+        try:
+            return icon_info.get_filename()
+        except GObject.GError:
+            return None
