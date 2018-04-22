@@ -47,8 +47,13 @@ def render_icon(item, icon_config):
     def update_emblem(item):
         icon.emblem = item.get_emblem()
 
-    def update_zoom(item):
-        icon.zoom_factor = 1.5 if state.menu_visible else item.get_zoom()
+    def update_is_minimized(item):
+        icon.zoom_factor = 0.66
+
+    def update_is_active(item):
+        icon.zoom_factor = (
+            1.5 if state.menu_visible or item.is_active() else 1.0
+        )
 
     def update_has_arrow(item):
         icon.has_arrow = item.has_arrow()
@@ -86,8 +91,10 @@ def render_icon(item, icon_config):
     def changed(item, props):
         if "icon" in props or "is-greyed-out" in props:
             update_icon(item)
-        if "zoom" in props:
-            update_zoom(item)
+        if "is-active" in props:
+            update_is_active(item)
+        if "is-minimized" in props:
+            update_is_minimized(item)
         if "has-arrow" in props:
             update_has_arrow(item)
         if "is-visible" in props:
@@ -128,10 +135,10 @@ def render_icon(item, icon_config):
         if menu is not None:
             def menu_deactivate(menu):
                 state.menu_visible = False
-                update_zoom(item)
+                update_is_active(item)
             state.menu = menu
             state.menu_visible = True
-            update_zoom(item)
+            update_is_active(item)
             menu.connect("deactivate", menu_deactivate)
             menu.show_all()
             menu.popup(None, None, icon_config.pos_func, None, button, time)
@@ -167,8 +174,8 @@ def render_icon(item, icon_config):
     update_effects(icon_config)
     update_size(icon_config)
     update_name(item)
-    update_icon(item)
-    update_zoom(item)
+    update_is_active(item)
+    update_is_minimized(item)
     update_has_arrow(item)
     update_visibility(item)
     update_blinking(item)

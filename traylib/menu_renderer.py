@@ -24,8 +24,11 @@ def render_menu_item(item, has_submenu=False, size=24):
     menu_item.add(box)
 
     def update_pixbuf(item):
+        zoom = 1.5 if item.is_active() else (
+            0.66 if item.is_minimized() else 1.0
+        )
         pixbuf = scale_pixbuf_to_size(
-            item.get_icon(size), int(item.get_zoom() * size)
+            item.get_icon(size), int(size * zoom)
         )
         if item.is_greyed_out():
             pixbuf = change_alpha(pixbuf, 128)
@@ -48,7 +51,10 @@ def render_menu_item(item, has_submenu=False, size=24):
     def changed(item, props):
         if "name" in props:
             update_label(item)
-        if "icon" in props or "is-greyed-out" in props or "zoom" in props:
+        if ("icon" in props
+                or "is-greyed-out" in props
+                or "is-active" in props
+                or "is-minimized" in props):
             update_pixbuf(item)
         if "menu-right" in props:
             update_submenu(item)

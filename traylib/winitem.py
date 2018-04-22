@@ -56,7 +56,9 @@ class WindowItem(Item):
         self.changed("is-visible")
 
     def __window_state_changed(self, window, changed_mask, new_state):
-        self.changed("name", "zoom", "is-visible", "is-blinking")
+        self.changed(
+            "name", "is-active", "is-minimized", "is-visible", "is-blinking"
+        )
 
     def __window_workspace_changed(self, window):
         self.changed("icon", "is-visible")
@@ -68,7 +70,7 @@ class WindowItem(Item):
         self.changed("name")
 
     def __active_window_changed(self, screen, window=None):
-        self.changed("zoom")
+        self.changed("is-active")
 
     def __active_workspace_changed(self, screen, workspace=None):
         self.changed("is-visible", "icon")
@@ -110,12 +112,11 @@ class WindowItem(Item):
             window.is_pinned() or window.is_sticky()
         )
 
-    def get_zoom(self):
-        if self.__window.is_active():
-            return 1.5
-        if self.__window.is_minimized():
-            return 0.66
-        return 1.0
+    def is_active(self):
+        return self.__window.is_active()
+
+    def is_minimized(self):
+        return self.__window.is_minimized()
 
     def click(self, time=0):
         window = self.__window
@@ -345,7 +346,8 @@ class AWindowsItem(Item):
             props_to_emit.add("menu-left")
             props_to_emit.add("menu-right")
             props_to_emit.add("drag-source")
-            props_to_emit.add("zoom")
+            props_to_emit.add("is-active")
+            props_to_emit.add("is-minimized")
             props_to_emit.add("name")
             props_to_emit.add("is-greyed-out")
         if "name" in props:
@@ -367,7 +369,7 @@ class AWindowsItem(Item):
         }
         for window_item in self.visible_window_items:
             if window_item.window in windows:
-                self.changed("zoom-changed")
+                self.changed("is-active")
                 return
 
     def __window_item_changed(self, window_item, props):
@@ -378,8 +380,10 @@ class AWindowsItem(Item):
             changed_props.add("is-blinking")
         if "is-greyed-out" in props:
             changed_props.add("is-greyed-out")
-        if "zoom" in props:
-            changed_props.add("zoom")
+        if "is-active" in props:
+            changed_props.add("is-active")
+        if "is-minimized" in props:
+            changed_props.add("is-minimized")
         if "name" in props:
             changed_props.add("name")
         if changed_props:
@@ -513,19 +517,22 @@ class AWindowsItem(Item):
                 return True
         return False
 
-    def get_zoom(self):
+    def is_active(self):
         visible_window_items = self.visible_window_items
         for window_item in visible_window_items:
             if window_item.window.is_active():
-                return 1.5
+                return True
+        return False
+
+    def is_minimized(self):
+        visible_window_items = self.visible_window_items
         if not visible_window_items:
-            return 1.0
+            return False
         for window_item in visible_window_items:
             if not window_item.window.is_minimized():
                 break
         else:
-            return 0.66
-        return 1.0
+            return True
 
     def is_greyed_out(self):
         visible_window_items = self.visible_window_items

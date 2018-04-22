@@ -42,6 +42,12 @@ class Item(GObject.Object):
     def is_arrow_blinking(self):
         return False
 
+    def is_minimized(self):
+        return False
+
+    def is_active(self):
+        return False
+
     def get_name(self):
         """
         Override this to determine the name.
@@ -96,14 +102,6 @@ class Item(GObject.Object):
         @return: The new emblem.
         """
         return None
-
-    def get_zoom(self):
-        """
-        Extend this to determine the zoom factor.
-
-        @return: The new zoom factor.
-        """
-        return 1.0
 
     def has_arrow(self):
         """
