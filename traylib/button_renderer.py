@@ -44,6 +44,7 @@ def render_button(
         menu_visible = False
         blink_event = 0
         arrow_blink_event = 0
+        arrow_blink_state = False
         button_pressed = False
         base_pixbuf = None
 
@@ -84,7 +85,7 @@ def render_button(
             emblem.show()
 
     def update_has_arrow(item):
-        if item.has_arrow():
+        if item.has_arrow() or state.arrow_blink_state:
             arrow.show()
         else:
             arrow.hide()
@@ -116,19 +117,20 @@ def render_button(
             item.get_drag_source_actions()
         )
 
-    #def blink_arrow():
-    #    running = (state.arrow_blink_event != 0)
-    #    icon.has_arrow = not icon.has_arrow
-    #    if not running:
-    #        update_has_arrow(item)
-    #    return running
+    def blink_arrow():
+        running = (state.arrow_blink_event != 0)
+        state.arrow_blink_state = not state.arrow_blink_state
+        update_has_arrow(item)
+        if not running:
+            state.arrow_blink_state = False
+        return running
 
-    #def update_arrow_blinking(item):
-    #    if item.is_arrow_blinking():
-    #        if state.arrow_blink_event == 0:
-    #            state.arrow_blink_event = GLib.timeout_add(500, blink_arrow)
-    #    else:
-    #        state.arrow_blink_event = 0
+    def update_arrow_blinking(item):
+        if item.is_arrow_blinking():
+            if state.arrow_blink_event == 0:
+                state.arrow_blink_event = GLib.timeout_add(500, blink_arrow)
+        else:
+            state.arrow_blink_event = 0
 
     def changed(item, props):
         if "icon" in props:
@@ -149,8 +151,8 @@ def render_button(
             update_emblem(item)
         if "drag-source" in props:
             update_drag_source(item)
-        #if "is-arrow-blinking" in props:
-        #    update_arrow_blinking(item)
+        if "is-arrow-blinking" in props:
+            update_arrow_blinking(item)
 
     def destroyed(item):
         button.destroy()
@@ -284,6 +286,6 @@ def render_button(
     update_blinking(item)
     update_emblem(item)
     update_drag_source(item)
-    #update_arrow_blinking(item)
+    update_arrow_blinking(item)
 
     return overlay
