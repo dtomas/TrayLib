@@ -73,8 +73,15 @@ def render_button(
         state.base_pixbuf = item.get_icon(int(icon_config.size))
         update_pixbuf(item)
 
-    #def update_emblem(item):
-    #    icon.emblem = item.get_emblem()
+    def update_emblem(item):
+        pixbuf = item.get_emblem()
+        if pixbuf is None:
+            emblem.hide()
+        else:
+            emblem.set_from_pixbuf(
+                scale_pixbuf_to_size(pixbuf, icon_config.size // 2)
+            )
+            emblem.show()
 
     def update_has_arrow(item):
         if item.has_arrow():
@@ -84,9 +91,9 @@ def render_button(
 
     def update_visibility(item):
         if item.is_visible():
-            button.show()
+            overlay.show()
         else:
-            button.hide()
+            overlay.hide()
 
     def blink():
         blinking = item.is_blinking()
@@ -138,8 +145,8 @@ def render_button(
             update_visibility(item)
         if "is-blinking" in props:
             update_blinking(item)
-        #if "emblem" in props:
-        #    update_emblem(item)
+        if "emblem" in props:
+            update_emblem(item)
         if "drag-source" in props:
             update_drag_source(item)
         #if "is-arrow-blinking" in props:
@@ -157,11 +164,14 @@ def render_button(
     image = Gtk.Image.new()
     arrow = Gtk.Image.new()
     arrow.set_opacity(0.5)
+    emblem = Gtk.Image.new()
     overlay = Gtk.Overlay.new()
     overlay.add(button)
     overlay.add_overlay(arrow)
+    overlay.add_overlay(emblem)
     overlay.set_overlay_pass_through(button, False)
     overlay.set_overlay_pass_through(arrow, True)
+    overlay.set_overlay_pass_through(emblem, True)
     button.set_image(image)
     button.set_relief(Gtk.ReliefStyle.NONE)
     button.set_can_focus(False)
@@ -218,10 +228,7 @@ def render_button(
         for handler in item_handlers:
             item.disconnect(handler)
 
-    def on_get_child_position(overlay, child, rect):
-        allocation = button.get_allocation()
-        width = allocation.width
-        height = allocation.height
+    def get_arrow_position(width, height, rect):
         _valid, arrow_width, arrow_height = Gtk.IconSize.lookup(
             arrow_icon_size
         )
@@ -241,6 +248,25 @@ def render_button(
         rect.height = arrow_height
         return True
 
+    def get_emblem_position(width, height, rect):
+        emblem_pixbuf = emblem.get_pixbuf()
+        if emblem_pixbuf is None:
+            return False
+        rect.x = 0
+        rect.y = 0
+        rect.width = emblem_pixbuf.get_width()
+        rect.height = emblem_pixbuf.get_width()
+        return True
+
+    def on_get_child_position(overlay, child, rect):
+        allocation = button.get_allocation()
+        width = allocation.width
+        height = allocation.height
+        if child is arrow:
+            return get_arrow_position(width, height, rect)
+        if child is emblem:
+            return get_emblem_position(width, height, rect)
+
     button.connect("clicked", on_activate)
     button.connect("button-press-event", on_button_press)
     button.connect("button-release-event", on_button_release)
@@ -256,7 +282,7 @@ def render_button(
     update_visibility(item)
     update_is_active(item)
     update_blinking(item)
-    #update_emblem(item)
+    update_emblem(item)
     update_drag_source(item)
     #update_arrow_blinking(item)
 
