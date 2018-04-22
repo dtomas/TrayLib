@@ -8,7 +8,7 @@ from traylib.tray_window import TrayWindow
 from traylib.tray_applet import TrayApplet
 from traylib.icon_config import IconConfig
 from traylib.tray_config import TrayConfig
-from traylib.icon_renderer import render_icon
+from traylib.button_renderer import render_button
 from traylib.item_box_renderer import render_item_box
 from traylib.tray_renderer import render_tray
 
@@ -100,7 +100,7 @@ class Main(object):
         )
 
     def render_item(self, item):
-        return render_icon(item, self.__icon_config)
+        return render_button(item, self.__icon_config)
 
     def item_from_uri(self, item_box, uri):
         return None
